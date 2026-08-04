@@ -1,0 +1,4 @@
+interface:
+  display_name: "Incorporar material"
+  short_description: "Integra nuevas fuentes a la wiki de BD2"
+  default_prompt: "Usa $incorporar-material para organizar e integrar el material nuevo del repositorio."

@@ -1,0 +1,242 @@
+FUENTE: C01
+TITULO: Clase I — persistencia políglota, Docker y MySQL
+ORIGINAL: material/catedra/teoria/c01-persistencia-poliglota-docker.pdf
+
+===== PAGINA 1 =====
+
+BASE DE DATOS II
+INGENIERÍA INFORMÁTICA
+
+
+CLASE I
+
+===== PAGINA 2 =====
+
+Contenidos
+1. Persistencia políglota
+    a. Historia
+    b. Definición
+    c. Desafío
+
+2. Introducción a Docker
+    a. Instalación
+
+3. Preparación para las primeras guías prácticas
+    a. MySQL
+
+4. Resolver TPs: 1, 2 y 3 - Primera parte
+
+===== PAGINA 3 =====
+
+PERSISTENCIA POLÍGLOTA
+CLASE I
+
+===== PAGINA 4 =====
+
+Persistencia políglota - Historia
+●   Surge del concepto de Polyglot programming / Programación políglota
+    (introducido por Neal Ford en 2006)
+●   Las aplicaciones son codificadas en una mezcla de diferentes lenguajes de
+    programación
+●   Con el objetivo de aprovechar el uso del lenguaje más adecuado para
+    resolver la necesidad requerida
+
+Ej: Java es muy potente para codificar distintas funcionalidades en el back, pero no es
+muy bueno o es complejo a la hora de programar el front, interfaces de usuario.
+
+                                     Deﬁnición y beneﬁcios de Polyglot Programming:
+                                     Entrevista a Neil Ford (hasta el minuto 4:30)
+                                     https://www.youtube.com/watch?v=sBbGAzs9k-c&featur
+                                     e=youtu.be
+
+===== PAGINA 5 =====
+
+Persistencia políglota - Definición
+El concepto anterior se aplicó a las bases de datos, donde una aplicación puede
+comunicarse con diferentes tipos de bases de datos, usando la que mejor se
+adapta a la necesidad de almacenamiento.
+
+
+Polyglot persistence / Persistencia políglota → usar diferentes tecnologías
+para almacenar datos, con el objetivo de aprovechar el uso del motor de
+base de datos más adecuado para resolver la necesidad requerida.
+ -   Usar un único tipo de base de datos para todo puede resultar en una solución no
+     del todo performante
+
+ -   Cada vez es más común ver el uso de varios tipos de bases de datos juntos (cada
+     vez es más raro el uso de solo un tipo)
+
+===== PAGINA 6 =====
+
+Persistencia políglota - Desafío
+Decidir cuál es el tipo de base de datos más adecuado para resolver el problema
+de negocio es cada vez más complejo por la cantidad de tipos de bases distintas
+disponibles. Los factores a tener en cuenta para la decisión son:
+       ◦   Tipo: Relacional vs. NoSQL (columnar, key-value, grafos, documentos, entre
+           otras)
+       ◦   Durabilidad de la información
+       ◦   Disponibilidad
+       ◦   Consistencia
+       ◦   Escalabilidad
+       ◦   Seguridad
+
+
+
+Caso de persistencia políglota (MongoDB + Neo4J):
+https://neo4j.com/blog/graph-database/polyglot-persistence-mongodb-wanderu-case-study/
+
+===== PAGINA 7 =====
+
+INTRODUCCIÓN A DOCKER
+CLASE I
+
+===== PAGINA 8 =====
+
+Conceptos de Docker
+Es una plataforma para desarrolladores y administradores de sistemas, diseñada
+para desarrollar, implementar y ejecutar aplicaciones con contenedores.
+Docker es un proyecto open-source basado en contenedores Linux.
+
+El proceso de contenerizar aplicaciones es popular por sus beneficios:
+     ◦   Flexibles: Aún las aplicaciones más complejas pueden ser contenerizadas
+     ◦   Livianos: Los contenedores hacen uso del kernel del host en forma directa (en
+         contraste con las VMs)
+     ◦   Adaptables: Se pueden implementar actualizaciones y mejoras sobre la marcha
+         (sin tener que bajar la aplicación)
+     ◦   Portables: Se pueden construir localmente, implementar en la nube y ejecutar
+         en cualquier entorno y sistema operativo
+     ◦   Escalables: Se pueden incrementar su capacidad y automáticamente distribuir
+         réplicas de los contenedores
+
+===== PAGINA 9 =====
+
+Imágenes y contenedores
+●   Una imagen es un paquete ejecutable que incluye todo lo necesario para
+    ejecutar una aplicación: código fuente, runtime, bibliotecas, variables de
+    entorno y archivos de configuración
+
+
+●   Un contenedor es una instancia en tiempo de ejecución de una imagen: es
+    en lo que se convierte la imagen en memoria cuando se ejecuta (es decir,
+    una imagen con estado o un proceso de usuario)
+
+
+
+Repositorio de imágenes en: https://hub.docker.com/search?q=&type=image&badges=official
+
+===== PAGINA 10 =====
+
+Contenedores vs. Máquinas Virtuales
+Un contenedor se ejecuta de forma nativa en Linux y comparte el kernel de la máquina host con
+otros contenedores. Ejecuta un proceso discreto, no ocupa más memoria que cualquier otro
+ejecutable, lo que lo hace liviano.
+
+Una máquina virtual (VM) ejecuta un sistema operativo "invitado" completo con acceso virtual a
+los recursos del host a través de un hipervisor. En general, las VMs proporcionan un entorno con
+más recursos de los que la mayoría de las aplicaciones necesitan.
+
+===== PAGINA 11 =====
+
+Instalación de Docker Desktop en Windows
+Requisitos de instalación de Docker Desktop:
+        ◦   Software
+               ◦   Windows: Es requisito habilitar WSL 2 feature
+                     ◦    Windows 11 64-bit: Enterprise, Pro o Education 23H2 (build 22631) o superior
+                     ◦    Windows 10 64-bit: Enterprise, Pro o Education 22H2 (build 19045)
+               ◦   Hyper-V y Containers Windows: las features deben estar habilitados
+                     ◦    Windows 11 64-bit: Enterprise, Pro o Education 23H2 (build 22631) o superior
+                     ◦    Windows 10 64-bit: Enterprise, Pro o Education 22H2 (build 19045)
+        ◦   Hardware
+               ◦   64 bit processor con Second Level Address Translation (SLAT)
+               ◦   8GB RAM
+               ◦   BIOS/UEFI hardware virtualization support debe estar habilitado
+
+
+Seguir los pasos de instalación indicados en: https://docs.docker.com/desktop/setup/install/windows-install/
+
+===== PAGINA 12 =====
+
+Instalación de Docker Desktop en Windows
+1.       Hacer doble clic en el instalador Docker Desktop Installer.exe y seguir las instrucciones
+2.       Para verificar la correcta instalación abrir Windows PowerShell y ejecutar:
+     ◦     docker version
+     ◦     docker run hello-world
+
+
+
+
+Para listar la imagen de hello-world que se descargó:                                  Otros comandos útiles
+                                                                                       Para apagar el contenedor: docker stop
+ ◦       docker image ls      ó      docker images                                     container_name
+                                                                                       Para iniciarlo nuevamente: docker start
+Para listar el contenedor hello-world (generado por la imagen):                        container_name
+
+ ◦       docker container ls --all (Si todavía está ejecutando el contenedor no hace falta esa opción)
+ ◦       docker ps -a
+
+===== PAGINA 13 =====
+
+Instalación de Docker Engine en Linux
+Para Linux no es necesario instalar Docker Desktop, lo que si necesitamos es instalar Docker Engine.
+
+1.   Seguir los pasos de instalación de acuerdo a su distribución de Linux, indicados en:
+     https://docs.docker.com/engine/install/
+2.   Luego de la instalación, para evitar errores de permisos y el uso de sudo: Agregar tu usuario al
+     grupo docker siguiendo estos pasos: https://docs.docker.com/engine/install/linux-postinstall/
+3.   Para verificar la correcta instalación ejecutar (ídem Windows):
+       ◦   docker version
+       ◦   docker run hello-world                                                Otros comandos útiles
+                                                                                 Para apagar el contenedor: docker stop
+Para listar la imagen de hello-world que se descargó:                            container_name
+       ◦   docker image ls      ó      docker images                             Para iniciarlo nuevamente: docker start
+                                                                                 container_name
+Para listar el contenedor hello-world (generado por la imagen):
+
+       ◦   docker container ls --all (Si todavía está ejecutando el contenedor no hace falta esa opción)
+       ◦   docker ps -a
+
+===== PAGINA 14 =====
+
+PREPARACIÓN PARA LAS
+PRIMERAS GUÍAS PRÁCTICAS
+CLASE I
+
+===== PAGINA 15 =====
+
+Preparación para las guías prácticas de MySQL
+Vamos a usar MySQL 9.7.2 como base de datos relacional. Para instalar el
+componente servidor, tenemos 2 opciones:
+     ◦   Utilizar dockers/contenedores
+     ◦   Instalarlo directamente descargándolo desde:
+         https://dev.mysql.com/downloads/mysql/
+
+Si optan por Docker:
+1.       Iniciarlo (Docker Desktop o Engine según corresponda)
+2.       Usar la terminal de línea de comandos (ej: Windows PowerShell) para
+         descargar la instancia oficial de MySQL: docker pull mysql:9.7.2
+3.       Crear y levantar el contenedor: docker run --name MyMySql -e
+         MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=mydb -e
+         MYSQL_USER=myuser -e MYSQL_PASSWORD=mysecretpassword -p 3306:3306
+         -d mysql:9.7.2
+
+===== PAGINA 16 =====
+
+Preparación para las guías prácticas de MySQL
+Para el componente cliente, pueden conectarse al motor de MySQL desde la
+línea de comandos propia de MySQL (que está dentro del contenedor):
+       ◦   docker exec -it MyMySql bash
+       ◦   mysql -u myuser -p
+o instalar el cliente MySQL Workbench Community:
+https://dev.mysql.com/downloads/workbench/ y conectarlo con la instancia creada.
+
+===== PAGINA 17 =====
+
+Preparación para las guías prácticas de MySQL
+Otra opción es instalar DataGrip de JetBrains: Download DataGrip: Cross-Platform IDE for
+Databases & SQL y conectarlo con la instancia creada (elegir el Data Source MySQL
+y descargar los drivers correspondientes).
+
+===== PAGINA 18 =====
+
+¿PREGUNTAS?
+CLASE I

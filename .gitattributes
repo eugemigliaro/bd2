@@ -1,0 +1,2 @@
+# Los originales se preservan byte por byte, incluso si contienen espacios finales.
+material/catedra/** whitespace=-blank-at-eol,-blank-at-eof

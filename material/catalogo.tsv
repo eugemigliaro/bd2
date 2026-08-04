@@ -1,0 +1,13 @@
+id	tipo	titulo	ruta	paginas	ciclo	estado	archivo_original
+T01	catedra-teoria	Introducción a las bases de datos	material/catedra/teoria/t01-introduccion-bases-de-datos.pdf	14	2026	vigente	BD2_Clase 01 - Introducción_BasesDeDatos.pdf
+T02	catedra-teoria	Modelo de entidades y relaciones	material/catedra/teoria/t02-modelo-entidad-relacion.pdf	36	2026	vigente	BD2_Clase 02 - Modelo Entidad-Relacion.pdf
+T03	catedra-teoria	Derivación a esquema lógico	material/catedra/teoria/t03-derivacion-esquema-logico.pdf	24	2026	vigente	BD2_Clase 03 - Derivación a Esquema Lógico.pdf
+T04	catedra-teoria	Alteración y actualización de tablas	material/catedra/teoria/t04-alteracion-actualizacion-tablas.pdf	9	2026	vigente	BD2_Clase 04 - AlteraciónActualizaciónTablas.pdf
+T05A	catedra-teoria	Consultas de datos — parte 1	material/catedra/teoria/t05a-consultas-datos-parte-1.pdf	36	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 1.pdf
+T05B	catedra-teoria	Consultas de datos — parte 2	material/catedra/teoria/t05b-consultas-datos-parte-2.pdf	36	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 2.pdf
+T05C	catedra-teoria	Consultas de datos — parte 3	material/catedra/teoria/t05c-consultas-datos-parte-3.pdf	16	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 3.pdf
+C01	catedra-clase	Clase I — persistencia políglota, Docker y MySQL	material/catedra/teoria/c01-persistencia-poliglota-docker.pdf	18	2026	vigente	BDD II - Clase I.pdf
+P01	catedra-practica	TP 1 — modelos y diagramas	material/catedra/practica/tp-01-modelos-diagramas.pdf	2	2026	vigente	ITBA TP 1 Modelos_Diagramas.pdf
+P02	catedra-practica	TP 2 — creación de esquemas	material/catedra/practica/tp-02-creates.pdf	2	2026	vigente	ITBA TP 2 Creates.pdf
+P03	catedra-practica	TP 3 — consultas SQL simples	material/catedra/practica/tp-03-sql-simples.pdf	3	2026	vigente	ITBA TP 3 SQL simples.pdf
+SQL01	catedra-recurso	Esquema y datos de películas	material/catedra/practica/recursos/esq_peliculas.sql	-	2026	vigente	esq_peliculas.sql

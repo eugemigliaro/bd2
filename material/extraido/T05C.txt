@@ -1,0 +1,189 @@
+FUENTE: T05C
+TITULO: Consultas de datos — parte 3
+ORIGINAL: material/catedra/teoria/t05c-consultas-datos-parte-3.pdf
+
+===== PAGINA 1 =====
+
+Comentarios en SQL
+/* sirve para realizar comentarios en SQL */
+
+SELECT *
+FROM personas
+/* WHERE apellido = ‘Maradona’*/
+
+===== PAGINA 2 =====
+
+Concatenar campos
+SELECT apellido, nombre
+FROM personas
+
+SELECT CONCAT(apellido, ' ', nombre)
+FROM personas
+
+===== PAGINA 3 =====
+
+Alias de una columna
+La sentencia AS sirve para cambiarle el nombre de los
+resultados de una columna.
+
+SELECT sum(importe * cantidad) AS total
+
+
+
+Alias de una tabla
+Un alias de tabla se puede asignar con o sin la palabra
+clave AS.
+
+SELECT * FROM personas AS p
+SELECT * FROM personas p
+
+===== PAGINA 4 =====
+
+Sentencia DISTINCT
+Con la cláusula "distinct" se especifica que los registros
+con ciertos datos duplicados sean obviadas en el
+resultado.
+
+SELECT autor FROM libros
+
+SELECT distinct(autor) FROM libros
+
+===== PAGINA 5 =====
+
+CASE en SQL
+SELECT producto, "rango de precios" =
+CASE
+  WHEN precio = 0 THEN 'Producto free'
+  WHEN precio < 50 THEN 'menor a 50'
+  WHEN precio >= 50 and precio < 250 THEN 'entre 50 y 250'
+  WHEN precio >= 250 and precio < 1000 THEN 'entre 250 y 1000'
+  ELSE 'mayor a 1000'
+END
+FROM productos
+ORDER BY producto
+
+===== PAGINA 6 =====
+
+CASE en SQL
+SELECT total,
+CASE
+ WHEN total <0 THEN 'negativo'
+ WHEN total >=0 THEN 'positivo'
+END
+FROM `ventas`
+
+===== PAGINA 7 =====
+
+Sentencia LIKE
+Se utiliza para realizar búsquedas en cadenas de texto
+
+Ejemplos:
+LIKE 'Garcia%‘ busca cadenas que comiencen Garcia
+LIKE 'A[nm]%' busca cadenas que comiencen con 'An' o 'Am'
+LIKE '[-acfi]%' busca cadenas que comiencen con -,a,c,f ó i
+LIKE ‘%Garcia‘ busca cadenas que terminan con Garcia
+LIKE ‘%G%‘      busca cadenas que tienen una letra G en cualquier
+parte del texto
+
+===== PAGINA 8 =====
+
+Sentencia IN
+La sentencia IN sirve para comparar un campo con un
+conjunto de datos
+
+SELECT * FROM personas WHERE dni IN(30,40,50)
+
+SELECT *
+FROM productos
+WHERE nombre IN(‘Fernet’,’Coca Cola’,’Hielo’)
+
+===== PAGINA 9 =====
+
+Sentencia TOP
+La sentencia TOP sirve para limitar las filas de los
+resultados de una consulta
+
+SELECT top 3 nombre, apellido
+FROM personas
+ORDER BY nombre
+
+SELECT top 3 *
+FROM personas
+ORDER BY nombre
+
+===== PAGINA 10 =====
+
+Sentencia LIMIT
+Limita la cantidad de filas de una consulta
+
+SELECT *
+FROM `ventas`
+ORDER BY `fecha`
+LIMIT 0 , 30
+
+===== PAGINA 11 =====
+
+Manejo de fechas
+DAY (date)
+Devuelve un entero que representa el día de la fecha
+especificada.
+
+SELECT DAY( fecha ), fecha FROM `ventas`
+
+===== PAGINA 12 =====
+
+Manejo de fechas
+MONTH (date)
+Devuelve un entero que representa el mes de la fecha
+especificada.
+
+SELECT MONTH( fecha ), fecha FROM `ventas`
+
+===== PAGINA 13 =====
+
+Manejo de fechas
+YEAR (date)
+Devuelve un entero que representa el mes de la fecha
+especificada.
+
+SELECT YEAR( fecha ), fecha FROM `ventas`
+
+===== PAGINA 14 =====
+
+Manejo de fechas
+DATEPART(partedefecha,fecha)
+Retorna la parte específica de una fecha, el año, trimestre,
+día, hora, etc.
+Los valores para "partedefecha" pueden ser: year (año),
+quarter (cuarto), month (mes), day (dia), week (semana),
+hour (hora), minute (minuto), second (segundo) y
+millisecond (milisegundo).
+SELECT datepart(month,getdate())   retorna el mes actual
+
+SELECT datepart(day,getdate())     retorna el día actual
+
+SELECT datepart(hour,getdate())    retorna la hora actual
+
+===== PAGINA 15 =====
+
+Manejo de fechas
+DATENAME (partedefecha,fecha)
+Retorna el nombre de una parte específica de una fecha.
+Los valores para "partedefecha" pueden ser los mismos
+que se explicaron anteriormente
+
+SELECT datename(month,getdate()) retorna el nombre del mes actual
+
+===== PAGINA 16 =====
+
+Manejo de fechas
+DATEDIFF (partedelafecha,fecha1,fecha2)
+Calcula el intervalo de tiempo (según el primer argumento)
+entre las 2 fechas. El resultado es un valor entero que
+corresponde a fecha2-fecha1. Los valores de
+"partedelafecha” pueden ser los mismos que se
+especificaron anteriormente.
+SELECT datediff (day,'2005/10/28','2006/10/28')
+retorna 365 (días)
+SELECT datediff(month,'2005/10/28','2006/11/29')
+retorna 13 (meses)

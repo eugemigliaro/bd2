@@ -1,0 +1,4 @@
+interface:
+  display_name: "Procesar notas"
+  short_description: "Convierte notas de clase en conocimiento trazable"
+  default_prompt: "Usa $procesar-notas para integrar mis notas pendientes en la wiki."

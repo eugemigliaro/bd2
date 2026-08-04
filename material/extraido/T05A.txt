@@ -1,0 +1,652 @@
+FUENTE: T05A
+TITULO: Consultas de datos — parte 1
+ORIGINAL: material/catedra/teoria/t05a-consultas-datos-parte-1.pdf
+
+===== PAGINA 1 =====
+
+                Bases de Datos II
+
+Consultas de Datos - Parte 1
+
+===== PAGINA 2 =====
+
+Lenguaje SQL
+
+===== PAGINA 3 =====
+
+      Lenguaje de Consulta SQL
+
+✓Para la recuperación de los datos a partir de tablas cargadas en la
+ base de datos se utiliza la sentencia SELECT.
+✓El formato más simple y básico es:
+       SELECT * | { [DISTINCT] columna | expresion [alias],...}
+       FROM <lista tablas>
+
+✓En una consulta se especifica qué información se requiere, sin
+ especificar cómo obtenerla, no le especificamos métodos de acceso a
+ los datos.
+✓SELECT identifica las columnas a recuperar – EL QUE
+✓FROM identifica la tabla - DE DONDE obtener los datos
+✓El resultado de una consulta es una tabla (si es un número, se
+ considera como una tabla con una fila y una columna).
+
+===== PAGINA 4 =====
+
+     Escritura de Sentencias SQL
+
+✓ NO son sensibles a mayúsculas/minúsculas.
+✓ Pueden ocupar una o más líneas.
+
+✓ Las palabras clave NO se pueden abreviar ni dividir entre
+
+  líneas.
+✓ Las cláusulas suelen colocarse en líneas separadas y con
+
+  sangría, para mejorar la legibilidad.
+✓ Se estila escribir con MAYUSCULAS las palabras reservadas
+
+  y con minúsculas el resto.
+✓ Por ejemplo:
+
+
+               SELECT mi_atributo
+               FROM mi_tabla;
+
+===== PAGINA 5 =====
+
+Esquema Ejemplo DERE BD
+Voluntarios
+
+===== PAGINA 6 =====
+
+      Consultas SQL básicas
+
+✓   Selección de todas las columnas. Ejemplo: selección de los
+    datos completos de las instituciones.
+     SELECT *
+     FROM institucion;
+                                          Se usa para especificar la
+                                          recuperación de todos los
+                                          datos de la/s tabla/s
+
+                                          Porque se recomienda
+                                          evitar su uso? Y en su lugar
+                                          seleccionar SOLO los
+                                          campos necesarios…
+
+                                          Ademas:27 fila(s)
+                                          Tiempo total de ejecución:
+                                          2.589 ms
+                                          SQL ejecutada.
+
+===== PAGINA 7 =====
+
+      Consultas SQL básicas
+
+✓   Selección SOLO de algunas columnas. Ejemplo: seleccionar
+    el código y el nombre de las instituciones.
+            SELECT id_institucion, nombre_institucion
+            FROM institucion;
+
+===== PAGINA 8 =====
+
+          Filas Duplicadas
+
+✓   Por defecto, ante una consulta, se recuperan todas
+    las filas, incluidas las filas duplicadas. Ejemplo:
+    Seleccionar los voluntarios que son coordinadores.
+
+       SELECT id_coordinador
+       FROM voluntario;
+
+
+
+✓   Para eliminar los valores repetidos se debe usar la
+    cláusula DISTINCT. Ejemplo: Seleccionar los
+    distintos voluntarios que son coordinadores.
+                                                          …
+       SELECT DISTINCT id_coordinador
+       FROM voluntario;
+
+===== PAGINA 9 =====
+
+       Eliminar los valores repetidos
+
+✓   La cláusula DISTINCT se aplica a todas las
+    columnas de la lista en el SELECT. Ejemplo:
+    Seleccionar los voluntarios coordinadores y las
+    distintas instituciones de los empleados
+    coordinados.
+
+
+SELECT DISTINCT id_institucion,
+                 id_coordinador
+FROM voluntario;
+
+===== PAGINA 10 =====
+
+       Restringir filas recuperadas
+
+✓ La cláusula WHERE se usa para realizar las restricciones.
+✓ Una cláusula WHERE contiene condiciones lógicas que
+
+  utilizan:
+   • operadores de comparación (<, >, =, <=, >=, <>, !=)
+
+   • operadores lógicos (AND, OR, NOT).
+
+✓ Las filas recuperadas son aquellas cuyos datos satisfacen
+
+  todas la/s condición/es lógicas
+
+
+      SELECT * | { [DISTINCT] columna | expresion [alias],...}
+      FROM <lista tablas>
+       [WHERE condicion/es];
+
+===== PAGINA 11 =====
+
+    Restringir filas recuperadas
+
+Ejemplo: Recuperar el nro de voluntario, nombre y apellido de los
+ voluntarios que trabajan en la institución cuyo identificador es 60.
+
+       SELECT nro_voluntario, nombre, apellido
+       FROM voluntario
+       WHERE id_institucion= 60;
+
+===== PAGINA 12 =====
+
+      Condiciones de comparación
+
+✓ Al utilizar los operadores de comparación el resultado
+  puede ser:
+       • Verdadero (T)
+
+       • Falso (F)
+
+       • Desconocido (U)
+
+✓ Tener presente que si se comparan valores nulos usando
+
+  los operadores de comparación el resultado será siempre
+  FALSO porque un valor nulo no puede ser igual, mayor,
+  distinto, etc. a otro valor.
+SELECT nombre, apellido,     SELECT nombre, apellido,
+       e-mail                       e-mail
+FROM voluntario              FROM voluntario
+WHERE id_tarea= 'ST_MAN';    WHERE id_tarea != 'ST_MAN';
+
+===== PAGINA 13 =====
+
+        Otros operadores de comparación
+
+✓ Además de los operadores de comparación está disponible
+  un operador especial [NOT] BETWEEN :
+✓ BETWEEN trata a los valores de los extremos incluidos
+
+  dentro del rango.
+      ■ BETWEEN x AND y es equivalente a a >= x AND a
+
+        <= y
+      ■ NOT BETWEEN x AND y es equivalente a a < x OR
+
+        a>y
+  Ejemplo: Seleccionar las voluntarios cuyo número se encuentra entre
+     100 y 120
+    SELECT nombre, apellido, e-mail
+    FROM voluntario
+    WHERE nro_voluntario BETWEEN 100 AND 120;
+
+===== PAGINA 14 =====
+
+      Operador LIKE
+
+✓ No siempre se conoce el valor exacto a buscar. Se puede
+  buscar coincidencias con un patrón de caracteres mediante
+  el operador LIKE. También se emplea en la forma
+  negativa NOT LIKE.
+✓ Comodines
+
+      • %: cualquier secuencia de cero o más caracteres y _
+
+        : denota un solo carácter
+    Ejemplo: Seleccionar los voluntarios cuya segunda letra
+    del nombre sea a y luego tenga una n como carácter final.
+           SELECT nombre, apellido, e_mail
+           FROM voluntario
+           WHERE nombre LIKE ‘_a%n’;
+
+===== PAGINA 15 =====
+
+      Operador IS [NOT] NULL
+
+✓ Si una columna en particular carece de un valor se dice
+  que contiene un NULL.
+✓ NULL es un valor inaccesible, sin valor, desconocido o
+
+  inaplicable.
+✓ No representa ni un cero ni un espacio en blanco (el cero
+
+  es un número y el espacio en blanco es un caracter).
+  SOLO testean valores que son nulos.
+    Ejemplo: listar los voluntarios que no tengan coordinador.
+SELECT nombre, apellido, e_mail
+FROM voluntario
+WHERE id_coordinador IS NULL;
+
+===== PAGINA 16 =====
+
+     Operador IS [NOT] NULL
+
+✓ Si se comparan valores nulos usando los otros operadores
+  (=, >, etc.)el resultado será siempre FALSO porque un
+  valor nulo no puede ser igual, mayor, distinto, etc. a otro
+  valor.
+✓ Si se desea incluir en el resultado los datos de aquellas
+
+  columnas que tengan nulos hay que hacerlo
+  explícitamente. Ejemplo listar los datos de los voluntarios
+  sea menor o igual que 0,10.
+      ✓ Algunos porcentajes pueden ser nulos
+
+      ✓ Si deseo incluirlos en el resultado debo explicitar IS
+
+         NULL.
+           SELECT * FROM voluntario
+           WHERE porcentaje<=0.1
+              OR porcentaje IS NULL;
+
+===== PAGINA 17 =====
+
+     Condiciones de comparación
+     compuestas
+✓ Un operador lógico combina los resultados de dos
+  condiciones para producir un único resultado basado en
+  ellos, o invertir el resultado de una condición.
+✓ Los operadores AND y OR se pueden usar para componer
+
+  expresiones lógicas.
+✓ El   operador AND retorna VERDADERO si ambas
+  condiciones evaluadas son VERDADERAS, mientras que el
+  operador OR retorna VERDADERO si alguna de las
+  condiciones es VERDADERA.
+✓ El operador NOT invierte el resultado de la expresión.
+
+===== PAGINA 18 =====
+
+          Condiciones de comparación
+          compuestas
+ Ejemplo: Seleccionar los voluntarios que son coordinados por los
+    voluntarios nro 100 o 124 y están trabajando para la institución
+    cuyo código es 50.
+SELECT nro_voluntario, apellido,
+        id_institucion, id_coordinador
+FROM voluntario
+WHERE (id_coordinador=100
+  OR id_coordinador=124)
+  AND id_institucion=50;
+
+ Importante:
+   - Indentar las cláusulas
+   - Uso de paréntesis en las
+     condiciones
+
+  Qué sucede si se eliminan ()?
+
+===== PAGINA 19 =====
+
+…al eliminar ()
+
+
+
+                  Estas filas no
+                  corresponden
+                  a la
+                  institución
+                  cuyo
+                  identificador
+                  es 50!!
+                  No es válida
+                  la consulta
+                  sin los
+                  paréntesis en
+                  la condición!!!
+
+===== PAGINA 20 =====
+
+       Orden en la presentación de las
+       tuplas
+✓   El orden de las filas listadas en una consulta es indefinido, se puede
+    utilizar la cláusula ORDER BY para ordenar las filas, y se debe colocar
+    como última cláusula del SELECT.
+✓   Por defecto si no se especifica el orden es ascendente (ASC), pero se
+    puede especificar también DESC luego del nombre de la columna,
+    para especificar un orden descendente.
+✓    Se puede ordenar el resultado de una consulta por más de una
+    columna (pueden ser todas las de la tabla).
+    Ejemplo listar los apellidos ordenados
+descendentemente y nombres de los voluntarios
+que son coordinados por el voluntario 124.
+SELECT apellido, nombre
+FROM voluntario
+WHERE id_coordinador=124
+ORDER BY apellido DESC, nombre;
+
+===== PAGINA 21 =====
+
+      LIMIT and OFFSET (PostgreSQL)
+
+✓   Permiten recuperar solamente un subconjunto de filas del
+    total de la consulta.
+
+          SELECT lista de atributos
+          FROM tabla/s
+          [ORDER BY ... ]
+          [LIMIT {numero | ALL}]
+          [OFFSET numero];
+
+✓ Debe ser usado siempre con la cláusula ORDER BY.
+✓ La cláusula LIMIT limita la cantidad de filas a retornar.
+
+✓ La cláusula OFFSET determina a partir de que fila del
+
+  resultado se retorna.
+
+===== PAGINA 22 =====
+
+   LIMIT and OFFSET (PostgreSQL)
+
+Ejemplo: seleccionar los datos de los voluntarios que corresponden a
+los 10 primeros voluntarios.
+
+              SELECT apellido, nombre
+              FROM voluntario
+              ORDER BY nro_voluntario
+              LIMIT 10;
+
+Ejemplo: seleccionar los datos de los voluntarios a partir del 15TO
+voluntario.
+
+              SELECT apellido, nombre
+              FROM voluntario
+              ORDER BY nro_voluntario
+              LIMIT ALL
+              OFFSET 15;
+
+===== PAGINA 23 =====
+
+    ¿Qué son Funciones de Grupo o
+    Agregación?
+
+Estas   funciones operan sobre conjuntos de filas para
+  proporcionar un resultado por grupo.
+
+
+
+
+                      Cantidad     de
+                      horas aportadas
+                      por todos los
+                      voluntarios
+
+
+
+
+        …
+
+===== PAGINA 24 =====
+
+       Funciones de Grupo o Agregación
+
+Permiten resumir el resultado de una consulta:
+   ● SUM( ) → sumatoria de la columna especificada
+   ● AVG( ) → promedio de la columna especificada
+
+   ● STDDEV( ) → desvío estándar de la columna
+
+     especificada
+   ● MAX( ) → valor máximo de la columna especificada
+
+   ● MIN ( ) → valor mínimo de la columna especificada
+
+   ● COUNT ( ) → cantidad de tuplas
+
+
+
+  SELECT [columna, ...] funcion de grupo(columna), ...
+  FROM tabla/s
+  [WHERE condicion/es]
+
+===== PAGINA 25 =====
+
+      Funciones de Grupo o Agrupamiento
+
+AVG, SUM y STDDEV se usan para datos numéricos.
+
+              SELECT SUM(horas_aportadas),
+                AVG(horas_aportadas),
+                MAX(horas_aportadas),
+                MIN(horas_aportadas)
+              FROM voluntario;
+
+MIN y MAX se pueden usar para cualquier tipo de dato
+  Ejemplo: seleccionar el voluntario mas joven y el mas viejo.
+
+  SELECT MAX(fecha_nacimiento) AS voluntario_mas_joven,
+           MIN(fecha_nacimiento) AS voluntario_mas_viejo
+  FROM voluntario;
+
+===== PAGINA 26 =====
+
+       Funciones de Grupo o Agrupamiento
+
+✓   COUNT(*) devuelve el número de filas de una tabla.
+
+                 SELECT COUNT(*)
+                 FROM voluntario;
+
+✓   COUNT(expr) devuelve el número de filas con valores no
+    nulos para expr.
+    Ejemplo: Liste el número de ciudades en la tabla dirección,
+    excluyendo los valores nulos.
+
+
+      SELECT COUNT(ciudad) AS cantidad__de_ciudades
+      FROM direccion;
+
+===== PAGINA 27 =====
+
+       Funciones de Grupo y valores nulos
+
+✓   Las funciones de grupo ignoran los valores nulos del
+    atributo.
+           SELECT AVG(porcentaje) AS
+             Porcentaje_promedio
+           FROM voluntario;
+
+✓   La función COALESCE(columna, valor_reemplazo) en
+    fuerzan a las funciones de grupo a que incluyan valores
+    nulos, retornando un valor en ocurrencia de un nulo.
+
+    SELECT AVG(COALESCE(porcentaje, 0)) AS
+      Porcentaje_promedio
+    FROM voluntario;
+
+===== PAGINA 28 =====
+
+        Ejemplos de Funciones de Grupo o
+        Agrupamiento
+
+SELECT COUNT(*) AS
+  cantidad_de_voluntarios                   Alias de
+FROM voluntario;                            columna
+
+
+ SELECT SUM(horas_aportadas) AS            Alias de
+   Horas_trabajadas                         tabla
+ FROM voluntario v WHERE
+   v.id_coordinador=120;
+
+SELECT MAX(horas_aportadas) maximo,
+  MIN(horas_aportadas) minimo,
+  MAX(horas_aportadas) –
+  MIN(horas_aportadas) diferencia
+FROM voluntario v
+ WHERE v.id_coordinador=120;
+
+===== PAGINA 29 =====
+
+       Selección sobre grupos de datos
+
+✓ Si se usa la cláusula GROUP BY en una sentencia
+  SELECT, se dividen las filas de la tabla consultada en
+  grupos.
+✓ Se aplica las funciones en la lista SELECT a cada grupo de
+
+  filas y retorna una única fila por cada grupo.
+     SELECT lista columnas, función de grupo (columna)
+     FROM <lista tablas>
+     [ WHERE condición ]
+     [GROUP BY expresión de grupo | lista columnas
+     [ ORDER BY <lista atributos orden> ];
+
+
+    La clausula GROUP BY especifica como se deben agrupar
+                     las filas seleccionadas.
+
+===== PAGINA 30 =====
+
+Creación de Grupos de Datos o
+Agregaciones
+
+
+
+             SELECT id_institucion, COUNT(*) AS
+               cantidad_voluntarios
+             FROM voluntario
+             GROUP BY id_institucion;
+
+
+
+
+                ¿Cuántos
+              voluntarios
+
+
+ …
+               tiene cada
+              Institución?
+
+===== PAGINA 31 =====
+
+      Sintaxis de la clausula GROUP BY
+
+  Todas las columnas de la lista SELECT, excepto las
+    funciones de grupo, deben estar en la cláusula
+                     GROUP BY.
+
+Ejemplo: liste las diferentes instituciones   y el máximo de horas
+  aportadas a cada una de ellas
+
+
+
+     SELECT id_institucion, MAX(horas_aportadas)
+     FROM voluntario
+     GROUP BY id_institucion;
+
+===== PAGINA 32 =====
+
+       Sintaxis de la clausula GROUP BY
+
+
+
+✓   Las columnas en la clausula GROUP BY pueden no estar
+    en la lista del SELECT
+    Ejemplo: determine los porcentajes promedio de los voluntarios por
+    institución.
+
+
+                   SELECT AVG(porcentaje)
+                   FROM voluntario
+                   GROUP BY id_institucion;
+
+===== PAGINA 33 =====
+
+      Restringir los resultados de los
+      grupos
+Se puede anexar la cláusula HAVING para restringir grupos
+    1. Las filas se agrupan por la/s columnas especificada/s
+    2. Se aplica la función de grupo
+    3. Se muestran los grupos que satisfacen la cláusula HAVING
+
+
+                                           Coordinadores
+                                           con más de 7
+                                           voluntarios
+
+
+                              SELECT id_coordinador, COUNT(*) AS
+                                cantidad_de_voluntarios
+                              FROM voluntario
+                              GROUP BY id_coordinador
+                              HAVING COUNT(*) > 7;
+
+===== PAGINA 34 =====
+
+        Restringir los resultados de los
+        grupos
+  Se puede anexar la cláusula HAVING para restringir grupos
+      1. Las filas se agrupan por la/s columnas especificada/s
+      2. Se aplica la función de grupo
+      3. Se muestran los grupos que satisfacen la cláusula HAVING
+SELECT id_coordinador, COUNT(*) AS
+  cantidad_de_voluntarios
+FROM voluntario
+GROUP BY id_coordinador
+HAVING COUNT(*) > 7;
+
+===== PAGINA 35 =====
+
+       Funciones de grupo no válidas
+
+✓ No se puede utilizar la cláusula WHERE para restringir grupos.
+✓ Se debe utilizar la cláusula HAVING para restingir grupos. No se
+  pueden utilizar funciones de grupo en la cláusula WHERE.
+
+
+    SELECT id_coordinador, COUNT(*)
+      AS cantidad_de_voluntarios
+    FROM voluntario
+    WHERE COUNT(*) >7
+    GROUP BY id_coordinador;
+
+
+
+Sentencia NO VALIDA
+
+
+
+
+                                                               35
+
+===== PAGINA 36 =====
+
+       Para Recordar!!!
+
+❖   La sentencia SQL empleada para la recuperación de los datos a partir de las
+    tablas cargadas en la base de datos es el SELECT.
+❖   SELECT identifica las columnas a recuperar – EL QUE
+❖   FROM identifica la/s tabla/s - DE DONDE obtener los datos.
+❖   WHERE se usa para realizar las restricciones sobre los datos
+❖   Para eliminar los valores repetidos se debe usar la cláusula DISTINCT.
+❖   Los operadores de comparación se utilizan en la cláusula WHERE para
+    comparar expresiones. Usar paréntesis y sangrías para mejorar la legibilidad.
+❖   ORDER BY puede usarse para ordenar las filas, y se debe colocar como
+    última cláusula de la sentencia SELECT
+❖   Las funciones de agregación operan sobre conjuntos de filas para
+    proporcionar un resultado por grupo.
+❖   GROUP BY especifica como se deben agrupar las filas seleccionadas. Todas las
+    columnas de la lista SELECT, excepto las funciones de grupo, deben estar en
+    la clausula GROUP BY. No se pueden utilizar funciones de grupo en la cláusula
+    WHERE.

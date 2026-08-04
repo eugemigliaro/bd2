@@ -1,0 +1,4 @@
+interface:
+  display_name: "Estudiar BD2"
+  short_description: "Estudia y resuelve ejercicios con fuentes de BD2"
+  default_prompt: "Usa $estudiar-bd2 para ayudarme a estudiar este tema de la materia."

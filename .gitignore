@@ -1,0 +1,13 @@
+.env
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Datos locales de MySQL
+laboratorio/mysql/data/
+
+# Archivos temporales de herramientas
+tmp/
+*.tmp

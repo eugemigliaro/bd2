@@ -1,0 +1,52 @@
+FUENTE: P02
+TITULO: TP 2 — creación de esquemas
+ORIGINAL: material/catedra/practica/tp-02-creates.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                        1
+Base de Datos II - TP 2
+
+
+
+
+        TP N°2 - Creación de esquemas: Creación de tablas - Tipos de datos
+
+Antes de comenzar, es necesario levantar MySQL en la PC que vayan a utilizar para este práctico
+(ver instrucciones en Clase I).
+
+
+Ejercicios:
+
+    1.​ Dado el siguiente modelo, construya el script con las sentencias SQL y ejecútenlo en la base
+        mydb creada previamente. Creen las tablas incluyendo atributos, claves primarias,
+        restricciones de nulidad y restricciones de integridad referencial.
+
+         Notas: La relación R1 se denomina CONTIENE.
+         Para cada atributo se define un par (T, S) donde T es el tipo de dato (E= Entero, SLV= String de
+         longitud variable, SLF= String de longitud fija, F= Fecha, D= Decimal) y S es el tamaño.
+
+
+
+
+                                                ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                 2
+Base de Datos II - TP 2
+
+
+    2.​ Cree las tablas correspondientes al siguiente DERE y sus restricciones. Asuma los tipos de
+        datos más convenientes.
+
+
+
+
+    3.​ Cree las tablas correspondientes a los DEREs del TP 1 y sus restricciones. Asuma los tipos
+        de datos más convenientes. ​
+
+
+
+
+                                            ITBA - 2026

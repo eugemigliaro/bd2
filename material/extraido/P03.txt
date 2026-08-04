@@ -1,0 +1,113 @@
+FUENTE: P03
+TITULO: TP 3 — consultas SQL simples
+ORIGINAL: material/catedra/practica/tp-03-sql-simples.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                   1
+Base de Datos II - TP 3
+
+
+
+                            TP N°3 - Consultas SQL simples
+
+Antes de comenzar, es necesario levantar MySQL en la PC que vayan a utilizar para este práctico.
+
+
+Contexto: Un centro de distribución de películas debe mantener la información necesaria para
+conocer las películas que comercializa, los distribuidores y las entregas que deben realizar a cada
+video-club.
+Dentro de la información relevante se incluyen datos de la empresa productora de cada película, los
+distribuidores de las mismas (clasificados como nacionales o internacionales) y además los
+empleados que trabajan para cada distribuidor, que tareas realizan y a qué departamento pertenecen.
+
+A continuación, se muestra el esquema de la base de datos.
+
+
+
+
+                                            ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                         2
+Base de Datos II - TP 3
+
+
+Ejercicios:
+
+Resuelva las siguientes consultas simples sobre 1 tabla. Previamente ejecute el script
+esq_peliculas.sql para crear las tablas e insertar registros de ejemplo.
+
+      a.​ Seleccione el identificador de distribuidor, identificador de departamento y nombre de todos los
+          departamentos
+
+
+
+
+      b.​ Muestre los apellidos, nombres y emails de los empleados con cuentas de gmail y cuyo sueldo sea
+          superior a $1000
+
+
+
+
+      c.​ Seleccione los diferentes identificadores de tareas que se utilizan en la tabla empleado
+
+
+
+
+      d.​ Muestre el nombre, apellido y el teléfono de todos los empleados cuyo id_tarea sea T001,
+          ordenados alfabéticamente por apellido y luego por nombre
+
+
+
+
+      e.​ Hacer un listado de los cumpleaños de los empleados donde se muestre el nombre y el apellido
+          (concatenados y separados por una coma) y su fecha de cumpleaños (solo el día y el mes),
+          ordenado de acuerdo al mes y día de cumpleaños en forma ascendente
+
+
+
+
+                                                  ITBA - 2026
+
+===== PAGINA 3 =====
+
+                                                                                                            3
+Base de Datos II - TP 3
+
+
+      f.​ Muestre el apellido, nombre (concatenados y separados por una coma) y email de todos los
+          empleados cuyo teléfono comienza con 600. Coloque el encabezado de las columnas de los títulos
+          'Apellido y Nombre' y 'Dirección de mail'
+
+
+
+
+      g.​ Muestre el apellido e identificador de los empleados que no cobran porcentaje de comisión
+
+
+
+
+      h.​ Muestre los datos de los distribuidores internacionales que no tienen registrado ningún teléfono
+          (usar solo 1 tabla)
+
+
+
+      i.​ Listar la cantidad de películas que hay registradas en la base por idioma
+
+
+
+
+      j.​ Calcular la cantidad de empleados por departamento
+
+
+
+
+      k.​ Mostrar los códigos de películas que han registrado entre 3 y 5 entregas (considerar la cantidad de
+          entregas, NO la cantidad de películas incluidas en cada una de las entregas)
+
+
+
+
+                                                  ITBA - 2026

@@ -1,0 +1,157 @@
+FUENTE: T04
+TITULO: Alteración y actualización de tablas
+ORIGINAL: material/catedra/teoria/t04-alteracion-actualizacion-tablas.pdf
+
+===== PAGINA 1 =====
+
+      Bases de Datos II
+
+
+
+     ALTERACIÓN Y
+ACTUALIZACIÓN DE TABLAS
+
+===== PAGINA 2 =====
+
+Ejercicios
+
+===== PAGINA 3 =====
+
+               MODIFICACIÓN DE TABLAS
+Una vez creada una tabla es posible realizar algunas modificaciones en su
+definición (ej, agregar o quitar columnas, especificar valores por defecto, incorporar
+restricciones o quitarlas, etc. La sintaxis de PostgreSQL
+ ALTER TABLE tabla ADD COLUMN columna tipo;                      → Agrega columna
+
+ ALTER TABLE tabla DROP COLUMN columna;                         → Elimina columna
+
+
+ ALTER TABLE tabla RENAME COLUMN                              → renombra una
+      Columna_vieja TO columna_nueva;                         columna
+
+
+ ALTER TABLE tabla columna TYPE nuevo_tipo;                 → cambia tipo de dato
+
+
+ ALTER TABLE tabla ALTER COLUMN columna                      → Asigna o elimina valor
+   [SET DEFAULT value | DROP DEFAULT]                        por defecto
+
+
+ ALTER TABLE tabla ALTER COLUMN columna               → Asigna o elimina rest. nulidad
+   [SET NOT NULL | DROP NOT NULL]
+                                                             → incorpora
+ ALTER TABLE tabla ADD CONSTRAINT name constraint-definition restricción
+
+===== PAGINA 4 =====
+
+MODIFICACIÓN DE TABLAS (EJEMPLOS)
+
+ALTER TABLE Alumno
+  ADD COLUMN condicion VARCHAR(10) DEFAULT ´Regular´;
+        → Incorpora una nueva columna en Alumno con um valor por
+defecto
+
+ALTER TABLE Instituto
+       DROP COLUMN encargado;
+       → elimina la columna encargado de Alumno
+
+ALTER TABLE Curso
+       ADD CONSTRAINT U_tit UNIQUE (titulo);
+       → define una restricción de unicidad para el título del Curso
+
+ALTER TABLE Ofrece
+       DROP CONSTRAINT Fk_Ofrece_Cur;
+       → elimina la restricción de clave extranjera en Ofrece
+
+===== PAGINA 5 =====
+
+MODIFICACIÓN DE TABLAS (EJEMPLOS)
+
+ ALTER TABLE Alumno ALTER COLUMN condicion
+    SET DEFAULT ‘Libre’;
+    → Define un valor por defecto para una columna
+ ALTER TABLE Alumno ALTER COLUMN condicion
+    DROP DEFAULT;
+     → Elimina la definición del valor por defecto para una columna
+ ALTER TABLE Alumno ALTER COLUMN tutor
+    SET NOT NULL;
+     → Define una restricción de nulidad para la columna (OJO)!!!
+ ALTER TABLE Alumno ALTER COLUMN tutor
+    DROP NOT NULL;
+     → Elimina una restricción de nulidad para la columna
+
+ ALTER TABLE Alumno condicion TYPE VARCHAR(30);
+
+===== PAGINA 6 =====
+
+MODIFICACIÓN DE TABLAS (EJEMPLOS)
+
+
+ALTER TABLE Alumno
+    ADD CONSTRAINT Pk_Alumno PRIMARY KEY (LIBRETA) ;
+→ Incorpora la restricción de clave primaria a la
+ tabla Alumno;
+
+ALTER TABLE Alumno
+    ADD CONSTRAINT Fk_Alumno_Univ FOREIGN KEY (nom_univ)
+               REFERENCES Universidad (nom_univ) ;
+→ Incorpora la restricción de clave extranjera a la
+ tabla Alumno que referencia a la tabla Universidad;
+
+===== PAGINA 7 =====
+
+             BORRADO DE TABLAS
+
+DROP TABLE nombre_tabla [CASCADE | RESTRICT]
+
+→ Se elimina la definición de la tabla y todas las filas que contiene
+• Si es RESTRICT, se rechaza si hay objetos definidos a partir de la tabla
+  (es la opción por defecto)
+
+• Si es CASCADE, se eliminan todos los objetos dependientes de la tabla
+  (también los objetos que dependan a su vez de ellos)
+→ tener precaución en su uso
+
+===== PAGINA 8 =====
+
+         ACTUALIZACIÓN DE DATOS
+Sentencias del DML para agregar, modificar y eliminar datos de tablas:
+
+
+
+
+ INSERT           INSERT INTO nombre_tabla [ ( lista_columnas ) ]
+                        VALUES (lista_valores);
+
+
+ DELETE           DELETE FROM nombre_tabla
+                  [ WHERE (condición) ] ;
+
+
+ UPDATE           UPDATE nombre_tabla
+                  SET nom_columna1= valor1 [,nom_columna2= valor2
+      …]
+                  [ WHERE (condición) ] ;
+
+===== PAGINA 9 =====
+
+ACTUALIZACIÓN DE DATOS (EJEMPLOS)
+
+INSERT INTO Curso (id_curso, titulo)
+  VALUES ( 208, ‘Bases de Datos’ ); → Al no especificarse el valor de duración,
+                                             éste tomaría su valor por defecto (60)
+INSERT INTO Curso VALUES (134, ´Comunicación de Datos´, 45);
+                                 → se incorpora un nuevo curso (no se requiere el nombre
+                                 de columnas porque se insertan valores para todas
+UPDATE Curso SET duracion = duracion + 20;
+                                   → se agregan 20 (horas) a todos los
+                                   cursos
+UPDATE Instituto SET encargado = ‘Juan Perez’
+    WHERE cod_instituto = ‘ISBD’;
+                                           → se actualiza el encargado del instituto
+                                           ISBD
+DELETE FROM Ofrece;                        → Elimina todas las tuplas de Ofrece! (si es
+                                           posible)
+DELETE FROM Ofrece WHERE cod_instituto = ‘ISBD’;
+
+                                  → Elimina los vínculos de cursos ofrecidos por el inst. ISBD

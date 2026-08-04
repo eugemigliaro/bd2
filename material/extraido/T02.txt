@@ -1,0 +1,614 @@
+FUENTE: T02
+TITULO: Modelo de entidades y relaciones
+ORIGINAL: material/catedra/teoria/t02-modelo-entidad-relacion.pdf
+
+===== PAGINA 1 =====
+
+     Bases de Datos II
+
+
+
+MODELO DE ENTIDADES
+   Y RELACIONES
+
+===== PAGINA 2 =====
+
+ REPRESENTACIÓN DE LA INFORMACIÓN
+
+• La estructura y el contexto le dan significado a los datos
+  posibilitando su entendimiento.
+
+
+• El lenguaje natural es nuestra forma primaria de representación y
+  comunicación de información pero NO es el mejor medio.
+
+
+• En muchas situaciones resulta más útil establecer formas
+  especializadas de representación de la información. Las fórmulas
+  matemáticas, los mapas carreteros y las partituras musicales,
+  constituyen ejemplos de modelos especializados de representación
+  simbólica de la información.
+
+Fuente: Apuntes de Cátedra. Bases de Datos. Prof. J. Ale y G. Dejean. Fac. Ingeniería UBA.
+
+===== PAGINA 3 =====
+
+REPRESENTACIÓN DE LA INFORMACIÓN
+
+Por ej.: un estudiante de esta facultad podría ser simbolizado de la siguiente forma:
+
+<LU:123456; Nombre y Apellido: Juan Torres; Fecha nacimiento: 23/08/1995; carrera:
+Ing en Sistemas>
+
+Cuando se trata de conjuntos de descripciones como la anterior usualmente se
+utiliza una notación simplificada que sólo contiene los valores (generalmente
+diferentes). Esa notación simplificada se denomina TUPLA o REGISTRO
+Por ej.:
+                  <123456; Juan Torres; 23/08/1995; Ing en Sistemas>
+
+y la interpretación de esos valores es aplicable a todas las tupla por igual.
+elementos
+               <LU; Nombre y Apellido; Fecha nacimiento; carrera>
+
+===== PAGINA 4 =====
+
+                  MODELO DE DATOS
+
+
+Es una herramienta intelectual que permite plasmar una interpretación de
+un conjunto de aspectos del mundo real:
+• tiene poder expresivo para representar cómo están relacionados los
+  datos
+• es abstracta, para ser mínimamente perturbable ante los cambios
+  concernientes al aspecto evolutivo del mundo real.
+Es un mecanismo de abstracción, que permite ver el contenido de
+información de los datos, en lugar de sus valores individuales.
+Los modelos se usan extensivamente en muchas disciplinas para mejorar
+la comprensión y abstraer los detalles (modelos físicos, matemáticos,
+económicos, etc.)
+En nuestra disciplina interesa comprender y elaborar MODELOS DE DATOS,
+que puedan ser codificados y manipulados computacionalmente.
+
+===== PAGINA 5 =====
+
+    DISEÑO DE UN MODELO DE DATOS
+
+
+Modelado de Datos → organizar los datos para que representen una
+situación del mundo real con la mayor fidelidad posible, con el objetivo
+de poder manejarlos computacionalmente …
+
+No es posible tener un conocimiento completo del mundo real → centrar
+la atención en la información relevante, ocultando o ignorando otra que
+NO sea relevante o que resulte inadecuada para el propósito requerido.
+
+Comprender las características de la información relevante para
+determinar cómo van a ser organizados y procesados los datos →
+pueden ser descriptas a través de enunciaciones generales., por ej.
+lenguaje natural
+
+Un conjunto formal y consistente de tales enunciaciones define un
+modelo conceptual de datos.
+
+===== PAGINA 6 =====
+
+ETAPAS EN EL DISEÑO DE DATOS
+
+
+                           ESQUEMA
+                            FÍSICO
+
+===== PAGINA 7 =====
+
+     MODELO CONCEPTUAL DE DATOS
+
+• Se destaca el Modelo de Entidades y Relaciones (Modelo E/R -
+  MER), propuesto por Chen en dos artículos ya icónicos, 1976 y 1977.
+
+• Según Chen, “El Modelo E/R puede ser usado como una base para
+  una vista unificada de los datos”, adoptando “el enfoque más
+  natural del mundo real que consiste en entidades e interrelaciones
+  (relaciones )”.
+
+• Posteriormente otros autores lo han extendido con importantes
+  aportes, lo que ha dado lugar a una familia de Modelos de Datos
+  (MER Extendido – MERExt).
+
+===== PAGINA 8 =====
+
+            CONCEPTOS BÁSICOS
+
+
+El Modelo E/R (MER), tal como fue propuesto por Chen,
+ distinguía los siguientes elementos estáticos:
+
+ • Entidad: objeto real o abstracto que existe en la
+   realidad y acerca del cual se desea almacenar
+   información.
+ • Relación: (o Interrelación) asociación o vinculación
+   entre entidades.
+ • Atributos: Los atributos son características de las
+   entidades y de las relaciones, que proveen detalles
+   descriptivos acerca de ellas.
+ Diferentes tipos de interrelaciones, entidades y
+   características de los atributos conducen al MERE.
+
+===== PAGINA 9 =====
+
+   REPRESENTACIÓN DE ELEMENTOS
+             BÁSICOS
+
+• DIAGRAMA DE ENTIDADES Y RELACIONES
+
+
+   Entidades
+
+
+   Atributos
+
+
+   Relaciones
+   entre entidades
+
+===== PAGINA 10 =====
+
+                       ENTIDADES
+
+Otras definiciones de Entidad:
+
+• “Cualquier objeto (real o abstracto) que existe en la realidad y
+  acerca del cual queremos almacenar información en la base de
+  datos”.
+
+• “Algo con realidad objetiva que existe o puede ser pensado”.
+
+• “Una persona, lugar, cosa, concepto o suceso, real o abstracto,
+  de interés para la empresa”.
+
+• “ Objetos (hechos, cosas, personas,...) que tienen propiedades en
+  común y una existencia autónoma.”
+
+===== PAGINA 11 =====
+
+           CONJUNTO ENTIDAD
+
+Está formado por ejemplares o instancias, que son
+  → entidades, cada una representa simbólicamente a
+    → Un objeto del mundo real, distinguible entre otros
+       Se describe por medio de sus propios atributos.
+      Los objetos individuales son instancias de la entidad
+
+                                              Instancias o ejemplares
+                                              (individuales)
+           (Conjunto) Entidad
+                                              123, Carlos, Sánchez
+                                              124, Miguel, Rodríguez
+                                              125, José, González
+                                              126, Agustín, García
+                                                  …....
+
+===== PAGINA 12 =====
+
+                        ENTIDADES
+
+Existen dos categorías de tipos de entidades:
+• Regulares o fuertes, que son aquellas cuyos ejemplares tienen
+  existencia por sí mismos (ej. Los ejemplares de ALUMNO)
+
+• Débiles, en las cuales la identificación y existencia de un ejemplar
+  dependen de la identificación y existencia de un ejemplar de otro tipo
+  de entidad, por ejemplo:
+  • la existencia e identificación de una COPIA_LIBRO depende de la
+    identificación y existencia de un ORIGINAL_LIBRO;
+  • el RENGLON_REMITO depende de la identificación y existencia de
+    un ejemplar de REMITO;
+  • la identificación y existencia de una PROVINCIA depende de la
+    identificación y existencia del PAÍS al cual pertenece…..
+
+===== PAGINA 13 =====
+
+    IDENTIFICACIÓN DE ENTIDADES
+
+Las tres propiedades inherentes de las entidades:
+1. Tiene sentido que exista (existencia propia), evaluado esto
+    siempre en el contexto de un sistema destinado a manejar
+    información.
+2. Cada ejemplar de un tipo de entidad debe poder distinguirse
+    de los demás,
+3. Todos los ejemplares de un tipo de entidad deben tener las
+    mismas propiedades.
+
+===== PAGINA 14 =====
+
+                         ATRIBUTOS
+
+• Son los datos relativos a una entidad o relación
+• Cada atributo tiene asociado un Dominio de definición (entero,
+  cadena de caracteres, fechas, etc.) y puede tomar un cierto valor
+  dentro del dominio
+• Un atributo tiene diferentes características: presencia, cardinalidad y
+  rol, también un origen y una composición
+• Se colocan junto a la entidad que describen.
+
+===== PAGINA 15 =====
+
+                   ATRIBUTOS (CONT)
+
+Presencia: indica si
+     • siempre se encontrará un valor para ese
+       atributo (obligatorio)
+     • habrá casos en los que esté ausente
+       (opcional).
+Cardinalidad: indica cuántas instancias del
+atributo pueden encontrarse en la descripción
+de una entidad o una relación, pueder ser
+     • univaluado un sólo valor para una misma
+       instancia (ej. Edad)
+     • multivaluado si puede haber un conjunto
+       de valores para una misma instancia (ej.
+       Telefonos, pueden ser varios números).
+
+===== PAGINA 16 =====
+
+                    ATRIBUTOS (CONT)
+
+Rol: de acuerdo al rol que tienen dentro de la
+entidad puede ser:
+  • Identificador principal (IP) identifica unívocamente
+    cada uno de los ejemplares de la entidad
+  • Identificador alternativo otro identificador de la
+    entidad que puede cumplir el rol de IP.
+  • Descriptor atributo que representa una característica
+    de la entidad
+
+Composición: indica si el atributo es
+  • simple (ej. Nombre, nro.de documento, etc.)
+  • compuesto por componentes más elementales,
+    interpretándose su valor como la concatenación de
+    los valores correspondientes a los componentes (ej.
+    Dirección: calle, número, piso, dpto.)
+
+===== PAGINA 17 =====
+
+              ATRIBUTOS (CONT)
+
+
+Origen: indica la procedencia del
+atributo, puede ser
+  • nativo si pertenece a la descripción de
+    la entidad o relación
+  • derivado si su valor se obtiene
+    mediante cálculo o algoritmo a partir
+    de otros atributos (x ej. edad obtenido
+    a partir de la fecha de nacimiento y la
+    fecha actual)
+
+===== PAGINA 18 =====
+
+              ATRIBUTOS (CONT)
+
+• Todas las instancias de una entidad se describen
+  mediante el mismo conjunto de atributos … (3a.
+  Propiedad de Entidades)
+• (Casi) Siempre hay un atributo cuyo valor es distinto para
+  cada instancia de una entidad → atributo identificador
+  principal (ej. Número de libreta de un Alumno, patente
+  de un Automóvil) … (2a. Propiedad de Entidades)
+• Algunas entidades pueden tener más un atributo
+  identificador → identificadores alternativos (ej.
+  documento del Alumno) … (2a. Propiedad de Entidades)
+
+===== PAGINA 19 =====
+
+ATRIBUTOS (CONT)
+
+          Cada conjunto de
+          entidades debe tener al
+          menos un identificador
+          principal.
+
+          Ese identificador principal
+          podría ser un atributo
+          compuesto.
+
+          ¿Podría ser un atributo
+          multivaluado?
+
+          ¿Podría ser un atributo
+          opcional?
+
+===== PAGINA 20 =====
+
+                         EJEMPLO
+
+Vamos a identificar de forma precisa las entidades y sus atributos
+ para el siguiente enunciado:
+“Se quiere registrar información para un sistema de compras de
+  productos que realizan clientes de un negocio.”
+1. Se necesita guardar los datos de los clientes, los mismos son, un
+    identificador, nombre y apellido, fecha de nacimiento,
+    dirección y su teléfono.
+2. Opcionalmente una persona pueda tener otro número de
+    teléfono y varios números de teléfono celular.
+3. Los datos de las facturas que se registran son: su tipo y número
+    (que identifica a cada factura), su fecha, el cliente y el
+    importe total. Además se necesita guardar los datos de los
+    productos que compondrán dicha factura.
+
+===== PAGINA 21 =====
+
+  RELACIONES (INTERRELACIONES)
+
+
+Una relación (interrelación) es una asociación, vinculación
+ o correspondencia entre conjuntos de entidades, y se
+ materializa en un conjunto de asociaciones entre dos o
+ más instancias del mismo o diferente tipo.
+
+Igual que en el caso de las entidades, distinguiremos entre:
+
+• Conjunto Relación: el tipo de relación o estructura
+  genérica que describe un conjunto de relaciones, y
+
+• Cada relación, o instancia de relación es decir, cada uno
+  de los ejemplares concretos.
+
+===== PAGINA 22 =====
+
+      RELACIONES (INTERRELACIONES)
+   CURSA es un tipo de relación que vincula los tipos de
+   entidades ALUMNO y MATERIA.
+
+
+
+Ejemplares de Alumno
+123, Carlos, Sánchez                               Ejemplares de Materia
+124, Miguel, Rodríguez                             EdD, Estructuras de Datos
+125, José, González                                BD, Bases de Datos
+…....                                              …....
+   Un ejemplar del tipo de relación CURSA es la vinculación entre
+     el alumno “123, Carlos, Sánchez”
+     y la materia “EdD, Estructuras de Datos”
+          dado que satisface la frase
+   “123, Carlos Sánchez cursa la materia EdD, Estructuras de Datos”.
+
+===== PAGINA 23 =====
+
+       TIPO DE RELACIÓN
+
+Características
+• Nombre al igual que las entidades debe ser único
+• Grado u orden es el número de tipos de entidades
+  que participan
+• Tipo de correspondencia o cardinalidad o
+  multiplicidad es el número máximo de ejemplares
+  de un tipo entidad que pueden estar asociados ,
+  en una determinada relación, con un ejemplar de
+  otro(s)
+• Puede tener atributos propios
+
+    Los términos más usuales son los subrayados
+
+===== PAGINA 24 =====
+
+                      RELACIONES
+
+• Una relación R de orden n (n-aria) relaciona n
+  conjuntos de entidades E1 ... En.
+• Cada instancia en R involucra las entidades E1, ..., En
+
+Entonces si:
+   ⚫ n=1 la relación se denomina UNARIA: una entidad involucrada;
+   ⚫ n=2 la relación se denomina BINARIA: dos entidades involucradas;
+   ⚫ n=3 la relación se denomina TERNARIA: tres entidades involucradas;
+   ⚫ ...
+
+===== PAGINA 25 =====
+
+RELACIONES: TIPOS DE
+ CORRESPONDENCIAS
+
+
+
+
+Uno a uno – 1 : 1
+
+
+                     Uno a muchos – 1 : N
+
+
+
+
+                    Muchos a muchos – N : N
+
+===== PAGINA 26 =====
+
+    RELACIONES: CARDINALIDADES
+
+• Esta información se coloca sobre los vínculos (líneas), en el
+  ejemplo encerrado entre paréntesis.
+
+• La lectura que se hace de las cardinalidades se denomina Look-
+  Across (LA) o Chen-Style, se lee sobre la línea de la „entidad
+  destino‟
+
+• ¿Cuantos ejemplares de la entidad E1 puede relacionarse con
+  cada ejemplar de la entidad E2, como máximo y como mínimo?
+
+===== PAGINA 27 =====
+
+    RELACIONES: CARDINALIDADES
+
+• La cardinalidad máxima representa el máximo número de
+  ejemplares de una entidad con los que se puede relacionar otra
+  entidad
+  • al menos 1 (puede ser 0 o 1)
+  • como máximo N (muchos o varios, es una cantidad variable)
+  • como máximo a(es una cantidad fija de ejemplares)
+
+• La cardinalidad mínima representa el mínimo número de
+  ejemplares de una entidad con los que se puede relacionar otra
+  entidad
+  • cardinalidad mínima 0, un ejemplar de una entidad puede estar
+    relacionado con otro,
+  • cardinalidad mínima 1, un ejemplar de una entidad debe estar
+    relacionado al menos con un ejemplar
+  • cardinalidad mínima a, un ejemplar de una entidad debe estar
+    relacionado al menos con a ejemplares
+
+===== PAGINA 28 =====
+
+  RELACIONES UNARIAS
+(REFLEXIVAS/RECURSIVAS)
+
+
+
+
+ Cual es la semántica de esta relación y de sus
+ cardinalidades máximas?
+    Cada pieza forma-parte de otra u otras piezas
+    Cada pieza esta-formada-por otra u otras piezas
+ Notar que se describe con hechos afirmativos
+
+===== PAGINA 29 =====
+
+RELACIONES BINARIAS 1:N
+
+
+
+
+ Cual es la semántica de esta relación y de sus
+ cardinalidades máximas? 1: N
+ Cada carrera pertenece a un único departamento
+ Cada departamento posee muchas carreras
+
+===== PAGINA 30 =====
+
+RELACIONES BINARIAS N:N
+
+
+
+
+  Cual es la semántica de esta relación y de sus
+  cardinalidades máximas? N:N
+  Cada alumno practica varios deportes
+  Cada deporte es practicado por varios alumnos
+
+===== PAGINA 31 =====
+
+RELACIONES OPCIONALES VS.
+      OBLIGATORIAS
+
+
+
+
+ Cual debería ser la semántica „COMPLETA‟ de esta
+ relación, interpretada en el mundo real?
+ Un alumno puede practicar un deporte? O podría no
+ practicar ninguno?
+ Un deporte puede ser practicado por varios alumnos?
+ O podría ocurrir que nadie lo practicara?
+ Hasta ahora sólo se ha indicado que un deporte
+ podría ser practicado por varios alumnos y que un
+ alumno podría practicar varios deportes… los casos
+ más restrictivos no están representados.
+
+===== PAGINA 32 =====
+
+    RELACIONES OPCIONALES VS.
+          OBLIGATORIAS
+             CARDINALIDADES MÍNIMAS
+
+
+
+
+los casos más restrictivos se indican donde figura el *
+Si un alumno practica al menos un deporte?
+             *, N          1, N
+O podría no practicar ninguno?
+
+            *, N           0, N
+Un deporte es practicado por al menos un alumno?
+           1, N               *, N
+O podría ocurrir que nadie lo practicara?
+             0, N             *, N
+
+===== PAGINA 33 =====
+
+         RELACIONES OPCIONALES VS.
+               OBLIGATORIAS
+                 CARDINALIDADES MÍNIMAS
+
+
+
+
+Este diagrama expresa que:
+• Un alumno practica al menos un deporte y podría practicar
+  varios.
+• Un deporte podría no ser practicado por ningún alumno, pero
+  puede ser practicado por uno o más alumnos.
+En la cardinalidad mínima
+       • 0 indica OPCIONALIDAD
+       • 1 indica OBLIGATORIEDAD (relación mandatoria)
+
+===== PAGINA 34 =====
+
+RELACIÓN ENTIDAD DÉBIL - ENTIDAD
+            FUERTE
+• Una entidad débil puede ser unívocamente identificada sólo
+  en el contexto de otra entidad fuerte o propietaria.
+• Entidades fuerte y débil están vinculadas por una relación
+  binaria (1,1):(*,N). Siempre la cardinalidad del lado 1 es 1.
+  (Porqué?)
+• La entidad débil tiene una dependencia de existencia y de
+  identificación respecto de la entidad fuerte.
+
+
+
+
+ENTIDAD FUERTE                         ENTIDAD DÉBIL
+¿Cómo indicar la dependencia de existencia y de
+identificación? → esquema lógico
+
+===== PAGINA 35 =====
+
+                     JERARQUÍAS
+               (RELACIONES ES-UN O ISA)
+
+          Supertipo
+
+                                                Jerarquía Exclusiva
+
+                                              Supertipo/ Subtipo
+Subtipo
+
+                                                Jerarquía Compartida
+
+                                                             Subtipo
+              Subtipo
+
+
+                        Participación total o parcial
+   ¿Cómo representar los distintos casos? → esquema lógico
+
+===== PAGINA 36 =====
+
+          CONSTRUCCIÓN DEL MER
+
+ No existen reglas que indiquen cómo construir un modelo de datos,
+  sólo principios generales a aplicar junto al criterio del diseñador
+                           experimentado
+• Interpretar las frases expresadas en lenguaje natural (en el relevamiento),
+  identificando cuáles son las entidades (datos) y cuales las relaciones (entre
+  los datos) en la organización.
+• Chen propuso las siguientes heurísticas:
+   − En general un sustantivo es una entidad, aunque también podría ser un
+     atributo (Ej: “los ALUMNOS cursan MATERIAS”)
+   − Un verbo o frase verbal puede indicar una relación entre entidades (Ej:
+     “los alumnos CURSAN materias”). Asociaciones entre los datos.
+• Que información acerca de las entidades y relaciones deberían
+  registrarse? → determinar los atributos (de entidades y relaciones).
+• Respecto de relaciones más complejas (ternarias, agregaciones, etc.) la
+  experiencia del diseñador, las herramientas computacionales que maneje
+  y el conocimiento de las transformaciones en esquemas equivalentes
+  constituyen un recurso fundamental.

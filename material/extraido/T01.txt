@@ -1,0 +1,255 @@
+FUENTE: T01
+TITULO: Introducción a las bases de datos
+ORIGINAL: material/catedra/teoria/t01-introduccion-bases-de-datos.pdf
+
+===== PAGINA 1 =====
+
+    Bases de Datos II
+
+
+
+INTRODUCCIÓN A LAS
+   BASES DE DATOS
+
+===== PAGINA 2 =====
+
+                Herramientas
+
+
+• MySQL Workbench Community Edition:
+  https://dev.mysql.com/downloads/workbench/
+
+• XAMPP
+https://www.apachefriends.org/es/index.html
+
+• MongoDB
+https://docs.mongodb.com/manual/tutorial/install-
+mongodb-on-windows/
+
+===== PAGINA 3 =====
+
+                   INTRODUCCIÓN
+
+• Un sistema gestor de bases de datos (SGBD) consiste en una
+  colección de datos interrelacionados y un conjunto de
+  programas para acceder a dichos datos.
+• Colección de datos: denominada normalmente base de datos,
+  contiene información relevante para la organización.
+• El objetivo principal de un SGBD es proporcionar una forma de
+  almacenar y recuperar información de manera práctica y
+  eficiente.
+• Los SGBD se diseñan para gestionar grandes volúmenes de
+  información, esto implica la posibilidad de:
+   • Definir estructuras para almacenar información.
+   • Contar con mecanismos para manipular dicha información.
+• La información es muy importante en las organizaciones
+  entonces los SGBD poseen un amplio conjunto de conceptos y
+  técnicas para su gestión.
+
+
+
+                                                              3
+
+===== PAGINA 4 =====
+
+  APLICACIONES DE LOS SGBD
+
+▪ Bancos
+▪ Líneas aéreas
+▪ Universidades
+▪ Tarjetas de Crédito
+▪ Telecomunicaciones
+▪ Sistemas de ventas o de compras
+▪ Cadenas de producción o gestión de
+  almacenes
+
+
+
+                                       4
+
+===== PAGINA 5 =====
+
+  APLICACIONES DE BD VS. SISTEMAS DE
+             ARCHIVOS
+
+• En un sistema de procesamiento de archivos típico se
+  mantiene mediante un sistema operativo convencional,
+  los registros permanentes son almacenados en varios
+  archivos y se escriben diferentes programas de
+  aplicación para extraer registros y para añadir registros
+  a los archivos adecuados, lo que ocasiona
+  inconvenientes importantes:
+      •   Redundancia e inconsistencia de datos.
+      •   Dificultad en el acceso a los datos
+      •   Aislamiento de datos.
+      •   Problemas de integridad.
+      •   Problemas de atomicidad.
+      •   Anomalías en el acceso concurrente
+      •   Problemas de seguridad.
+
+
+                                                          5
+
+===== PAGINA 6 =====
+
+              VISIÓN DE LOS DATOS
+
+• Uno de los propósitos principales de un SGBD es proporcionar
+  a los usuarios una visión abstracta de los datos, es decir,
+  esconder los detalles de cómo almacenan y mantienen los
+  datos. Abstracción de datos:
+• Nivel físico: El nivel más bajo de abstracción describe cómo
+  se almacenan realmente los datos. En el nivel físico se
+  describen en detalle las estructuras de datos complejas de
+  bajo nivel.
+• Nivel lógico: El siguiente nivel describe qué datos se
+  almacenan en la base de datos y qué relaciones existen
+  entre ellos. Es así que los usuarios del nivel lógico no necesitan
+  preocuparse de cómo están almacenados los datos.
+• Nivel de Vistas: es el nivel más alto de abstracción. Algunos
+  usuarios sólo acceden a un subconjunto del total de los datos
+  de una base de datos.
+
+
+
+                                                                   6
+
+===== PAGINA 7 =====
+
+             MODELOS DE DATOS
+
+• Por debajo de la estructura de la base de datos está el
+  modelo de datos: una colección de herramientas
+  conceptuales para describir los datos, las relaciones
+  entre los datos, la semántica de los datos y las
+  restricciones de los datos.
+• El modelo de datos entidad-relación es un modelo de
+  datos ampliamente usado, y proporciona una
+  representación gráfica conveniente para ver los datos,
+  las relaciones y las restricciones.
+• El modelo de datos relacional se usa ampliamente para
+  almacenar datos en las bases de datos.
+• Otros modelos de datos son el modelo de datos
+  orientado a objetos, el relacional orientado a objetos y
+  modelos de datos semiestructurados.
+
+
+                                                         7
+
+===== PAGINA 8 =====
+
+    LENGUAJES DE BASES DE DATOS
+
+• El diseño general de la base de datos se denomina el
+  esquema de la base de datos.
+• Un esquema de base de datos se especifica con un
+  conjunto de definiciones que se expresan usando un
+  lenguaje de definición de datos (LDD).
+• Un lenguaje de manipulación de datos (LMD) es un
+  lenguaje que permite a los usuarios acceder o
+  manipular los datos. Los LMD no procedimentales, que
+  requieren que un usuario especifique sólo los datos que
+  necesita, se usan ampliamente hoy día.
+      • LMDs declarativos
+      • LMDs procedimentales
+• Acceso a las bases de datos desde programas de
+  aplicación. (ODBC, JDBC)
+
+
+                                                            8
+
+===== PAGINA 9 =====
+
+  USUARIOS Y ADMINISTRADORES DE LA
+            BASE DE DATOS
+
+• Los usuarios de bases de datos se pueden
+  catalogar en varias clases, y cada clase de usuario
+  usa habitualmente diferentes tipos de interfaces de
+  la base de datos.
+      • Usuarios normales
+      • Programadores de aplicaciones
+
+• Administradores de bases de datos. Funciones:
+ • Definición de esquemas y organización física
+ • Definición de estructuras y métodos de acceso
+ • Autorizaciones para acceder a los datos.
+ • Mantenimiento de la base de datos
+
+
+                                                        9
+
+===== PAGINA 10 =====
+
+     MODULOS DE UN SGDB (DBMS)
+
+• Un sistema de bases de datos tiene varios
+  subsistemas.
+ • El subsistema gestor de transacciones es el responsable de
+   asegurar que la base de datos permanezca en un estado
+   consistente (correcto) a pesar de los fallos del sistema. El
+   gestor de transacciones también asegura que las
+   ejecuciones de transacciones concurrentes ocurran sin
+   conflictos.
+ • El subsistema procesador de consultas compila y ejecuta
+   instrucciones LDD y LMD.
+ • El subsistema gestor de almacenamiento es un módulo que
+   proporciona la interfaz entre los datos de bajo nivel
+   almacenados en la base de datos y los programas de
+   aplicación y las consultas enviadas al sistema.
+
+                                                              10
+
+===== PAGINA 11 =====
+
+ ARQUITECTURAS DE APLICACIONES
+
+• Las aplicaciones de bases de datos se dividen
+  normalmente en un parte frontal (front end) que se
+  ejecuta en las máquinas cliente y una parte que se
+  ejecuta en servidor (back end).
+
+• En las arquitecturas de dos capas, el frontal se
+  comunica directamente con una base de datos
+  que se ejecuta en el servidor.
+
+• En las arquitecturas de tres capas, la parte del
+  servidor se divide asimismo en un servidor de
+  aplicaciones y en un servidor de bases de datos.
+
+                                                     11
+
+===== PAGINA 12 =====
+
+           QUÉ ES POSTGRESQL?
+
+
+• Sistema de Gestión de Base de Datos Open-Source
+• ‘Proyecto Ingres’ en Universidad de Berkeley
+• Primera versión de PostgreSQL liberó en 1997
+• Cross-Platform
+• Escrito en C
+• Utilizada por organizaciones tales como
+   • Yahoo
+   • MySpace
+   • Skype
+
+===== PAGINA 13 =====
+
+ARQUITECTURA DE
+  POSTGRESQL
+
+===== PAGINA 14 =====
+
+Bibliografía y Referencias
+
+
+  Lectura Obligatoria: Capítulo 1 – Introducción Silberschatz
+
+
+
+
+                                  ?
+                       Preguntas?
+
+ 14

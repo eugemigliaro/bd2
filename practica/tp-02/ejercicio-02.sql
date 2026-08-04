@@ -1,0 +1,2 @@
+-- TP 2, ejercicio 2 [P02, p. 2]
+-- Escribir una solución MySQL ejecutable y registrar supuestos relevantes.

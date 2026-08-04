@@ -1,0 +1,97 @@
+FUENTE: P01
+TITULO: TP 1 — modelos y diagramas
+ORIGINAL: material/catedra/practica/tp-01-modelos-diagramas.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                            1
+Base de Datos II - TP 1
+
+
+
+          TP N°1 - Modelo/Diagrama de Entidades y Relaciones Extendido
+                                (MERE/DERE)
+
+Consejos para realizar un Modelo (Diagrama) ER/E (Entidad Relación), tomando como referencia
+lo visto en clase:
+
+    A.​ Primero identifique las entidades, luego las relaciones, y finalmente, los atributos de las entidades
+    B.​ Siempre que le sea posible, identifique relaciones binarias primero. Utilice las relaciones ternarias
+        sólo como último recurso
+    C.​ Hay diferentes notaciones del modelo ER, pero todas son muy similares. Seleccione una notación
+        que usted comprenda y funcione bien para sus propósitos, a menos que su cliente/jefe/profesor
+        prefiera una específica. Recuerde que la notación ER es la principal herramienta de comunicación de
+        los conceptos de datos con su cliente/jefe/profesor
+    D.​ Construya un modelo ER simple. Se pierde tiempo en el exceso de detalles y es más difícil de
+        comunicar a su cliente/jefe/profesor
+
+
+Ejercicios:
+
+    1.​ Se quiere registrar información para un sistema de clientes que almacene las compras de
+        productos que estos realizan. Construya el DERE que mejor se ajuste a lo siguiente:
+
+              ●​ Se necesita guardar los datos de los clientes, los mismos son un identificador, nombre y
+                 apellido, fecha de nacimiento, dirección y su teléfono principal
+              ●​ Opcionalmente un cliente puede tener un segundo número de teléfono alternativo y varios
+                 números de teléfono celular
+              ●​ Los datos de las facturas de venta que son importantes son: su tipo y número (que identifica
+                 a cada factura), su fecha, el cliente y el importe total. Además se necesita conocer los
+                 productos y sus cantidades que componen dicha factura
+              ●​ Los datos de los productos que son importantes registrar son: el código, el nombre y el
+                 precio
+
+              ●​ ¿Cómo asociaría los clientes con las facturas cosa de no tener que guardar el nombre de la
+                 persona en la factura? (recuerde que una persona puede tener muchas facturas)
+              ●​ Analice si su modelo es capaz de respetar el precio de venta de cada producto cuando se
+                 modifica el precio de un producto. Si no respeta el precio, proponga una solución para
+                 resolverlo
+
+
+
+
+                                                  ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                            2
+Base de Datos II - TP 1
+
+
+    2.​ Se quiere registrar información correspondiente a un depósito, sus departamentos/áreas, sus
+        empleados, sus productos y los fabricantes de dichos productos. Construya el DERE que
+        mejor se ajuste a lo siguiente:
+
+              ●​ Cada empleado está identificado por un número de empleado, además se debe registrar su
+                 nombre, apellido y dirección (compuesta por calle, puerta, piso y ciudad); adicionalmente se
+                 debe saber a qué departamento pertenece cada empleado
+              ●​ Cada departamento está identificado por su nombre y se sabe que empleados trabajan en él,
+                 quién es el empleado jefe del departamento y que productos vende (cabe aclarar que un
+                 empleado puede ser jefe de un solo departamento)
+              ●​ De cada producto es importante registrar su nombre, fabricante y precio de venta. Cada
+                 producto puede ser identificado por el número de producto asignado por el fabricante o por
+                 el número de producto asignado por el depósito
+              ●​ Cada fabricante está identificado por su nombre, y se conoce su dirección, productos que
+                 suministra al depósito y precios de estos productos
+
+
+    3.​ Se desea informatizar la gestión de una empresa de transportes que reparte paquetes por toda
+        la provincia de Buenos Aires.
+
+              ●​ Los encargados de llevar los paquetes son los camioneros, de los que se quiere guardar el
+                 DNI, nombre, teléfono, dirección, salario y ciudad en la que vive
+              ●​ De los paquetes transportados interesa conocer el código del paquete, descripción,
+                 destinatario y dirección del destinatario
+              ●​ Un camionero distribuye muchos paquetes, y un paquete sólo puede ser distribuido por un
+                 camionero
+              ●​ De las ciudades a las que llegan los paquetes interesa guardar el código de ciudad y el
+                 nombre. Un paquete sólo puede llegar a una ciudad. Sin embargo, a una ciudad pueden
+                 llegar varios paquetes
+              ●​ De los camiones, interesa conocer la matrícula, modelo, tipo y potencia
+              ●​ Un camionero puede conducir diferentes camiones en fechas diferentes, y un camión puede
+                 ser conducido por varios camioneros
+
+
+
+
+                                                  ITBA - 2026

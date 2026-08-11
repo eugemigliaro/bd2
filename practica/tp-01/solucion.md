@@ -56,11 +56,59 @@ La representación de atributos sigue la convención visual de la cátedra: atri
 
 ### Supuestos
 
+- `Deposito` delimita el sistema, pero no se modela como entidad porque la consigna considera uno solo y no proporciona atributos para identificarlo o describirlo.
+- Todo empleado trabaja en exactamente un departamento.
+- Todo departamento tiene al menos un empleado y exactamente un jefe.
+- Un empleado puede dirigir como máximo un departamento y, si lo dirige, debe trabajar en ese mismo departamento.
+- Tanto departamentos como productos pueden existir antes de quedar asociados mediante `vende`; por eso esa relación es opcional en ambos sentidos.
+- Cada producto tiene exactamente un fabricante; un fabricante puede estar registrado aunque todavía no suministre productos.
+- Los dos números de Producto identifican unívocamente por separado. Se elige el número asignado por el depósito como identificador principal y el del fabricante como alternativo.
+- `precioVenta` describe al producto dentro del depósito; `precioSuministro` describe la asociación entre fabricante y producto.
+- La dirección de Empleado es compuesta porque la consigna enumera sus componentes. La dirección de Fabricante se conserva simple porque no se detallan componentes.
+
+La exigencia de que el jefe trabaje en el mismo departamento es un supuesto añadido a esta resolución; no está expresada literalmente por la consigna. `Complemento del agente (no consta en el material cargado)`: se anota formalmente como `DIRIGE ⊆ TRABAJA_EN`.
+
 ### Entidades, relaciones y atributos
+
+| Elemento | Atributos | Observaciones |
+|---|---|---|
+| **Empleado** | `numeroEmpleado`, `nombre`, `apellido`, `direccion {calle, puerta, piso, ciudad}` | `numeroEmpleado` es el identificador principal; `direccion` es compuesta. |
+| **Departamento** | `nombre` | `nombre` es el identificador principal. |
+| **Producto** | `numeroDeposito`, `numeroFabricante`, `nombre`, `precioVenta` | `numeroDeposito` es el identificador principal y `numeroFabricante`, el alternativo. |
+| **Fabricante** | `nombre`, `direccion` | `nombre` es el identificador principal; `direccion` se modela simple. |
+| **trabaja en** | — | Relación 1:N entre Departamento y Empleado. |
+| **dirige** | — | Relación 1:1 entre Empleado y Departamento, obligatoria para Departamento y opcional para Empleado. |
+| **vende** | — | Relación N:N entre Departamento y Producto. |
+| **suministra** | `precioSuministro` | Relación 1:N entre Fabricante y Producto. |
+
+Los atributos pueden clasificarse por presencia, cardinalidad, rol, composición y origen. La dirección de Empleado aplica el patrón de atributo compuesto, mientras que Producto posee un identificador principal y otro alternativo. [T02, pp. 14–19] El precio de suministro se coloca en la relación porque describe la asociación entre Fabricante y Producto; las relaciones pueden tener atributos propios. [T02, pp. 21, 23–24]
 
 ### Cardinalidades expresadas en lenguaje natural
 
+- Cada **Empleado** trabaja obligatoriamente en un único **Departamento**.
+- Cada **Departamento** tiene entre uno y muchos **Empleados**.
+- Cada **Departamento** es dirigido obligatoriamente por un único **Empleado**.
+- Cada **Empleado** puede dirigir entre cero y un **Departamento**.
+- Cada **Departamento** puede vender entre cero y muchos **Productos**.
+- Cada **Producto** puede ser vendido por entre cero y muchos **Departamentos**.
+- Cada **Producto** es suministrado obligatoriamente por un único **Fabricante**.
+- Cada **Fabricante** puede suministrar entre cero y muchos **Productos**.
+
+Las cardinalidades se escriben con lectura *look-across*, sobre la línea del lado de la entidad destino. [T02, pp. 26–27] Los datos de las cuatro entidades y las relaciones requeridas provienen de la consigna oficial. [P01, p. 2]
+
 ### Diagrama
+
+![DERE del ejercicio 2](dere-ejercicio-02.svg)
+
+Fuente editable: [`dere-ejercicio-02.dot`](dere-ejercicio-02.dot).
+
+Leyenda:
+
+- El círculo negro marca el identificador principal, el medio círculo (`◐`) el identificador alternativo y el círculo vacío un descriptor.
+- Las líneas continuas indican atributos obligatorios.
+- La ramificación de `direccion` muestra sus componentes.
+- La nota junto a `dirige` documenta la restricción adicional acordada para esta resolución.
+- La representación de atributos y relaciones sigue la convención gráfica presentada por la cátedra. [T02, pp. 9, 14–19, 26]
 
 ## Ejercicio 3
 

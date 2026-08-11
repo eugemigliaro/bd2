@@ -1,0 +1,89 @@
+digraph dere_ejercicio_02 {
+  graph [
+    label="TP 1 — Ejercicio 2 — DERE del depósito"
+    labelloc=t
+    fontsize=20
+    fontname="Arial"
+    bgcolor="white"
+    rankdir=LR
+    nodesep=0.38
+    ranksep=1.05
+    splines=polyline
+    pad=0.3
+  ];
+
+  node [fontname="Arial", fontsize=12, color="#334155", penwidth=1.4];
+  edge [fontname="Arial", fontsize=11, color="#475569", penwidth=1.2];
+
+  empleado [shape=box, style=filled, fillcolor="#dbeafe", label="EMPLEADO"];
+  departamento [shape=box, style=filled, fillcolor="#dcfce7", label="DEPARTAMENTO"];
+  producto [shape=box, style=filled, fillcolor="#fef3c7", label="PRODUCTO"];
+  fabricante [shape=box, style=filled, fillcolor="#fee2e2", label="FABRICANTE"];
+
+  trabaja [shape=diamond, style=filled, fillcolor="#f1f5f9", label="trabaja en"];
+  dirige [shape=diamond, style=filled, fillcolor="#f1f5f9", label="dirige"];
+  vende [shape=diamond, style=filled, fillcolor="#f1f5f9", label="vende"];
+  suministra [shape=diamond, style=filled, fillcolor="#f1f5f9", label="suministra"];
+
+  { rank=same; trabaja; dirige; }
+
+  empleado:ne -> trabaja:sw [dir=none, taillabel="(1,N)", labeldistance=2.1, labelangle=35];
+  trabaja:se -> departamento:nw [dir=none, headlabel="(1,1)", labeldistance=2.1, labelangle=35];
+  empleado:se -> dirige:nw [dir=none, taillabel="(1,1)", labeldistance=2.1, labelangle=-35];
+  dirige:ne -> departamento:sw [dir=none, headlabel="(0,1)", labeldistance=2.1, labelangle=-35];
+  departamento -> vende [dir=none, taillabel="(0,N)", labeldistance=1.7, labelangle=25];
+  vende -> producto [dir=none, headlabel="(0,N)", labeldistance=1.7, labelangle=25];
+  producto -> suministra [dir=none, taillabel="(0,N)", labeldistance=1.7, labelangle=25];
+  suministra -> fabricante [dir=none, headlabel="(1,1)", labeldistance=1.7, labelangle=25];
+
+  restriccion [
+    shape=note
+    style="filled,dashed"
+    fillcolor="#fff7ed"
+    fontsize=10
+    label="Restricción adicional:\nquien dirige un departamento\ndebe trabajar en él\n(DIRIGE ⊆ TRABAJA_EN)"
+  ];
+  dirige -> restriccion [style=dotted, arrowhead=none, constraint=false];
+
+  node [shape=plaintext, margin=0, color="#334155"];
+
+  e_numero [label="número de empleado"];
+  e_nombre [label="nombre"];
+  e_apellido [label="apellido"];
+  e_direccion [label="dirección"];
+  e_calle [label="calle"];
+  e_puerta [label="puerta"];
+  e_piso [label="piso"];
+  e_ciudad [label="ciudad"];
+
+  empleado -> e_numero [arrowhead=dot];
+  empleado -> e_nombre [arrowhead=odot];
+  empleado -> e_apellido [arrowhead=odot];
+  empleado -> e_direccion [arrowhead=odot];
+  e_direccion -> e_calle [arrowhead=odot];
+  e_direccion -> e_puerta [arrowhead=odot];
+  e_direccion -> e_piso [arrowhead=odot];
+  e_direccion -> e_ciudad [arrowhead=odot];
+
+  d_nombre [label="nombre"];
+  departamento -> d_nombre [arrowhead=dot];
+
+  p_num_deposito [label="número asignado por el depósito"];
+  p_num_fabricante [label="◐  número asignado por el fabricante [IA]"];
+  p_nombre [label="nombre"];
+  p_precio_venta [label="precio de venta"];
+
+  producto -> p_num_deposito [arrowhead=dot];
+  producto -> p_num_fabricante [arrowhead=none];
+  producto -> p_nombre [arrowhead=odot];
+  producto -> p_precio_venta [arrowhead=odot];
+
+  f_nombre [label="nombre"];
+  f_direccion [label="dirección"];
+
+  fabricante -> f_nombre [arrowhead=dot];
+  fabricante -> f_direccion [arrowhead=odot];
+
+  r_precio_suministro [label="precio de suministro"];
+  suministra -> r_precio_suministro [arrowhead=odot];
+}

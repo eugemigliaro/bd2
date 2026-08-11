@@ -1,4 +1,4 @@
-graph dere_ejercicio_01 {
+digraph dere_ejercicio_01 {
   graph [
     label="TP 1 — Ejercicio 1 — DERE de clientes, facturas y productos"
     labelloc=t
@@ -6,66 +6,70 @@ graph dere_ejercicio_01 {
     fontname="Arial"
     bgcolor="white"
     rankdir=LR
-    nodesep=0.42
+    nodesep=0.35
     ranksep=1.05
     splines=polyline
     pad=0.3
   ];
 
   node [fontname="Arial", fontsize=12, color="#334155", penwidth=1.4];
-  edge [fontname="Arial", fontsize=11, color="#64748b", penwidth=1.2];
+  edge [fontname="Arial", fontsize=11, color="#475569", penwidth=1.2];
 
-  cliente [shape=box, style="rounded,filled", fillcolor="#dbeafe", label="CLIENTE"];
-  factura [shape=box, style="rounded,filled", fillcolor="#dcfce7", label="FACTURA"];
-  producto [shape=box, style="rounded,filled", fillcolor="#fef3c7", label="PRODUCTO"];
+  cliente [shape=box, style=filled, fillcolor="#dbeafe", label="CLIENTE"];
+  factura [shape=box, style=filled, fillcolor="#dcfce7", label="FACTURA"];
+  producto [shape=box, style=filled, fillcolor="#fef3c7", label="PRODUCTO"];
 
   tiene [shape=diamond, style=filled, fillcolor="#f1f5f9", label="tiene"];
   contiene [shape=diamond, style=filled, fillcolor="#f1f5f9", label="contiene"];
 
-  cliente -- tiene [taillabel="(1,1)", labeldistance=1.7, labelangle=25];
-  tiene -- factura [headlabel="(0,N)", labeldistance=1.7, labelangle=25];
-  factura -- contiene [taillabel="(0,N)", labeldistance=1.7, labelangle=25];
-  contiene -- producto [headlabel="(1,N)", labeldistance=1.7, labelangle=25];
+  cliente -> tiene [dir=none, taillabel="(1,1)", labeldistance=1.7, labelangle=25];
+  tiene -> factura [dir=none, headlabel="(0,N)", labeldistance=1.7, labelangle=25];
+  factura -> contiene [dir=none, taillabel="(0,N)", labeldistance=1.7, labelangle=25];
+  contiene -> producto [dir=none, headlabel="(1,N)", labeldistance=1.7, labelangle=25];
 
-  c_id [shape=ellipse, label=<<U>identificador</U>>];
-  c_nombre [shape=ellipse, label="nombre"];
-  c_apellido [shape=ellipse, label="apellido"];
-  c_fecha [shape=ellipse, label="fecha de nacimiento"];
-  c_direccion [shape=ellipse, label="dirección"];
-  c_tel_principal [shape=ellipse, label="teléfono principal"];
-  c_tel_alternativo [shape=ellipse, label="teléfono alternativo\n(opcional)"];
-  c_celulares [shape=ellipse, peripheries=2, label="teléfonos celulares\n(opcional)"];
+  node [shape=plaintext, margin=0, color="#334155"];
 
-  cliente -- c_id;
-  cliente -- c_nombre;
-  cliente -- c_apellido;
-  cliente -- c_fecha;
-  cliente -- c_direccion;
-  cliente -- c_tel_principal;
-  cliente -- c_tel_alternativo;
-  cliente -- c_celulares;
+  c_id [label="identificador"];
+  c_nombre [label="nombre"];
+  c_apellido [label="apellido"];
+  c_fecha [label="fecha de nacimiento"];
+  c_direccion [label="dirección"];
+  c_tel_principal [label="teléfono principal"];
+  c_tel_alternativo [label="teléfono alternativo"];
+  c_celulares [label="teléfonos celulares"];
 
-  f_tipo [shape=ellipse, label=<<U>tipo</U>>];
-  f_numero [shape=ellipse, label=<<U>número</U>>];
-  f_fecha [shape=ellipse, label="fecha"];
-  f_total [shape=ellipse, style=dashed, label="importe total\n(derivado)"];
+  cliente -> c_id [arrowhead=dot];
+  cliente -> c_nombre [arrowhead=odot];
+  cliente -> c_apellido [arrowhead=odot];
+  cliente -> c_fecha [arrowhead=odot];
+  cliente -> c_direccion [arrowhead=odot];
+  cliente -> c_tel_principal [arrowhead=odot];
+  cliente -> c_tel_alternativo [style=dashed, arrowhead=odot];
+  cliente -> c_celulares [style=dashed, arrowhead=crowodot];
 
-  factura -- f_tipo;
-  factura -- f_numero;
-  factura -- f_fecha;
-  factura -- f_total;
+  f_id [label="identificación compuesta"];
+  f_tipo [label="tipo"];
+  f_numero [label="número"];
+  f_fecha [label="fecha"];
+  f_total [label="importe total [derivado]"];
 
-  p_codigo [shape=ellipse, label=<<U>código</U>>];
-  p_nombre [shape=ellipse, label="nombre"];
-  p_precio [shape=ellipse, label="precio actual"];
+  factura -> f_id [arrowhead=dot];
+  f_id -> f_tipo [arrowhead=odot];
+  f_id -> f_numero [arrowhead=odot];
+  factura -> f_fecha [arrowhead=odot];
+  factura -> f_total [arrowhead=odot];
 
-  producto -- p_codigo;
-  producto -- p_nombre;
-  producto -- p_precio;
+  p_codigo [label="código"];
+  p_nombre [label="nombre"];
+  p_precio [label="precio actual"];
 
-  r_cantidad [shape=ellipse, label="cantidad"];
-  r_precio [shape=ellipse, label="precio de venta"];
+  producto -> p_codigo [arrowhead=dot];
+  producto -> p_nombre [arrowhead=odot];
+  producto -> p_precio [arrowhead=odot];
 
-  contiene -- r_cantidad;
-  contiene -- r_precio;
+  r_cantidad [label="cantidad"];
+  r_precio [label="precio de venta"];
+
+  contiene -> r_cantidad [arrowhead=odot];
+  contiene -> r_precio [arrowhead=odot];
 }

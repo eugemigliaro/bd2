@@ -43,10 +43,14 @@ Fuente editable: [`dere-ejercicio-01.dot`](dere-ejercicio-01.dot).
 
 Leyenda:
 
-- Los atributos subrayados forman el identificador principal.
-- El doble óvalo representa un atributo multivaluado.
-- El óvalo discontinuo representa un atributo derivado.
+- El círculo negro marca un identificador principal y el círculo vacío, un atributo descriptor.
+- La línea continua indica un atributo obligatorio y la discontinua, uno opcional.
+- La bifurcación antes del círculo indica un atributo multivaluado.
+- El identificador compuesto de Factura se ramifica en `tipo` y `numero`.
+- `importeTotal` se etiqueta expresamente como derivado; la fuente define ese origen, pero no le asigna en esas páginas un marcador gráfico específico.
 - `precioVenta` está unido a `contiene`, no a Producto: cada venta conserva su propio precio aunque luego cambie `Producto.precio`. [P01, p. 1]
+
+La representación de atributos sigue la convención visual de la cátedra: atributos colocados junto a la entidad o relación, presencia mediante el tipo de línea, cardinalidad mediante la bifurcación y rol mediante el relleno del círculo. [T02, pp. 9, 14–17, 19]
 
 ## Ejercicio 2
 

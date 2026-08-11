@@ -6,8 +6,12 @@ T04	catedra-teoria	Alteración y actualización de tablas	material/catedra/teori
 T05A	catedra-teoria	Consultas de datos — parte 1	material/catedra/teoria/t05a-consultas-datos-parte-1.pdf	36	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 1.pdf
 T05B	catedra-teoria	Consultas de datos — parte 2	material/catedra/teoria/t05b-consultas-datos-parte-2.pdf	36	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 2.pdf
 T05C	catedra-teoria	Consultas de datos — parte 3	material/catedra/teoria/t05c-consultas-datos-parte-3.pdf	16	2026	vigente	BD2_Clase 05 - Consultas de Datos–Parte 3.pdf
+T06	catedra-teoria	Vistas — parte 1	material/catedra/teoria/t06-vistas-parte-1.pdf	18	2026	vigente	BD2_Clase 06 - Vistas-Parte 1.pdf
+T07	catedra-teoria	Vistas — parte 2	material/catedra/teoria/t07-vistas-parte-2.pdf	22	2026	vigente	BD2_Clase 07 - Vistas-Parte 2(1).pdf
+T08	catedra-teoria	Explicación del plan de ejecución	material/catedra/teoria/t08-explicacion-plan-ejecucion.pdf	22	2026	vigente	BD2_Clase 08 - Explicando el plan(1).pdf
 C01	catedra-clase	Clase I — persistencia políglota, Docker y MySQL	material/catedra/teoria/c01-persistencia-poliglota-docker.pdf	18	2026	vigente	BDD II - Clase I.pdf
 P01	catedra-practica	TP 1 — modelos y diagramas	material/catedra/practica/tp-01-modelos-diagramas.pdf	2	2026	vigente	ITBA TP 1 Modelos_Diagramas.pdf
 P02	catedra-practica	TP 2 — creación de esquemas	material/catedra/practica/tp-02-creates.pdf	2	2026	vigente	ITBA TP 2 Creates.pdf
 P03	catedra-practica	TP 3 — consultas SQL simples	material/catedra/practica/tp-03-sql-simples.pdf	3	2026	vigente	ITBA TP 3 SQL simples.pdf
+P04	catedra-practica	TP 4 — vistas	material/catedra/practica/tp-04-vistas.pdf	3	2026	vigente	ITBA TP 4 Vistas.pdf
 SQL01	catedra-recurso	Esquema y datos de películas	material/catedra/practica/recursos/esq_peliculas.sql	-	2026	vigente	esq_peliculas.sql

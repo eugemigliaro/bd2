@@ -34,3 +34,22 @@ No incluyen respuestas para permitir autoevaluación. Pedile al agente `tomame e
 19. Compará `IN`, `EXISTS` y una subconsulta escalar.
 20. ¿Cómo puede un filtro en `WHERE` convertir de hecho un `LEFT JOIN` en un inner join?
 21. ¿Por qué `NOT IN` puede ser peligroso cuando la subconsulta contiene `NULL`?
+
+## Vistas
+
+22. ¿Qué diferencia hay entre una vista virtual y una vista materializada?
+23. ¿Por qué la preservación de clave es estructural y no depende de los datos actuales?
+24. ¿Qué condiciones caracterizan a una vista σ-π actualizable?
+25. En un ensamble N:1 mediante FK → PK, ¿de qué lado se preserva la clave y por qué?
+26. ¿Cómo cambia el análisis de actualizabilidad entre `INSERT`, `UPDATE` y `DELETE` en MySQL?
+27. Explicá una migración de tupla y cómo la evita `WITH CHECK OPTION`.
+28. Compará `LOCAL` y `CASCADED` en una cadena de dos vistas con predicados distintos.
+
+## Planes de ejecución
+
+29. ¿Qué diferencia operativa existe entre `EXPLAIN` y `EXPLAIN ANALYZE`?
+30. ¿Cómo se lee un árbol de ejecución y qué función cumplen sus nodos hoja?
+31. ¿Qué indica una gran diferencia entre las filas estimadas y las reales?
+32. Compará `Seq Scan`, `Index Scan` e `Index Only Scan`.
+33. ¿Por qué un índice compuesto por `(apellido, nombre)` puede no servir para filtrar solo por `nombre`?
+34. ¿Qué información agrega la opción `BUFFERS` y por qué una única medición temporal puede engañar?

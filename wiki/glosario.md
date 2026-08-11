@@ -10,6 +10,7 @@
 | Cardinalidad mínima | Mínimo de instancias asociadas; 0 expresa opcionalidad y 1 obligatoriedad. | [T02, pp. 27, 33] |
 | Clave extranjera (FK) | Columnas que referencian una clave de otra tabla. | [T03, p. 4] |
 | Clave primaria (PK) | Clave elegida para identificar unívocamente las filas. | [T03, pp. 4, 7] |
+| Costo estimado | Magnitud calculada por el optimizador para comparar planes; no equivale directamente a milisegundos. | [T08, pp. 2, 5, 9] |
 | DDL/LDD | Lenguaje para definir esquemas y restricciones. | [T01, p. 8] |
 | DML/LMD | Lenguaje para consultar o manipular datos. | [T01, p. 8; T04, p. 8] |
 | Dominio | Conjunto de valores admisibles para un atributo. | [T02, p. 14] |
@@ -25,8 +26,14 @@
 | Modelo de datos | Herramientas conceptuales para describir datos, relaciones, semántica y restricciones. | [T01, p. 7] |
 | `NULL` | Ausencia de valor; no equivale a cero ni cadena vacía. | [T05A, p. 15; T05B, p. 24] |
 | Persistencia políglota | Uso conjunto de tecnologías de datos según la necesidad. | [C01, p. 5] |
+| Plan de ejecución | Árbol de operaciones elegido por el optimizador para resolver una sentencia. | [T08, pp. 2–5] |
+| Preservación de clave | Propiedad estructural por la cual cada fila de una tabla aparece a lo sumo una vez en una vista, permitiendo identificar la tabla actualizable. | [T06, p. 11; T07, pp. 4–8] |
 | Relación conceptual | Asociación entre instancias de entidades. | [T02, p. 21] |
 | Relación/tablas | En el modelo relacional, conjunto de tuplas representable como tabla. | [T03, p. 4] |
 | SGBD/DBMS | Datos interrelacionados y programas para acceder y gestionarlos. | [T01, p. 3] |
 | Subconsulta correlacionada | Subconsulta que depende de valores de la fila externa. | [T05B, pp. 17–18] |
 | Tupla | Instancia/fila de una relación. | [T02, p. 3; T03, p. 4] |
+| Vista | Relación derivada definida por una consulta; habitualmente es una tabla virtual no materializada. | [T06, p. 3] |
+| Vista actualizable | Vista cuyo DML puede traducirse sin ambigüedad a operaciones sobre sus relaciones subyacentes. | [T06, pp. 10–12] |
+| Vista materializada | Resultado de una consulta precalculado y almacenado, que debe mantenerse consistente con sus tablas base. | [T07, p. 17] |
+| `WITH CHECK OPTION` | Opción que rechaza cambios cuyo resultado no satisface el predicado controlado por la vista. | [T06, p. 15] |

@@ -1,0 +1,160 @@
+FUENTE: P04
+TITULO: TP 4 — vistas
+ORIGINAL: material/catedra/practica/tp-04-vistas.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                     1
+Base de Datos II - TP 4
+
+
+
+                                            TP N°4 - Vistas
+
+Antes de comenzar, es necesario levantar MySQL en la PC que vayan a utilizar para este práctico.
+
+Ejercicios:
+
+    1.​ A partir del siguiente modelo físico de tablas:
+
+
+
+
+         Cree las siguientes vistas (creando los tablas base previamente) para repasar lo visto en la
+         teoría y determine si las mismas son actualizables o no, indicando la razón:
+
+              a.​ ENVIOS500 con los envíos de 500 unidades o más de algún artículo (a partir de la
+                  tabla ENVIO)
+              b.​ ENVIOS500_999 con los envíos de entre 500 y 999 unidades (a partir de vista
+                  ENVIOS500)
+              c.​ DETALLE_ENVIOS que contenga, para cada envío de más de 500 unidades, la
+                  descripción y el peso del artículo, el nombre del proveedor y la cantidad enviada (a
+                  partir de las tablas PROVEEDOR y ARTICULO, y la vista ENVIOS500)
+
+         Determinar el efecto de las siguientes operaciones sobre la Vista ENVIOS500, considerando
+         si tiene especificada la opción de chequeo (WITH CHECK OPTION) o no:
+
+                            i.​ INSERT INTO ENVIOS500 VALUES (‘P1’, ‘A1’, 500);
+                           ii.​ INSERT INTO ENVIOS500 VALUES (‘P2’, ‘A2’, 300);
+                          iii.​ UPDATE ENVIOS500 SET cantidad=1000 WHERE id_proveedor=’P1’;
+                          iv.​ UPDATE ENVIOS500 SET cantidad=100 WHERE id_proveedor=’P1’;
+
+
+
+
+                                                ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                       2
+Base de Datos II - TP 4
+
+
+    2.​ Dada la siguiente vista:
+
+         CREATE VIEW buenos_proveedores (prov, rub, ciudad ) AS
+         SELECT id_proveedor, rubro, ciudad
+         FROM PROVEEDOR
+         WHERE rubro IN (‘Alimentos’, ‘Agro’, ‘Salud’, ‘Farmacia’)
+         WITH CHECK OPTION;
+
+         Crearla y probar las siguientes transacciones para analizar el comportamiento de la base:
+            a.​ INSERT INTO buenos_proveedores (prov, rub, ciudad) VALUES ('10', 'Farmacia',
+                'Paris');
+            b.​ Volver a ejecutar el INSERT anterior modificando previamente el campo NOMBRE
+                de la tabla PROVEEDOR para que permita nulos
+            c.​ UPDATE buenos_proveedores SET rub = 'Educación' WHERE prov = '10';
+            d.​ INSERT INTO buenos_proveedores (prov, rub, ciudad ) VALUES ('8', 'Deportes',
+                'Roma');
+
+
+    3.​ Utilizando el esquema de películas del TP 3, considere las siguientes sentencias de creación
+        de vistas:
+
+         CREATE VIEW Distribuidor_200 AS
+         SELECT id_distribuidor, nombre, tipo
+         FROM distribuidor
+         WHERE id_distribuidor > 200;
+
+         CREATE VIEW Departamento_dist_200 AS
+         SELECT id_departamento, nombre_departamento, id_ciudad, jefe_departamento
+         FROM departamento
+         WHERE id_distribuidor > 200;
+
+              a.​ Discuta si las vistas son actualizables o no y justifique
+
+              b.​ Considere que la tabla distribuidor tiene las siguientes tuplas:
+
+                  id_distribuidor     nombre                     direccion     telefono        tipo
+
+                  1049                Distribuidor 1049          Doro          7372214-6352    N
+
+                  1050                Distribuidor 1050          Lakhagarh     569842-2643     N
+
+
+                   y que se ha creado la vista:
+
+                   CREATE VIEW Distribuidor_1000 AS
+                   SELECT *
+                   FROM distribuidor
+                   WHERE id_distribuidor > 1000;
+
+                   Si se ejecuta la siguiente sentencia: INSERT INTO Distribuidor_1000 VALUES (1050,
+                   'NuevoDistribuidor 1050', 'Montiel 340', '569842-2643', 'N');
+
+
+
+
+                                                   ITBA - 2026
+
+===== PAGINA 3 =====
+
+                                                                                                          3
+Base de Datos II - TP 4
+
+
+                   Indique y justifique la opción correcta:
+                       ●​ Falla porque la vista no es actualizable
+                       ●​ Falla porque si bien la vista es actualizable viola una restricción de integridad
+                          referencial.
+                       ●​ Falla porque si bien la vista es actualizable viola una restricción de integridad
+                          de unicidad.
+                       ●​ Procede exitosamente
+
+
+    4.​ Utilizando el esquema de películas del TP 3, escriba las sentencias de creación de cada una
+        de las vistas solicitadas e indique si dicha vista es actualizable o no, y si es de
+        Selección-Proyección (σ-π) o Selección-Proyección-Ensamble (σ-π-⋈). Justifique su
+        respuesta.
+
+              a.​ Cree una vista EMPLEADO_DIST_20 que liste el id_empleado, nombre, apellido,
+                  sueldo y fecha_nacimiento de los empleados que pertenecen al distribuidor cuyo
+                  identificador es 20
+              b.​ Sobre la vista EMPLEADO_DIST_20 cree la vista EMPLEADO_DIST_20_80 con
+                  aquellos empleados que han nacido en la década del 80 (entre los años 1980 y 1989)
+              c.​ Analice cuáles serían los controles y el comportamiento ante actualizaciones sobre
+                  las vistas creadas anteriormente si están definidas con WITH CHECK OPTION
+                  LOCAL o CASCADE en cada una de ellas. Evalúe todas las alternativas
+              d.​ Cree una vista PELICULAS_ENTREGADAS que contenga el código de cada
+                  película y la cantidad de unidades entregadas
+              e.​ Cree una vista DISTRIBUIDORAS_NACIONALES con los datos completos de las
+                  distribuidoras nacionales (incluya nro_incripcion y encargado)
+
+
+    5.​ Para las siguientes vistas de ensamble definidas debajo indique:
+           a.​ ¿A qué tipo de vista (Caso 1, 2 o 3) según la ubicación de la FK, corresponde cada
+                una?
+           b.​ Indique cuál es la clave preservada en cada caso y de qué tabla proviene
+
+         CREATE VIEW CIUDAD_KP_1 AS
+         SELECT id_ciudad, nombre_ciudad, C.id_pais, nombre_pais
+         FROM ciudad C NATURAL JOIN pais P;
+
+         CREATE VIEW ENTREGAS_KP_2 AS
+         SELECT nro_entrega, re.codigo_pelicula, cantidad, titulo
+         FROM renglon_entrega re NATURAL JOIN pelicula P;
+
+
+
+
+                                                  ITBA - 2026

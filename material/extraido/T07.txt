@@ -1,0 +1,341 @@
+FUENTE: T07
+TITULO: Vistas — parte 2
+ORIGINAL: material/catedra/teoria/t07-vistas-parte-2.pdf
+
+===== PAGINA 1 =====
+
+Bases de Datos II
+
+          Vistas
+            Parte 2
+
+===== PAGINA 2 =====
+
+                                      Vistas
+• Forman parte del esquema externo
+   – presentan una parte de la BD de interés para grupos de usuarios
+   – ocultando el resto de la información
+• Relación derivada de una o más tablas y/o vistas definidas
+  previamente
+• Tabla virtual (habitualmente no materializada)
+           CREATE VIEW nom_vista [(n_col_1, …, n_col_n)]
+           AS expresión_consulta
+           [WITH [opción] CHECK OPTION];
+
+      •   nom_vista: nombre de la vista
+      •   n_col_1,..., n_col_n: nombres de columnas de la vista
+      •   expresión_consulta: consulta SQL que define la relación derivada
+      •   opción: cascade/local
+
+===== PAGINA 3 =====
+
+             Actualizaciones en Vistas
+• Las vistas no mantienen COPIAS de los datos → cuando se
+  modifica una vista, se están modificando las tablas base
+Actualización Tabla Base → Vista
+• Al actualizar las tuplas de una tabla → los cambios se reflejan
+  automáticamente sobre las vistas (si no se violan restricciones!)
+Actualización Vista → Tabla Base
+• Para que resulten automáticamente actualizables deben cumplir
+  ciertas condiciones → Cuándo es posible sin ambigüedades?
+   o Si no afecta más de una tabla o, si deriva de más de una tabla, la
+     actualización afecta sólo a una (la que preserva la clave)
+   o Si no contiene columnas con información derivada o funciones de
+     grupo o clásula distinct, subconsultas en el select u operaciones de
+     conjunto
+   o Si no causa error afectando atributos que no tienen valores por
+     defecto definidos o que no aceptan nulos o que activan RI asociadas
+   o Si verifica la condición, si se especificó with check option
+
+===== PAGINA 4 =====
+
+                            Vistas Actualizables
+                           (a partir de 2 o más tablas/vistas)
+
+
+Según el estándar SQL:1999, la actualización sobre una vista
+definida a partir de más de una tabla/vista(*)
+→ sólo puede modificar una de las tablas base: la que cumpla la
+  propiedad de preservación de la clave (la que tiene la misma clave de
+  la vista, y entonces aparece a lo sumo una vez en la vista)
+•   No debe definirse en base a Unión, Intersección o Diferencia
+    (Manifiestos para SQL:1999 y versiones posteriores → incluir otras operaciones, por ej. Intersección)
+
+•   Se denominan vistas σ- π-⋈: se obtienen mediante condiciones de
+    ensamble sobre los pares FK → PK especificados en las RIRs
+• La actualización no se realizará si se viola alguna restricción definida
+  sobre la relación base a actualizar
+
+    (*) Puede ser otra vista, que en este caso debe ser actualizable.
+    Si T→ V1→ V2→ … →Vn: Vi será actualizable si Vi-1 lo es y así sucesivamente
+
+===== PAGINA 5 =====
+
+                   Comentarios sobre RIRs
+Posibles ubicaciones de la FK en relación al esquema de la relación:
+            atributos clave   atributos secundarios
+
+
+
+
+(1) FK ≡ K → procede de la representación de relaciones de tipo-subtipo
+(2) FK ≡ Z1,.., Zr (atrib. secundarios); con FK ∩ K = ∅ → proviene de la
+    abstracción de relaciones 1:1, N:1 o n-arias con al menos una cardinalidad 1
+(3) FK ≡ K1,.., Kq ; con FK ⊂ K→ resulta de las relaciones N:N, n-arias en
+    general y las correspondientes a los vínculos entidad fuerte-entidad débil (rel.
+    identificatorias)
+
+===== PAGINA 6 =====
+
+                      Vistas Actualizables
+                     (a partir de 2 o más tablas/vistas)
+
+Caso (2): más intuitivo→ Ensamble mediante RIR, FK= atrib. secundarios
+
+
+       Vista ensamble proveniente de relación N:1
+
+     CREATE VIEW EMPL_SISTEMAS AS
+     SELECT E.id_empleado, E.apellido, E.id_dpto, D.nombre
+     FROM DEPARTAMENTO D, EMPLEADO E
+     WHERE D.id_dpto = E.id_dpto
+       AND D.nombre= „Sistemas‟;
+
+  La clave de EMPL_SISTEMAS es E.id_empleado
+  (análisis de dependencias funcionales)
+  Nota: Aunque en la vista hubiera sólo un empleado en cada
+  departamento – y entonces id_dpto sería único– igualmente la
+  tabla Departamento NO sería de la cual se preserva la clave!
+  (no depende de los datos sino de la estructura del esquema)
+
+===== PAGINA 7 =====
+
+                     Vistas Actualizables
+                    (a partir de 2 o más tablas/vistas)
+
+Caso (3): Ensamble mediante RIR, FK ⊂ K (subconjunto
+                                   de los atrib. clave)
+
+      Vista ensamble proveniente de relación N:N
+
+ CREATE VIEW EMPL_PROY AS
+  SELECT T.id_empleado, T.id_proyecto, T.tarea, E.apellido
+  FROM TRABAJA T, EMPLEADO E
+  WHERE T.id_empleado = E.id_empleado
+    AND E.cantidad_horas <3000;
+
+
+ La clave de EMPL_PROY es T.id_empleado, T.id_proyecto
+ (análisis de dependencias funcionales)
+
+===== PAGINA 8 =====
+
+                      Vistas Actualizables
+                     (a partir de 2 o más tablas/vistas)
+
+Caso (1): Ensamble mediante RIR, FK ≡ K (coincide con la clave)
+
+
+      Vista ensamble correspondiente a relación
+      tipo-subtipo
+      CREATE VIEW ING_TANDIL AS
+      SELECT I.id_empleado, I.titulo, E.apellido, E.nombre
+      FROM INGENIERO I, EMPLEADO E
+      WHERE I.id_empleado = E.id_empleado
+        AND E.ciudad = „Tandil‟;
+
+ La clave de ING_TANDIL es I.id_empleado (tabla subtipo)
+ Nota: En la vista Empleado e Ingeniero se corresponden con
+ sólo una persona, o sea que id_empleado es único en la vista
+ (resultado del ensamble), pero Empleado no sería la tabla de la
+ cual se preserva la clave (porque es esperable que su dominio
+ de definición sea más extenso)
+
+===== PAGINA 9 =====
+
+Ejemplo
+
+===== PAGINA 10 =====
+
+
+
+===== PAGINA 11 =====
+
+          Vistas – Actualización vía Triggers
+• Recurso que permite la actualización de vistas que no son
+  automáticamente actualizables
+
+    →   Definir triggers INSTEAD OF (opción especial para vistas)
+        para las distintas operaciones requeridas (eventos críticos)
+    →   Se pueden “interceptar” las operaciones de actualización:
+        el trigger se dispara automáticamente en lugar de la sentencia
+        disparadora, en forma “invisible” para el usuario
+    →   Por defecto, los triggers INSTEAD OF son for each row
+
+• Importante: Queda en manos del usuario la responsabilidad de
+  implementar las actualizaciones necesarias y de la manera que las
+  considere “adecuadas”
+
+===== PAGINA 12 =====
+
+           Vistas – Actualización vía Triggers
+         CREATE VIEW info_tutores (nro_al, nom_al, id_tutor, nom_tut)
+          AS SELECT A.nro_al, A.nombre, A.id_tutor, P.nombre
+             FROM Alumno A JOIN Profesor P
+             ON A.Id_tutor = P.id_prof;               Alumno (nro_al, nombre, id_tutor)
+Una posible semántica para el insert sobre            Profesor (id_prof, nombre)
+info_tutores podría ser:
+(no significa que sea la única, dependerá de los
+requerimientos)
+                                                                                        sintaxis SQL
+ CREATE TRIGGER insert_info_tutores
+                                                                                            estándar
+ INSTEAD OF INSERT ON info_tutores
+ FOR EACH ROW
+ BEGIN
+   IF NOT EXISTS (SELECT * FROM Alumno A WHERE A.nro_al= :new.nro_al)
+    THEN INSERT INTO Alumno VALUES(:new.nro_al, :new.nom_al, :new.id_tutor);
+    ELSE UPDATE Alumno SET id_tutor= :new.id_tutor WHERE nro_al= :new.nro_al;
+   END IF;
+   IF NOT EXISTS (SELECT * FROM Profesor P WHERE P.id_prof= :new.id_tutor)
+    THEN INSERT INTO Profesor VALUES (:new.id_tutor, :new.nom_tut);
+    ELSE UPDATE Profesor SET nombre= :new.nom_tut WHERE id_prof= :new.id_tutor;
+   END IF;
+                    Deberían plantearse triggers similares para las operaciones de UPDATE y DELETE
+ END;
+                  (en PostgreSQL la función podría implementar el comportamiento para todos los eventos)
+
+===== PAGINA 13 =====
+
+            Vistas Actualizables en MySQL
+
+Una vista en MySQL no es actualizable si:
+■   Contiene funciones de agregación
+■   DISTINCT
+■   GROUP BY
+■   HAVING
+■   Usa UNION o UNION ALL
+■   Usa subconsultas en el select
+■   Subconsultas independendientes en el select (solo falla el INSERT)
+■   ENSAMBLES (joins)
+■   Referencia una vista no actualizable en el FROM
+■   Subconsulta en el WHERE que referencia a una tabla en el FROM
+■   Referencia solo a valores literales only to literal values (sin tabla subyacente para actualizar)
+■   ALGORITHM = TEMPTABLE (use of a temporary table always makes a view nonupdatable)
+■   Multiple referencias a cualquier columna de una tabla base (falla en INSERT, ok para
+    UPDATE y DELETE)
+
+===== PAGINA 14 =====
+
+Vistas Actualizables en MySQL (insert)
+
+===== PAGINA 15 =====
+
+Vistas Actualizables en MySQL (update)
+
+===== PAGINA 16 =====
+
+Vistas Actualizables en MySQL (delete)
+
+===== PAGINA 17 =====
+
+                       Vistas Materializadas
+•   Algunas aplicaciones pueden requerir alto grado de respuesta por parte
+    de la BD (no siendo suficiente la optimización de la/s consulta/s)
+
+•   Una vista puede ser materializada
+    • el SGBD pre-calcula y almacena su contenido (físicamente, como
+      sucede con una tabla)
+    • Puede ser usada como si fuera una relación común (incluso crear
+      índices para mejorar la performance de consultas)
+    • Se genera duplicación de datos y necesidad de mantener la
+      consistencia respecto del contenido de las tablas base
+•   Cuestiones a evaluar:
+    • ¿Qué vistas deberían materializarse? (decisión compleja)
+    • ¿Cómo debe ser la sincronización entre vistas materializadas y tablas
+      base?
+      − Aplicar actualización por regeneración de la vista? o incremental?
+      − En forma inmediata (al darse algún cambio)? periódicamente? forzado?
+
+===== PAGINA 18 =====
+
+                         Vistas - Ventajas
+• Simplifican la percepción que los usuarios tienen de la BD,
+  presentando la información necesaria y ocultando el resto
+• Presentan diferentes datos a distinto tipo de usuarios, aún
+  cuando los estén compartiendo (sobre la misma BD)
+• Permiten definir consultas complejas/frecuentes para no tener
+  que especificarlas cada vez que se utilizan
+• Facilitan la independencia de los datos (ocultando a los
+  usuarios cambios en la estructura en las tablas base)
+• Permiten aplicar políticas de seguridad (privacidad): dando
+  privilegios selectivamente sobre distintas vistas (control de
+  acceso)
+ o Vistas sobre algunas columnas, ocultando otras reservadas para usuarios
+   específicos (ej. antecedentes penales)
+ o Vistas sobre determinadas filas, ocultando otras reservadas para usuarios
+   específicos (ej. películas no aptas para público infantil)
+
+===== PAGINA 19 =====
+
+                   Vistas - Desventajas
+
+• Actualizaciones VISTA → Tabla BASE restringidas: hay varias
+  limitaciones sobre la estructura de las vistas para asegurar que
+  resulten automáticamente actualizables (debido a posibles
+  anomalías)
+
+• Cuestiones de Rendimiento: el proceso de resolución de la
+  vista puede exigir el acceso a múltiples tablas cada vez que se
+  accede a ella → evaluar si podría justificarse su materialización
+  (técnicas de mantenimiento de vistas)
+
+• Necesidad de sincronización en caso de vistas materializadas
+  (y duplicación de datos)
+
+• Modificaciones a la estructura de tablas base (ej. agregado de
+  columnas) no serán advertidos por la vista, salvo que sea re-creada
+
+===== PAGINA 20 =====
+
+Vistas Materializadas
+
+===== PAGINA 21 =====
+
+          Vistas Materializadas - PostgreSQL
+
+
+CREATE MATERIALIZED VIEW view_name
+AS query
+WITH [NO] DATA;
+
+•   view_name is the name of your materialized view in Postgres
+•   query is that complex query that supplies the data for our materialized view
+•   WITH DATA/ WITH NO DATA is the parameter that specifies if the query has to load the data (the
+    query results) at once during the object creation. If we need it while creating a Postgres materialized
+    view, we specify the WITH DATA parameter. If not – use the WITH NO DATA one.
+
+
+
+
+                    CREATE MATERIALIZED VIEW alumnos_2017
+                    AS select * from alumno where añoDeIngreso=2017
+                    WITH LOCAL CHECK OPTION
+                    WITH DATA;
+
+===== PAGINA 22 =====
+
+                                             BIBLIOGRAFÍA
+
+
+Date, C., “An Introduction to Database Systems”. 8º ed., Addison Wesley,
+2004
+
+Elmasri, R., Navathe, S., “Fundamentals of Database Systems”, Addison
+Wesley, 2011 (Cap. 5)
+
+Ramakrishnan R., Gehrke J., “Database Management Systems”, 3° ed. ,
+McGraw-Hill, 2003 (Cap. 3 y 25)
+
+Silberschatz, A., Korth, H, Sudarshan, S., “Database System Concepts”,
+McGraw Hill, 2001 (Cap. 4)

@@ -12,6 +12,8 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 6. [Nulos y lógica trivaluada](temas/06-nulos-y-logica-trivaluada.md)
 7. [Persistencia políglota, Docker y entorno](temas/07-persistencia-poliglota-y-docker.md)
 8. [Dialectos SQL presentes en el material](temas/08-dialectos-sql.md)
+9. [Vistas](temas/09-vistas.md)
+10. [Planes de ejecución](temas/10-planes-de-ejecucion.md)
 
 ## Referencias rápidas
 
@@ -20,6 +22,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Preguntas de repaso](repaso/preguntas.md)
 - [Guías prácticas](../practica/README.md)
 - [Esquema de películas](../material/figuras/P03-p1-esquema-peliculas.png)
+- [Esquema de envíos del TP 4](../material/figuras/P04-p1-esquema-envios.png)
 
 ## Cobertura actual
 
@@ -32,3 +35,5 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | SELECT, filtros, agregación | T05A, T05C, P03 | Curado |
 | Joins, subconsultas y nulos | T05B | Curado |
 | Persistencia políglota y Docker | C01 | Curado |
+| Vistas y actualizabilidad | T06, T07, P04 | Curado; capturas visuales revisadas y esquema de P04 extraído |
+| Planes de ejecución | T08 | Curado; ejemplos específicos de PostgreSQL |

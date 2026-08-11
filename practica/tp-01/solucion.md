@@ -114,8 +114,66 @@ Leyenda:
 
 ### Supuestos
 
+- La empresa de transportes y la provincia de Buenos Aires delimitan el alcance, pero no se modelan como entidades porque la consigna no requiere almacenar datos propios sobre ellas.
+- Se adopta `DNI` como identificador principal de Camionero, `codigo` como identificador de Paquete y Ciudad, y `matricula` como identificador de Camión.
+- Solo se registran paquetes efectivamente transportados: cada paquete tiene exactamente un camionero y una ciudad de destino.
+- La frase “un camionero distribuye muchos paquetes” se interpreta como participación obligatoria: cada camionero registrado distribuye al menos uno.
+- Una ciudad puede no tener todavía paquetes destinados a ella y puede no tener camioneros residentes.
+- Todo camionero vive en exactamente una ciudad.
+- Conducir es opcional en ambos sentidos: puede haber camioneros o camiones sin una conducción todavía registrada.
+- Cada instancia de `conduce` posee una fecha obligatoria, que indica cuándo ese camionero condujo ese camión.
+- `direccion` de Camionero y `direccionDestinatario` de Paquete se conservan como atributos simples porque la consigna no enumera componentes.
+
+Los mínimos anteriores explicitan decisiones necesarias donde la consigna usa expresiones como “puede”. Si el sistema también registrara paquetes todavía no asignados, el mínimo de Camionero respecto de Paquete debería cambiar de `1` a `0`; esa etapa del ciclo de vida queda fuera del alcance adoptado. [P01, p. 2]
+
+### Razonamiento de las decisiones
+
+1. **Elección de entidades.** Camionero, Paquete, Ciudad y Camión tienen identidad propia, atributos homogéneos y existencia relevante para el sistema, por lo que se modelan como entidades fuertes. La empresa y la provincia solo fijan el contexto. [T02, pp. 8, 10–13]
+2. **Ciudad se reutiliza.** La ciudad donde vive un camionero no se guarda como texto dentro de Camionero: se relaciona con la misma entidad Ciudad usada como destino de los paquetes. Esto evita representar dos veces el mismo concepto y permite que una ciudad participe con roles diferentes.
+3. **Destinatario queda como atributo.** La consigna únicamente pide su nombre y dirección dentro del paquete; no le asigna identificador ni otras relaciones. Convertirlo en entidad agregaría complejidad sin una necesidad expresada. Se sigue así el consejo de mantener el DERE simple. [P01, pp. 1–2]
+4. **Distribución es 1:N.** Un camionero puede distribuir muchos paquetes, pero cada paquete transportado corresponde a un solo camionero. La relación binaria representa esa asociación sin copiar el DNI dentro de Paquete en el nivel conceptual.
+5. **Destino es 1:N.** Cada paquete llega a una única ciudad y una ciudad puede recibir muchos paquetes; ambas entidades siguen existiendo independientemente.
+6. **Conducción es N:N y temporal.** Un camionero puede conducir varios camiones y un camión puede ser conducido por varios camioneros. `fecha` describe cada asociación y por eso es atributo de `conduce`, no de Camionero ni de Camión. Las relaciones pueden tener atributos propios. [T02, pp. 21, 23–24]
+7. **Se prefieren relaciones binarias.** `vive en`, `distribuye`, `llega a` y `conduce` expresan hechos independientes; no es necesaria una relación ternaria. Esto sigue el método recomendado por la cátedra. [T02, p. 36; P01, p. 1]
+
 ### Entidades, relaciones y atributos
+
+| Elemento | Atributos | Observaciones |
+|---|---|---|
+| **Camionero** | `DNI`, `nombre`, `telefono`, `direccion`, `salario` | `DNI` es el identificador principal. La ciudad se representa mediante `vive en`. |
+| **Paquete** | `codigo`, `descripcion`, `destinatario`, `direccionDestinatario` | `codigo` es el identificador principal. |
+| **Ciudad** | `codigo`, `nombre` | `codigo` es el identificador principal. |
+| **Camión** | `matricula`, `modelo`, `tipo`, `potencia` | `matricula` es el identificador principal. |
+| **distribuye** | — | Relación 1:N entre Camionero y Paquete. |
+| **llega a** | — | Relación 1:N entre Ciudad y Paquete. |
+| **vive en** | — | Relación 1:N entre Ciudad y Camionero. |
+| **conduce** | `fecha` | Relación N:N entre Camionero y Camión. |
+
+Los atributos indicados por la consigna se consideran obligatorios porque no se declara su opcionalidad. Los identificadores se representan mediante círculo negro y los descriptores mediante círculo vacío, conforme a la notación de la cátedra. [T02, pp. 14–19; P01, p. 2]
 
 ### Cardinalidades expresadas en lenguaje natural
 
+- Cada **Camionero** distribuye entre uno y muchos **Paquetes**.
+- Cada **Paquete** es distribuido obligatoriamente por un único **Camionero**.
+- Cada **Paquete** llega obligatoriamente a una única **Ciudad**.
+- Cada **Ciudad** puede recibir entre cero y muchos **Paquetes**.
+- Cada **Camionero** vive obligatoriamente en una única **Ciudad**.
+- Cada **Ciudad** puede tener entre cero y muchos **Camioneros** residentes.
+- Cada **Camionero** puede conducir entre cero y muchos **Camiones**.
+- Cada **Camión** puede ser conducido por entre cero y muchos **Camioneros**.
+
+En notación *look-across*, cada par se escribe sobre la línea del lado de la entidad destino. [T02, pp. 26–27, 31–33]
+
 ### Diagrama
+
+![DERE del ejercicio 3](dere-ejercicio-03.svg)
+
+Fuente editable: [`dere-ejercicio-03.dot`](dere-ejercicio-03.dot).
+
+Leyenda:
+
+- Los rectángulos representan entidades y los rombos, relaciones.
+- El círculo negro marca el identificador principal y el círculo vacío, un atributo descriptor.
+- Las líneas de atributos son continuas porque la consigna no declara atributos opcionales.
+- `fecha` está conectada a `conduce` porque caracteriza la conducción de un camión por un camionero.
+- Las cardinalidades siguen la lectura *look-across* de la materia. [T02, pp. 9, 14–19, 26]

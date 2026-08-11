@@ -2,7 +2,7 @@
 
 - Fuente: [P01](../../material/catedra/practica/tp-01-modelos-diagramas.pdf)
 - Apunte: [modelo entidad–relación](../../wiki/temas/02-modelo-entidad-relacion.md)
-- Estado: en progreso; ejercicios 1 y 2 resueltos, ejercicio 3 pendiente
+- Estado: completo; ejercicios 1, 2 y 3 resueltos
 
 ## Ejercicios
 

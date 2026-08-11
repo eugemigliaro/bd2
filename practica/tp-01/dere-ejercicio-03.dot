@@ -1,0 +1,81 @@
+digraph dere_ejercicio_03 {
+  graph [
+    label="TP 1 — Ejercicio 3 — DERE de la empresa de transportes"
+    labelloc=t
+    fontsize=20
+    fontname="Arial"
+    bgcolor="white"
+    rankdir=LR
+    nodesep=0.42
+    ranksep=1.05
+    splines=polyline
+    pad=0.3
+  ];
+
+  node [fontname="Arial", fontsize=12, color="#334155", penwidth=1.4];
+  edge [fontname="Arial", fontsize=11, color="#475569", penwidth=1.2];
+
+  camionero [shape=box, style=filled, fillcolor="#dbeafe", label="CAMIONERO"];
+  paquete [shape=box, style=filled, fillcolor="#dcfce7", label="PAQUETE"];
+  ciudad [shape=box, style=filled, fillcolor="#fef3c7", label="CIUDAD"];
+  camion [shape=box, style=filled, fillcolor="#fee2e2", label="CAMIÓN"];
+
+  distribuye [shape=diamond, style=filled, fillcolor="#f1f5f9", label="distribuye"];
+  llega [shape=diamond, style=filled, fillcolor="#f1f5f9", label="llega a"];
+  vive [shape=diamond, style=filled, fillcolor="#f1f5f9", label="vive en"];
+  conduce [shape=diamond, style=filled, fillcolor="#f1f5f9", label="conduce"];
+
+  camionero:n -> distribuye:sw [dir=none, taillabel="(1,1)", labeldistance=2.4, labelangle=50];
+  distribuye -> paquete [dir=none, headlabel="(1,N)", labeldistance=1.8, labelangle=25];
+  paquete -> llega [dir=none, taillabel="(0,N)", labeldistance=1.8, labelangle=25];
+  llega -> ciudad [dir=none, headlabel="(1,1)", labeldistance=1.8, labelangle=25];
+
+  camionero:ne -> vive:sw [dir=none, taillabel="(0,N)", labeldistance=3.0, labelangle=0];
+  vive -> ciudad [dir=none, headlabel="(1,1)", labeldistance=1.8, labelangle=-25];
+
+  camionero:e -> conduce:sw [dir=none, taillabel="(0,N)", labeldistance=2.4, labelangle=-50];
+  conduce -> camion [dir=none, headlabel="(0,N)", labeldistance=1.8, labelangle=-25];
+
+  node [shape=plaintext, margin=0, color="#334155"];
+
+  ca_dni [label="DNI"];
+  ca_nombre [label="nombre"];
+  ca_telefono [label="teléfono"];
+  ca_direccion [label="dirección"];
+  ca_salario [label="salario"];
+
+  camionero -> ca_dni [arrowhead=dot];
+  camionero -> ca_nombre [arrowhead=odot];
+  camionero -> ca_telefono [arrowhead=odot];
+  camionero -> ca_direccion [arrowhead=odot];
+  camionero -> ca_salario [arrowhead=odot];
+
+  p_codigo [label="código"];
+  p_descripcion [label="descripción"];
+  p_destinatario [label="destinatario"];
+  p_direccion [label="dirección del destinatario"];
+
+  paquete -> p_codigo [arrowhead=dot];
+  paquete -> p_descripcion [arrowhead=odot];
+  paquete -> p_destinatario [arrowhead=odot];
+  paquete -> p_direccion [arrowhead=odot];
+
+  ci_codigo [label="código"];
+  ci_nombre [label="nombre"];
+
+  ciudad -> ci_codigo [arrowhead=dot];
+  ciudad -> ci_nombre [arrowhead=odot];
+
+  co_matricula [label="matrícula"];
+  co_modelo [label="modelo"];
+  co_tipo [label="tipo"];
+  co_potencia [label="potencia"];
+
+  camion -> co_matricula [arrowhead=dot];
+  camion -> co_modelo [arrowhead=odot];
+  camion -> co_tipo [arrowhead=odot];
+  camion -> co_potencia [arrowhead=odot];
+
+  r_fecha [label="fecha"];
+  conduce -> r_fecha [arrowhead=odot];
+}

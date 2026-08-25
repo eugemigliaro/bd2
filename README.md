@@ -48,7 +48,7 @@ La política completa para agentes está en [AGENTS.md](AGENTS.md). El catálogo
 
 ## MySQL local
 
-El laboratorio usa MySQL 9.7.1, la versión publicada más cercana a la 9.7.2 indicada por la Clase I, y credenciales exclusivamente locales. Requiere Docker con Compose; la diferencia de versión está documentada en la wiki.
+El laboratorio usa MySQL 9.7.2, la versión indicada por la Clase I, y credenciales exclusivamente locales. Requiere Docker con Compose.
 
 ```bash
 cp .env.example .env

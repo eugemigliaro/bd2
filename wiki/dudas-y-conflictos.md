@@ -5,9 +5,9 @@ Este registro evita resolver silenciosamente diferencias entre fuentes, notas y 
 ## Versión de MySQL de Clase I
 
 - **Fuente:** C01 indica `mysql:9.7.2` y `docker pull mysql:9.7.2`. [C01, p. 15]
-- **Verificación externa al 2026-08-04:** las notas oficiales de MySQL marcan 9.7.2 como todavía no publicada; Docker Official Image ofrece 9.7.1 y la etiqueta móvil 9.7.
-- **Decisión del repo:** fijar `mysql:9.7.1`, versión publicada de la misma serie de innovación, para que el laboratorio sea reproducible.
-- **Revisar:** cuando la cátedra confirme una versión o 9.7.2 sea publicada.
+- **Verificación externa al 2026-08-22:** MySQL 9.7.2 fue publicado el 2026-07-28 y la imagen oficial ofrece la etiqueta `mysql:9.7.2` para `amd64` y `arm64`.
+- **Decisión actual del repo:** fijar `mysql:9.7.2`, alineando el laboratorio con la versión indicada por la cátedra.
+- **Corrección:** se retira la decisión anterior de usar 9.7.1; la afirmación de que 9.7.2 no estaba publicada al 2026-08-04 quedó invalidada por la información oficial.
 
 Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.com/doc/relnotes/mysql/9.7/en/) y [imagen oficial de MySQL en Docker Hub](https://hub.docker.com/_/mysql).
 

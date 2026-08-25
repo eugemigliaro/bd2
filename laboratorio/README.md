@@ -1,6 +1,6 @@
 # Laboratorio local
 
-El laboratorio levanta MySQL 9.7.1 con Docker Compose. Se eligió esa versión publicada porque Clase I menciona 9.7.2, todavía no disponible al preparar el repo; la decisión está registrada en la [wiki](../wiki/dudas-y-conflictos.md).
+El laboratorio levanta MySQL 9.7.2 con Docker Compose, la versión indicada por la Clase I. [C01, p. 15]
 
 ## Uso
 

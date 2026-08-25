@@ -17,7 +17,7 @@ La cátedra propone Docker como una de las formas de levantar MySQL y permite co
 
 ## Entorno de este repositorio
 
-El archivo `compose.yaml` fija MySQL `9.7.1`, crea la base `mydb` y carga el esquema de películas al inicializar un volumen vacío. La presentación solicita `9.7.2`, pero esa versión todavía no tenía una imagen publicada al preparar el repo; ver [dudas y conflictos](../dudas-y-conflictos.md).
+El archivo `compose.yaml` fija MySQL `9.7.2`, crea la base `mydb` y carga el esquema de películas al inicializar un volumen vacío. Es la versión indicada por la Clase I. [C01, p. 15]
 
 ```bash
 cp .env.example .env

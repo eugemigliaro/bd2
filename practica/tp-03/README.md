@@ -4,7 +4,7 @@
 - Esquema visual: [películas](../../material/figuras/P03-p1-esquema-peliculas.png)
 - DDL y datos: [SQL01](../../material/catedra/practica/recursos/esq_peliculas.sql)
 - Apuntes: [consultas SQL](../../wiki/temas/05-consultas-sql.md) y [nulos](../../wiki/temas/06-nulos-y-logica-trivaluada.md)
-- Estado inicial: pendiente
+- Estado: completo; ejercicios a–k resueltos y ejecutados en MySQL
 
 Los ejercicios `a`–`k` trabajan selección, filtros, `DISTINCT`, orden, concatenación, fechas, nulos y agrupamiento. [P03, pp. 2–3]
 

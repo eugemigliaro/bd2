@@ -45,3 +45,8 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 
 - La unidad usa comandos, catálogo, parámetros y planes de PostgreSQL, aunque el motor relacional de trabajo del repositorio es MySQL. [T08, pp. 1–10; C01, pp. 15–17]
 - **Decisión:** incorporar su método de lectura y diagnóstico, pero adaptar y verificar cualquier comando antes de ejecutarlo en MySQL.
+
+## TP4: clave proyectada y chequeos encadenados
+
+- La regla de cátedra exige conservar todas las columnas de la PK. [T06, p. 12] En el laboratorio MySQL 9.7.2, `Departamento_dist_200` figura con `IS_UPDATABLE = YES` aunque omite parte de la PK. **Decisión:** distinguir el criterio teórico de las posibilidades por operación del motor; no presentar la falta de PK proyectada como prohibición universal de UPDATE.
+- T06 resume LOCAL como control del predicado propio. [T06, p. 15] Complemento del agente (no consta en el material cargado): MySQL mantiene además los chequeos propios de las vistas inferiores; LOCAL no los desactiva. Véase el [manual oficial](https://dev.mysql.com/doc/refman/5.7/en/view-check-option.html), reglas desde 5.7.6. **Decisión:** explicitar ese alcance en la [matriz del TP4](../practica/tp-04/solucion.md), sin atribuir el detalle a las diapositivas.

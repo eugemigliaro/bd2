@@ -15,3 +15,19 @@ P02	catedra-practica	TP 2 — creación de esquemas	material/catedra/practica/tp
 P03	catedra-practica	TP 3 — consultas SQL simples	material/catedra/practica/tp-03-sql-simples.pdf	3	2026	vigente	ITBA TP 3 SQL simples.pdf
 P04	catedra-practica	TP 4 — vistas	material/catedra/practica/tp-04-vistas.pdf	3	2026	vigente	ITBA TP 4 Vistas.pdf
 SQL01	catedra-recurso	Esquema y datos de películas	material/catedra/practica/recursos/esq_peliculas.sql	-	2026	vigente	esq_peliculas.sql
+T09	catedra-teoria	Restricciones de integridad — parte 1	material/catedra/teoria/t09-restricciones-integridad-parte-1.pdf	39	2026	vigente	BD2_Clase 09 - Restricciones integridad-Parte 1.pdf
+T10	catedra-teoria	SQL procedural: triggers y stored procedures	material/catedra/teoria/t10-sql-procedural.pdf	20	2026	vigente	BD2_Clase 10 - Restricciones integridad-Parte 2.pdf
+T11	catedra-teoria	Seguridad y transacciones	material/catedra/teoria/t11-seguridad-transacciones.pdf	38	2026	vigente	BD2_Clase 11 - Seguridad-Transacciones.pdf
+T12	catedra-teoria	Recovery en bases de datos relacionales: WAL en PostgreSQL y MySQL	material/catedra/teoria/t12-recovery-wal-postgresql-mysql.pdf	14	2026	vigente	Recovery_WAL_PostgreSQL_MySQL.pptx.pdf
+P05	catedra-practica	TP 5 — planes de ejecución	material/catedra/practica/tp-05-planes-ejecucion.pdf	3	2026	vigente	ITBA TP 5 Explain Plan.pdf
+P05A	catedra-recurso	Datos de materias para el TP 5	material/catedra/practica/recursos/tp-05-materia.csv	-	2026	vigente	materia.csv
+P05B	catedra-recurso	Datos de inscriptos para el TP 5	material/catedra/practica/recursos/tp-05-inscripto.csv	-	2026	vigente	inscripto.csv
+P06	catedra-practica	TP 6 — restricciones declarativas	material/catedra/practica/tp-06-restricciones-declarativas.pdf	5	2026	vigente	ITBA TP 6 Restricciones Declarativas.pdf
+P06A	catedra-recurso	Ejercicio de restricciones sobre cuentas bancarias	material/catedra/practica/recursos/p06-ejercicio-rir-cuentas.png	-	2026	vigente	Ejercicio 1 - RIR.png
+P06B	catedra-recurso	Ejercicio de restricción global sobre asignaciones	material/catedra/practica/recursos/p06-ejercicio-rir-asignaciones.png	-	2026	vigente	Ejercicio 2 - RIR.png
+P07	catedra-practica	TP 7 — restricciones avanzadas	material/catedra/practica/tp-07-restricciones-avanzadas.pdf	2	2026	vigente	ITBA TP 7 Restricciones Avanzadas.pdf
+P08	catedra-practica	TP 8 — seguridad	material/catedra/practica/tp-08-seguridad.pdf	3	2026	vigente	ITBA TP 8 Seguridad.pdf
+P08A	catedra-recurso	Ejemplo de grafo de permisos	material/catedra/practica/recursos/p08-ejemplo-grafo-permisos.png	-	2026	vigente	ejemplo Seguridad BD.png
+P09	catedra-practica	Ejercicio de stored procedures: registro de entregas	material/catedra/practica/p09-ejercicio-stored-procedure.pdf	3	2026	vigente	Ejercicio_Stored_Procedure_BDII.pdf
+SQL02	catedra-recurso	Implementación MySQL del ejercicio de stored procedures	material/catedra/practica/recursos/p09-ejercicio-stored-procedure.sql	-	2026	vigente	ejercicio de SP.sql
+SQL03	catedra-recurso	Adaptación de un cursor de PostgreSQL a MySQL	material/catedra/practica/recursos/t10-cursor-postgresql-adaptado-mysql.sql	-	2026	vigente	ejercicio de teoria de PosgreSQL hecho en MySQL.sql

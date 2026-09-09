@@ -1,0 +1,274 @@
+FUENTE: P06
+TITULO: TP 6 — restricciones declarativas
+ORIGINAL: material/catedra/practica/tp-06-restricciones-declarativas.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                      1
+Base de Datos II - TP 6
+
+
+
+                                  TP N°6 - Restricciones declarativas
+
+Ejercicios de restricciones de integridad referencial (RIR):
+
+    1.​ Considere el siguiente esquema de una base de datos de una empresa de desarrollo de
+        software, sus RIRs y las acciones referenciales definidas para el borrado y modificación:
+
+
+         RIR​             Borrado Modificación
+
+         R1​       ​         C​       R
+
+         R2​       ​         R​       C
+
+         R3​       ​         R​       R
+
+         R4​       ​         N​       R
+
+
+         R=RESTRICT, C=CASCADE, N=SET
+         NULL
+
+
+
+
+         Suponga la existencia de las siguientes tuplas en las respectivas tablas (solo se incluyen los
+         atributos que se consideran relevantes para el ejercicio):
+                   EMPLEADO: (A, 1,...) ; (B, 2,...) ; (A, 2,...)
+                   PROYECTO: (1,...) ; (2,...) ; (3,...)
+                   TRABAJA_EN: (A, 1, 1, ....); (A, 2, 2, ....)
+                   AUSPICIO: (2, Arcor, A, 2)
+
+               a.​ Considere que las tablas ya se encuentran creadas con sus correspondientes
+                   PRIMARY KEY. Escriba las sentencias de alteración de tabla que incorporan las
+                   RIRs definidas
+               b.​ Indique el resultado de las siguientes operaciones teniendo en cuenta las RIRs y sus
+                   tuplas. En caso de que la operación no se pueda realizar, determine qué regla/s
+                   entra/n en conflicto y cuál es la causa. En caso de que sea aceptada, comente el
+                   resultado que produciría (Nota: en cada caso considere el efecto sobre la instancia
+                   original de la BD, los resultados no son acumulativos)
+                          i.​ DELETE FROM PROYECTO WHERE IdProy = 3;
+
+                          ii.​ UPDATE PROYECTO SET IdProy = 7 WHERE IdProy = 3;
+
+                          iii.​ DELETE FROM PROYECTO WHERE IdProy = 1;
+
+                          iv.​ DELETE FROM EMPLEADO WHERE TipoE = A AND NroE= 2;
+
+                          v.​ UPDATE TRABAJA_EN SET IdProy = 3 WHERE IdProy =1;
+
+                          vi.​ UPDATE PROYECTO SET IdProy = 5 WHERE IdProy =2;
+
+
+                                                     ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                    2
+Base de Datos II - TP 6
+
+
+               c.​ Indique cuáles de las siguientes operaciones serían aceptadas/rechazadas, según se
+                   considere matching: i) simple, ii) parcial, o iii) full para la RIR R4:
+                           i.​ INSERT INTO AUSPICIO VALUES (1, Dell, B, null);
+
+                          ii.​ INSERT INTO AUSPICIO VALUES (2, Oracle, null, null);
+
+                          iii.​ INSERT INTO AUSPICIO VALUES (3, Google, A, 3);
+
+                          iv.​ INSERT INTO AUSPICIO VALUES (1, HP, null, 3);
+
+
+    2.​ Considere el siguiente esquema de una base de datos de una empresa de servicios, sus RIRs
+        y las acciones referenciales de borrado y modificación:
+
+
+         RIR​             Borrado Modificación
+
+         R1​       ​         C​          R
+
+         R2​       ​         R​          R
+
+         R3​       ​         R​          C
+
+         R4​       ​         R​          N
+
+
+         R=RESTRICT, C=CASCADE, N=SET
+         NULL
+
+
+
+
+         Además tenga en cuenta que las tablas contienen las siguientes tuplas:
+
+                                                    CLIENTE
+
+                                  Zona       NroC        Nombre           Ciudad
+
+                                   A          1          Juan Ro           C1
+
+                                   A          2         Alberto Efe        C1
+
+                                   B          1        Esteban Hache       C1
+
+                                   C          2           José Ge          C3
+
+                                   D          3          Luis Ene          C2
+
+
+
+
+                                                    ITBA - 2026
+
+===== PAGINA 3 =====
+
+                                                                                                            3
+Base de Datos II - TP 6
+
+
+
+
+                                                               SERVICIO
+
+                                     IdServ     NombreServ           AnioComienzo    AnioFinal
+
+                                        S1           Serv 1              2010          2012
+
+                                        S2           Serv 2              2012          2012
+
+                                        S3           Serv 3              2009          null
+
+
+
+
+                                                          INSTALACION
+
+                 Zona         NroC            IdServ           Mes            Anio      CantHoras   Tarea
+
+                   A           1               S1               5             2011            5      T1
+
+                   B           1               S2               5             2012            7      T1
+
+                   C           2               S1               4             2010            9      T2
+
+                   A           2               S3               8             2009            6      T2
+
+
+
+
+                                                             REFERENCIA
+
+                               IdServ               Motivo                   Zona         NroC
+
+                                   S1           Puntualidad                   D               3
+
+                                   S2           Calidad inst.                 C               2
+
+                                   S3                Costo                    C               2
+
+                                   S1               Atención                  D               3
+
+
+              a.​ Muestre el resultado para cada una de las siguientes operaciones, considerando que
+                  se ejecutan en el orden dado y que son acumulables. Justifique
+                          i.​ DELETE FROM CLIENTE WHERE NroC = 1;
+
+                          ii.​ UPDATE INSTALACION SET IdServ = ‘S5’ WHERE IdServ = ‘S2’;
+
+                          iii.​ UPDATE CLIENTE SET Zona = ‘Z’ WHERE Zona = ‘D’;
+
+                          iv.​ DELETE FROM SERVICIO WHERE IdServ = ‘S3’;
+
+                          v.​ UPDATE SERVICIO SET IdServ = ‘S5’ WHERE IdServ = ‘S2’;
+
+              b.​ Plantee distintos ejemplos de operaciones INSERT sobre la tabla REFERENCIA
+                  teniendo en cuenta los distintos casos de valores nulos con respecto a la RIR con
+                  CLIENTE (la R4). Considere los diferentes tipos de matching (full, parcial, simple).
+                  Indique los resultados de las operaciones y justifique. Utilice los datos iniciales de la
+                  BD, sin tener en cuenta los posibles efectos del punto anterior
+
+
+
+                                                               ITBA - 2026
+
+===== PAGINA 4 =====
+
+                                                                                                     4
+Base de Datos II - TP 6
+
+
+Ejercicios de otras restricciones declarativas:
+
+    3.​ Dado el esquema A y B:
+
+         Esquema A
+
+
+
+
+         Esquema B
+
+
+
+
+              a.​ Complete la siguiente TABLA DE RESTRICCIONES clasificando según
+                  corresponda cada una de las restricciones de integridad enunciadas más abajo para
+                  cada esquema (pudiendo ser de dominio/atributo, de registro/tupla, de tabla, global/
+                  base de datos) e identificando el recurso declarativo más apropiado para implementar
+                  la restricción de acuerdo al estándar SQL-1999 (CHECK o ASSERTION).
+                  Nota: El primer ítem del ejercicio ya está resuelto para tomar de ejemplo.
+
+            Restricción        Tabla/s       Atributo/s      Tipo de          Recurso
+            (Esquema/Punto)                                  restricción      declarativo
+
+            A.1                ARTICULO      Nacionalidad    De atributo      CHECK
+
+            …
+
+
+
+         Sobre el esquema A
+
+              1.​ Controlar que las nacionalidades sean 'Argentino', 'Español', 'Inglés', 'Alemán' o
+                  'Chileno'
+              2.​ Para las fechas de publicaciones se debe considerar que sean fechas posteriores o
+                  iguales al 2010
+
+
+
+                                               ITBA - 2026
+
+===== PAGINA 5 =====
+
+                                                                                                    5
+Base de Datos II - TP 6
+
+
+              3.​ Los artículos publicados en el año 2017 deben ser solamente de nacionalidad
+                  ‘Argentino’
+              4.​ Los artículos pueden tener como máximo 10 palabras claves indexadas, sin importar
+                  el idioma
+              5.​ Sólo se pueden publicar artículos argentinos que contengan más de 10 palabras
+                  claves indexadas, pero con un tope de 15
+
+         Sobre el esquema B
+
+              6.​ Cada proveedor no puede proveer más de 20 productos.
+              7.​ Los códigos de sucursal deben comenzar con el string 'S_'
+              8.​ La descripción y la presentación de un producto no pueden ser ambas nulas
+              9.​ Cada proveedor sólo puede proveer productos a sucursales de su localidad
+
+
+              b.​ Adicionalmente plantee las sentencias en SQL estándar para realizar cada uno de los
+                  controles solicitados (ALTER TABLE o CREATE ASSERTION)
+
+              c.​ Plantee las sentencias de alteración de tablas de las restricciones que puedan ser
+                  soportadas por MySQL
+
+
+
+
+                                               ITBA - 2026

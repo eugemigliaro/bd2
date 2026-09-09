@@ -1,0 +1,91 @@
+FUENTE: P07
+TITULO: TP 7 — restricciones avanzadas
+ORIGINAL: material/catedra/practica/tp-07-restricciones-avanzadas.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                  1
+Base de Datos II - TP 7
+
+
+
+   TP N°7 - Restricciones avanzadas (triggers, funciones y store procedures)
+
+Ejercicios:
+
+    1.​ Según el esquema de Películas, del TP 3 - SQL Simples, considere que se quiere mantener
+        un registro de quién y cuándo realizó actualizaciones sobre las entregas de videos:
+
+              a.​ Crear una tabla HIS_ENTREGA que tenga por lo menos las siguientes columnas:
+                  id_log, fecha de la operación, operación (insert, update o delete) y usuario
+              b.​ Provea los triggers necesarios para mantener en forma automática la tabla
+                  HIS_ENTREGA cuando se realizan actualizaciones (insert, update o delete) en la
+                  tabla ENTREGA y/o RENGLON_ENTREGA
+              c.​ Evalúe la diferencia de definir los triggers con FOR EACH ROW o FOR EACH
+                  STATEMENT (aunque MySQL no soporta esta última opción, resuelvalo según la
+                  teoría)
+
+
+    2.​ Considere dos tablas EMPLEADO_1 y EMPLEADO_2 que tienen por lo menos los
+        atributos (id_empleado, nombre, apellido y sueldo). Suponga que alguien define el siguiente
+        trigger:
+
+                   CREATE TRIGGER autoDecremento AFTER INSERT ON empleado_1
+                   FOR EACH ROW
+                   UPDATE empleado_2 SET sueldo =
+                                    sueldo - (SELECT min(sueldo)*0.05 FROM empleado_1);
+
+         El estado inicial de EMPLEADO_2 es {<100,…,…,500>, <200,...,...,600>}, siendo los
+         valores de id_empleado y sueldo respectivamente.
+         Luego, por medio de una sola sentencia de selección se insertan en EMPLEADO_1 las
+         tuplas <1,...,...,700>, <2,...,...,300> y <3,...,...,700>.
+
+         Indique el estado final de la tabla EMPLEADO_2 si el trigger es:
+                a) for each row
+                b) for each statement (aunque MySQL no lo soporta, responda según la teoría)
+
+
+    3.​ Considerando el esquema de Películas, se desea mantener otra tabla histórica relacionada
+        con el EMPLEADO en la cual conste, para cada empleado el tiempo total que ha
+        permanecido desde su alta en el sistema y el tiempo promedio de permanencia por
+        departamento (si solo trabajó en un departamento, ambos tiempos serán iguales).
+           a.​ Plantee los cambios necesarios en el esquema para luego poder calcular ambos datos.
+           b.​ Cree la tabla histórica HIS_EMPLEADO con los campos requeridos
+           c.​ Implemente el requerimiento mediante triggers
+           d.​ Luego plantee un stored procedure que realice estos cálculos
+           e.​ ¿Ambos enfoques garantizan tener actualizada en todo momento la información?
+               ¿Qué ocurriría con la información pre-existente en la base de datos al momento de
+               incorporar el trigger o procedimiento?
+
+
+
+
+                                             ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                             2
+Base de Datos II - TP 7
+
+
+    4.​ Para el esquema A del ejercicio 3 del TP 6 - Restricciones declarativas, es necesario crear
+        una tabla que lleve registro de la cantidad de textos publicados hasta el momento, junto con
+        la fecha de la última publicación para cada autor: TEXTOSPORAUTOR (autor, cant_textos,
+        fecha_ultima_public)
+
+              a.​ Analice cuál sería el medio más apropiado para completar esta tabla inicialmente a
+                  partir de los datos existentes e indique la sintaxis completa
+              b.​ Defina los triggers que estime necesarios para mantener la base consistente cuando
+                  se produzcan actualizaciones (insert, update y delete) sobre ARTICULO
+                           i.​ En el caso de INSERT, habría que incrementar en 1 la cant_textos y volver a
+                             calcular la máxima fecha para fecha_ultima_public
+                          ii.​ En el caso de UPDATE considerar el caso de que se actualicen los campos autor y
+                             fecha_ pub de la tabla ARTICULO, para determinar los cambios a realizar en la
+                             tabla TEXTOSPORAUTOR
+                          iii.​ En el caso de DELETE, habría que decrementar en 1 la cant_textos y volver a
+                             calcular la máxima fecha para fecha_ultima_public
+
+
+
+
+                                                     ITBA - 2026

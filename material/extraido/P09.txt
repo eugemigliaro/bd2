@@ -1,0 +1,144 @@
+FUENTE: P09
+TITULO: Ejercicio de stored procedures: registro de entregas
+ORIGINAL: material/catedra/practica/p09-ejercicio-stored-procedure.pdf
+
+===== PAGINA 1 =====
+
+                            Ejercicio de Stored Procedures - Base de Datos II
+
+
+Contexto del Ejercicio
+Una universidad quiere registrar las entregas de trabajos prácticos de sus estudiantes. Se trabaja con las siguientes
+entidades:
+
+- Alumno(legajo, nombre, apellido, carrera)
+- Materia(codigo, nombre)
+- TrabajoPractico(id_tp, codigo_materia, descripcion, fecha_entrega)
+- Entrega(id_entrega, id_tp, legajo_alumno, fecha, archivo_url, nota)
+
+
+DER Derivado
+
+
+Alumno(legajo PK, nombre, apellido, carrera)
+Materia(codigo PK, nombre)
+TrabajoPractico(id_tp PK, codigo_materia FK -> Materia(codigo), descripcion, fecha_entrega)
+Entrega(id_entrega PK, id_tp FK -> TrabajoPractico(id_tp), legajo_alumno FK -> Alumno(legajo),
+fecha, archivo_url, nota)
+
+
+Tuplas de Ejemplo
+
+
+INSERT INTO Alumno VALUES (1001, 'Lucía', 'Pérez', 'Ing. Informática');
+INSERT INTO Alumno VALUES (1002, 'Juan', 'Martínez', 'Ing. Informática');
+
+
+INSERT INTO Materia VALUES ('BDII', 'Base de Datos II');
+
+
+INSERT INTO TrabajoPractico VALUES (1, 'BDII', 'TP1 - Normalización', '2025-05-15');
+INSERT INTO TrabajoPractico VALUES (2, 'BDII', 'TP2 - Store Procedures', '2025-06-01');
+
+
+INSERT INTO Entrega VALUES (1, 1, 1001, '2025-05-14', 'url1.pdf', 9.5);
+INSERT INTO Entrega VALUES (2, 1, 1002, '2025-05-15', 'url2.pdf', 8.0);
+
+
+Stored Procedure: RegistrarEntrega
+
+
+DELIMITER $$
+
+
+CREATE PROCEDURE RegistrarEntrega(
+    IN p_id_tp INT,
+    IN p_legajo INT,
+    IN p_fecha DATE,
+    IN p_archivo_url VARCHAR(255)
+)
+BEGIN
+    DECLARE v_fecha_entrega DATE;
+
+
+    SELECT fecha_entrega INTO v_fecha_entrega
+    FROM TrabajoPractico
+    WHERE id_tp = p_id_tp;
+
+===== PAGINA 2 =====
+
+                        Ejercicio de Stored Procedures - Base de Datos II
+
+    IF p_fecha <= v_fecha_entrega THEN
+         INSERT INTO Entrega(id_tp, legajo_alumno, fecha, archivo_url)
+         VALUES (p_id_tp, p_legajo, p_fecha, p_archivo_url);
+    ELSE
+         SIGNAL SQLSTATE '45000'
+         SET MESSAGE_TEXT = 'La entrega fue realizada fuera de término. No se registró.';
+    END IF;
+END $$
+
+
+DELIMITER ;
+
+
+Casos de prueba
+
+
+-- Entrega en fecha (debería insertarse)
+CALL RegistrarEntrega(2, 1001, '2025-05-30', 'url_tp2_lucia.pdf');
+
+
+-- Entrega fuera de fecha (debería fallar)
+CALL RegistrarEntrega(2, 1002, '2025-06-02', 'url_tp2_juan.pdf');
+
+
+Ampliación opcional (entregas fuera de término)
+
+
+ALTER TABLE Entrega ADD entrega_fuera_de_termino BOOLEAN DEFAULT FALSE;
+
+
+DELIMITER $$
+
+
+CREATE PROCEDURE RegistrarEntrega(
+    IN p_id_tp INT,
+    IN p_legajo INT,
+    IN p_fecha DATE,
+    IN p_archivo_url VARCHAR(255)
+)
+BEGIN
+    DECLARE v_fecha_entrega DATE;
+
+
+    SELECT fecha_entrega INTO v_fecha_entrega
+    FROM TrabajoPractico
+    WHERE id_tp = p_id_tp;
+
+
+    IF p_fecha <= v_fecha_entrega THEN
+         INSERT INTO Entrega(id_tp, legajo_alumno, fecha, archivo_url, entrega_fuera_de_termino)
+         VALUES (p_id_tp, p_legajo, p_fecha, p_archivo_url, FALSE);
+    ELSE
+         INSERT INTO Entrega(id_tp, legajo_alumno, fecha, archivo_url, nota,
+entrega_fuera_de_termino)
+         VALUES (p_id_tp, p_legajo, p_fecha, p_archivo_url, NULL, TRUE);
+    END IF;
+END $$
+
+===== PAGINA 3 =====
+
+                           Ejercicio de Stored Procedures - Base de Datos II
+
+DELIMITER ;
+
+
+Sugerencia para la clase
+
+
+1. Mostrar y analizar el DER con los estudiantes.
+2. Ejecutar las tuplas de ejemplo.
+3. Crear el Stored Procedure paso a paso.
+4. Probar con datos válidos y no válidos.
+5. Proponer la mejora con entregas fuera de término como desafío.

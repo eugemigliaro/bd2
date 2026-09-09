@@ -1,0 +1,364 @@
+FUENTE: T12
+TITULO: Recovery en bases de datos relacionales: WAL en PostgreSQL y MySQL
+ORIGINAL: material/catedra/teoria/t12-recovery-wal-postgresql-mysql.pdf
+
+===== PAGINA 1 =====
+
+           BASES DE DATOS II · ITBA
+
+
+
+
+Recovery en Bases de
+Datos Relacionales
+Write-Ahead Logging (WAL) y su implementación en PostgreSQL y MySQL
+
+
+
+
+LOG SECUENCIAL → DURABILIDAD
+
+===== PAGINA 2 =====
+
+AGENDA
+
+
+Qué vamos a ver hoy
+
+  01                                                                       02
+  El problema                                                              Write-Ahead Logging
+  Por qué el buffer pool pone en riesgo Atomicity y Durability             La regla de oro y la anatomía de un log record
+
+
+
+
+  03                                                                       04
+  ARIES                                                                    PostgreSQL
+  Analysis · Redo · Undo — el algoritmo detrás de casi todos los motores   WAL, checkpoints, replicación y PITR
+
+
+
+
+  05                                                                       06
+  MySQL / InnoDB                                                           Comparativa
+  Redo log, undo log, doublewrite buffer y binlog                          Dos filosofías de recovery, cara a cara
+
+
+
+
+                                                                                                                            02
+
+===== PAGINA 3 =====
+
+01 · EL PROBLEMA
+
+
+El buffer pool y el riesgo para ACID
+Escribir cada cambio directamente a disco sería demasiado costoso: las
+páginas se modifican en RAM (buffer pool) y su escritura a disco se                        RAM — Buffer Pool
+posterga.
+
+                                                                                 Páginas modificadas ("dirty pages") esperando para bajar a disco. Rápido
+        Durability (D)
+                                                                                 de modificar, volátil.
+
+        Si hubo COMMIT, el cambio debe sobrevivir a un crash — aunque la
+        página aún no esté en disco.
+
+
+
+
+        Atomicity (A)
+                                                                                           Disco — Log + Datos
+        Si la transacción no llegó a COMMIT, sus efectos parciales deben poder
+        deshacerse por completo.
+                                                                                 El log se escribe primero, en forma secuencial (append-only) — barato. Las
+                                                                                 páginas de datos bajan después, en su propio tiempo.
+
+
+
+
+                                                                                                                                                              03
+
+===== PAGINA 4 =====
+
+02 · WRITE-AHEAD LOGGING
+
+
+La regla de oro del WAL
+    Antes de escribir una página modificada a disco → hay que escribir primero al log, en disco, el registro que
+    describe ese cambio.
+
+
+Y antes de confirmar un COMMIT al cliente, el log de esa transacción tiene que estar físicamente en disco (fsync).
+
+
+
+
+              1. Modificar                                 2. Loguear                                   3. fsync()                                4. Confirmar
+
+   La transacción cambia una página en el       Se genera el log record con el cambio      El log record se fuerza a disco antes de   Recién ahí el motor le dice al cliente que
+             buffer pool (RAM).                   (LSN, página, valor viejo/nuevo).                 responder el COMMIT.                      el COMMIT fue exitoso.
+
+
+
+
+                                                                                                                                                                                   04
+
+===== PAGINA 5 =====
+
+02 · WRITE-AHEAD LOGGING
+
+
+Anatomía de un log record
+Cada registro del log identifica de forma unívoca un cambio, y cada página recuerda cuál fue el último cambio que ya tiene aplicado.
+
+
+
+               LSN                   Log Sequence Number: identificador único y creciente del registro.
+                                                                                                                               PageLSN
+
+              TxID                   Transacción que generó el cambio.
+                                                                                                                      Cada página en el buffer pool guarda el LSN del
+                                                                                                                      último cambio que ya se le aplicó.
+         Página / offset             Qué página (y dentro de ella, qué parte) fue modificada.
+
+
+
+           Valor viejo               Necesario para poder hacer undo (rollback).
+                                                                                                                      Así, al recuperar, el motor sabe exactamente qué
+                                                                                                                      registros del log ya están reflejados en la página
+          Valor nuevo                Necesario para poder hacer redo tras un crash.                                   y cuáles todavía no.
+
+
+
+                                                                                                                      → evita redo innecesario
+
+
+
+
+                                                                                                                                                                           05
+
+===== PAGINA 6 =====
+
+03 · ARIES
+
+
+ARIES: el algoritmo detrás del recovery
+Algorithm for Recovery and Isolation Exploiting Semantics — base (con variantes) de la mayoría de los motores reales.
+
+
+
+
+    1. Analysis                                                 2. Redo                                                      3. Undo
+
+
+                                                                Rehace TODOS los cambios logueados desde
+    Recorre el log desde el último checkpoint para                                                                           Deshace los cambios de las transacciones que
+                                                                ese punto — incluso de transacciones que
+    reconstruir qué transacciones estaban activas y                                                                          no habían hecho COMMIT, usando los valores
+                                                                después abortaron — hasta llegar al estado
+    qué páginas estaban sucias.                                                                                              viejos guardados en el log.
+                                                                exacto previo al crash.
+
+
+
+
+Checkpoints acotan cuánto log hay que revisar al reiniciar: en un checkpoint se fuerza a disco cierto estado del buffer pool / log para no tener que analizar desde el
+principio de los tiempos.
+
+
+                                                                                                                                                                            06
+
+===== PAGINA 7 =====
+
+DE LA TEORÍA A LA PRÁCTICA
+
+
+
+
+Dos motores,
+dos filosofías de recovery
+        PostgreSQL — WAL nativo   MySQL / InnoDB — ARIES clásico
+
+===== PAGINA 8 =====
+
+04 · POSTGRESQL
+
+
+El WAL de PostgreSQL
+El log se llama WAL directamente: archivos de 16MB en pg_wal/ (antes pg_xlog/). Cada registro tiene un LSN. Es redo físico de páginas, con algunas
+optimizaciones lógicas.
+
+
+
+               Sin undo log separado: gracias a MVCC, las versiones viejas de las tuplas ya están en la tabla. Para abortar, simplemente no se aplican los cambios — no
+               hace falta "deshacer" escribiendo encima.
+
+
+
+
+   wal_level                                                    checkpoint_timeout                                            synchronous_commit
+
+
+   minimal / replica / logical — cuánta info se logea           cada cuánto se dispara un checkpoint                          si el COMMIT espera el fsync del WAL
+
+
+
+
+Al reiniciar tras un crash: redo desde el último checkpoint. No hay fase de undo explícita como en ARIES — MVCC hace ese trabajo "gratis".
+
+
+
+
+                                                                                                                                                                          08
+
+===== PAGINA 9 =====
+
+04 · POSTGRESQL
+
+
+El WAL es más que recovery
+El mismo mecanismo que garantiza durability se reutiliza para otras tres cosas clave:
+
+
+
+
+    Replicación streaming                                   PITR                                                     Replicación lógica
+
+
+                                                            Point-In-Time Recovery: pg_basebackup +
+    Los registros de WAL se envían a réplicas y se                                                                   Decodificación del WAL a nivel fila (logical
+                                                            archivado continuo de WAL para volver a
+    re-aplican allá — el mismo mecanismo de redo.                                                                    decoding), para replicar hacia otros sistemas.
+                                                            cualquier instante.
+
+
+
+
+Idea clave: recovery, replicación y PITR no son mecanismos distintos — son tres formas de reproducir la misma secuencia de cambios físicos.
+
+
+
+                                                                                                                                                                      09
+
+===== PAGINA 10 =====
+
+05 · MYSQL / INNODB
+
+
+InnoDB: más de un log, cada uno con su rol
+A diferencia de Postgres, InnoDB usa varios mecanismos separados — es la parte que más confunde en el examen.
+
+
+
+
+  Redo log                                    Undo log                                      Doublewrite buffer                            Binary log (binlog)
+  ib_logfile / #innodb_redo                   tablespaces de undo                           área contigua previa                          log lógico, separado
+
+
+
+
+  El WAL propiamente dicho: cambios físicos   Valores anteriores de las filas. Sirve para   Protege contra partial page writes: escribe   NO es el mecanismo de crash recovery. Es
+  a páginas, en buffer circular de tamaño     rollback Y para dar snapshots MVCC a          la página primero en un área auxiliar antes   para replicación y PITR — statement o
+  fijo. Usado en crash recovery para redo.    lecturas consistentes.                        que en su lugar final.                        row-based.
+
+
+
+
+                                                                                                                                                                                     10
+
+===== PAGINA 11 =====
+
+05 · MYSQL / INNODB
+
+
+Recovery en InnoDB: ARIES completo
+InnoDB hace checkpoint difuso (fuzzy checkpointing) de forma continua. Al reiniciar tras un crash:
+
+
+
+
+                 Analysis                                                  Redo                                                       Undo
+
+                                                                                                                            De transacciones no comprometidas, con el
+       Ubica el último checkpoint                                Con el redo log
+                                                                                                                            undo log
+
+
+
+
+               Gotcha clásico de examen
+
+
+               Redo log ≠ Binlog. El redo log es el WAL físico usado en crash recovery. El binlog es un log lógico separado, usado para replicación / PITR. Mantener
+               ambos consistentes requiere un two-phase commit interno entre redo log y binlog — algo que Postgres no necesita, porque tiene un único WAL.
+
+
+
+
+                                                                                                                                                                        11
+
+===== PAGINA 12 =====
+
+06 · COMPARATIVA
+
+
+PostgreSQL vs. MySQL (InnoDB), cara a cara
+                                        PostgreSQL                              MySQL / InnoDB
+
+
+   Log físico principal          WAL (pg_wal/)                          Redo log (ib_logfile)
+
+
+
+
+   Deshacer Tx abortadas         MVCC — sin log de undo separado        Undo log dedicado
+
+
+
+
+   Log para replicación / PITR   El mismo WAL                           Binlog (log lógico separado)
+
+
+
+
+   Protección partial writes     full_page_writes                       Doublewrite buffer
+
+
+
+
+   Algoritmo de recovery         Redo-only (variante, gracias a MVCC)   ARIES completo (analysis–redo–undo)
+
+
+
+
+                                                                                                              12
+
+===== PAGINA 13 =====
+
+PARA LLEVARSE
+
+
+Tres ideas para no olvidar
+
+          El log siempre va primero
+
+          WAL no es un detalle de implementación: es la razón por la cual el buffer pool puede ser volátil sin romper durability.
+
+
+
+          Un log puede servir para todo
+
+          Postgres reutiliza el mismo WAL para recovery, replicación y PITR. Diseñar bien el log de antemano paga dividendos.
+
+
+
+          Undo no siempre es un log
+
+          MVCC (Postgres) y undo logs (InnoDB) son dos formas válidas de resolver Atomicity — no hay una única receta correcta.
+
+===== PAGINA 14 =====
+
+            ¿Preguntas?
+Bases de Datos II · ITBA — Recovery y Write-Ahead Logging

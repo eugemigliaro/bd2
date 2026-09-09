@@ -1,0 +1,165 @@
+FUENTE: P05
+TITULO: TP 5 — planes de ejecución
+ORIGINAL: material/catedra/practica/tp-05-planes-ejecucion.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                    1
+Base de Datos II - TP 5
+
+
+
+                                           TP 5 - Explain Plan
+
+Antes de comenzar, es necesario levantar MySQL en la PC que vayan a utilizar para este práctico.
+
+
+Ejercicios:
+
+     1. Investigue las diferentes técnicas de optimización de consultas de MySQL, específicamente
+     los comandos EXPLAIN y EXPLAIN ANALYZE en MySQL :: MySQL 9.7 Reference Manual
+     :: 15.8.2 EXPLAIN Statement
+             ○​ Crear una tabla llamada "materia" que contenga sólo dos campos: "codigo" de tipo
+                integer y "nombre" de tipo varchar(40)
+
+                   Insertar en ella las siguientes tuplas:
+
+
+
+
+              ○​ Ejecutar las siguientes sentencias y analizar los resultados:
+                          ■​SET @@explain_format=TREE;
+                          ■​EXPLAIN SELECT * FROM materia;
+                          ■​EXPLAIN ANALYZE SELECT * FROM materia;
+​        ​
+                   Identificar las diferencias entre EXPLAIN vs. EXPLAIN ANALYZE.
+
+
+     2. Lea las páginas 18 a la 21 del libro “Seven databases in seven weeks”, sección “Fast
+     Lookups with Indexing” para entender la teoría detrás de los índices y que pasa por detrás en el
+     motor de base de datos cuando se define una clave primaria (Nota: si bien el libro hace mención
+     a PostgreSQL, también aplica para MySQL)
+
+     Adicionalmente lea la documentación de MySQL sobre las diferencias entre los índices del tipo
+     B-Trees vs Hash, y cuando son usados por el optimizador de MySQL: MySQL :: MySQL 9.7
+     Reference Manual :: 10.3.9 Comparison of B-Tree and Hash Indexes
+
+     Luego resuelva el resto de los ejercicios:
+
+              ○​ Se desea consultar cuál es plan que usará MySQL para la siguiente consulta:
+                           SELECT nombre
+                           FROM materia
+                           WHERE codigo = 10;
+
+                          ■​Si definimos "codigo" como clave primaria, ¿cuál es plan que usará MySQL
+                            para la misma consulta?
+
+
+
+                                                   ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                            2
+Base de Datos II - TP 5
+
+
+                          ■​Si cambiamos la clave primaria y la definimos como clave compuesta por
+                            "codigo" y "nombre", en ese orden ¿cuál es plan que usará MySQL para la
+                            misma consulta?
+                          ■​Repetir los primeros 2 casos, pero definiendo índices Unique, eliminando
+                            antes la clave primaria. ¿Se ven cambios?
+
+                          ■​Repetir los primeros 2 casos, pero definiendo índices No Unique, eliminando
+                            antes los índices creados en el punto anterior. ¿Se ven cambios?
+
+              ○​ Se desea consultar cuál es plan que usará MySQL para la siguiente consulta:
+                           SELECT nombre
+                           FROM materia
+                           WHERE codigo = 60 and nombre = 'Base de Datos II';
+
+                          ■​Borrar todos los constraints de los ejercicios anteriores y consultar el plan
+
+                          ■​Si definimos "codigo" y "nombre" como clave primaria, ¿cuál es plan que
+                            usará MySQL para la misma consulta?
+
+                          ■​Si creamos 2 índices unique por separado: uno sobre el campo "codigo" y
+                            otro sobre el campo "nombre". ¿Se ven cambios?
+
+              ○​ Se desea consultar cuál es plan que usará MySQL para la siguiente consulta:
+                           SELECT *
+                           FROM materia
+                           ORDER BY codigo;
+
+                          ■​Borrar todos los constraints de los ejercicios anteriores y consultar el plan
+
+                          ■​Si definimos "codigo" como clave primaria, ¿cuál es plan que usará MySQL
+                            para la misma consulta?
+
+
+              ○​ Crear la siguiente tabla:
+                           CREATE TABLE inscripto (
+                                legajo INT,
+                                codigo INT
+                           );
+
+              ○​ Insertar los siguientes registros:
+                 ​       INSERT INTO inscripto VALUES (100, 20);
+                           INSERT INTO inscripto VALUES (200, 10);
+                           INSERT INTO inscripto VALUES (300, 30);
+                           INSERT INTO inscripto VALUES (400, 40);
+
+              ○​ Se desea consultar cuál es plan que usará MySQL para la siguiente consulta:
+                           SELECT *
+                           FROM materia INNER JOIN inscripto
+                           ON materia.codigo = inscripto.codigo;
+
+
+
+
+                                                   ITBA - 2026
+
+===== PAGINA 3 =====
+
+                                                                                                            3
+Base de Datos II - TP 5
+
+
+                          ■​Borrar todos los constraints de los ejercicios anteriores, sobre la tabla materia
+                            y consultar el plan. Elegir la opción “Form Editor” en MySQL Workbench
+                            para ver el árbol
+
+                          ■​Si definimos "codigo" como clave primaria de la tabla materia, ¿cuál es plan
+                            que usará MySQL para la misma consulta?
+
+                          ■​Si agregamos la definición de "codigo" como clave primaria de la tabla
+                            inscripto, ¿cuál es plan que usará MySQL para la misma consulta? ¿Se ven
+                            cambios?
+
+              ○​ Se desea consultar cuál es plan que usará MySQL para la siguiente consulta:
+                           SELECT *
+                           FROM inscripto
+                           WHERE legajo = 100 OR codigo = 10;
+
+                          ■​Borrar todos los constraints de los ejercicios anteriores sobre la tabla
+                            inscripto y consultar el plan
+
+                          ■​Si definimos "legajo" y "codigo" como clave primaria compuesta de la tabla
+                            inscripto, ¿cuál es plan que usará MySQL para la misma consulta?
+
+
+     3. Ahora que ya entendieron el funcionamiento, proponemos realizar distintas pruebas de
+     EXPLAIN y EXPLAIN ANALYZE con un dataset más grande para las tablas materia e
+     inscripto.
+
+              ○​ Borrar todos los constraints de los ejercicios anteriores sobre ambas tablas
+              ○​ Importar los registros que se encuentran en los archivos materias.csv e inscripto.csv
+              ○​ Probar diferentes consultas sobre las tablas que permitan ver la diferencia entre usar
+                 y no usar índices, sobre todo en lo que respecta al costo y al tiempo mostrado en el
+                 output del EXPLAIN y EXPLAIN ANALYZE
+     ​
+
+
+
+
+                                                   ITBA - 2026

@@ -1,0 +1,116 @@
+FUENTE: P08
+TITULO: TP 8 — seguridad
+ORIGINAL: material/catedra/practica/tp-08-seguridad.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                  1
+Base de Datos II - TP 8
+
+
+
+                                       TP N°8 - Seguridad
+
+Ejercicios:
+
+    1.​ Considere la siguiente fracción de un esquema de la cual es owner el usuario db_exp, que
+        registra datos de experimentos lingüísticos con respecto al uso de párrafos. El experimento
+        mide el tiempo de lectura de cada párrafo por parte de cada alumno (tabla PARRAFO).
+
+
+
+
+              ●​ Suponga que el usuario db_exp ejecuta las siguientes sentencias:
+                          GRANT SELECT ON parrafo TO adm WITH GRANT OPTION;
+                          GRANT UPDATE ON parrafo TO adm WITH GRANT OPTION;
+                          GRANT DELETE ON parrafo TO adm;
+
+              ●​ Luego el usuario adm ejecuta las siguientes sentencias:
+                          GRANT SELECT ON parrafo TO doc;
+                          GRANT UPDATE(tiempo,diccion) ON parrafo TO doc WITH GRANT OPTION;
+                          GRANT DELETE ON parrafo TO doc;
+
+              a.​ Realice el grafo de permisos correspondiente a las sentencias indicadas
+                  anteriormente. Analice que sucede en cada caso y si alguna de ellas arroja algún
+                  error
+              b.​ Enumere los permisos que conserva el usuario doc sobre la tabla PARRAFO, si el
+                  usuario db_exp ejecuta las siguientes sentencias. Resuelva el ejercicio desde la
+                  teoría, ya que MySQL no provee la opción CASCADE:
+
+                          REVOKE SELECT ON parrafo FROM adm CASCADE;
+                          REVOKE UPDATE(tiempo) ON parrafo FROM adm CASCADE;
+
+
+
+
+                                               ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                                        2
+Base de Datos II - TP 8
+
+
+    2.​ Considere esta base de Voluntarios y suponga que las siguientes acciones son ejecutadas por
+        un usuario U0 con privilegios de administrador:
+
+
+
+
+         Resuelva los siguientes ítems mediante las sentencias provistas por MySQL para el control
+         de acceso. Considerando que las operaciones se realizan en el orden indicado y son
+         consecutivas, explique en caso de que algún ítem no pueda ser ejecutado.
+         En el caso de que MySQL no provee la funcionalidad pedida, resuelvalo desde la teoría:
+
+              a.​ Conceder al usuario U1 todos los privilegios sobre la tabla INSTITUCION, con
+                  posibilidad de concederlos a otros usuarios
+              b.​ Permitir que el usuario U2 consulte datos de la tabla VOLUNTARIO
+              c.​ Permitir que el usuario U2 autorice al usuario U3 para que pueda insertar en la tabla
+                  VOLUNTARIO
+              d.​ Dar a todos los usuarios del sistema, privilegios de inserción y actualización sobre la
+                  tabla TAREA. ¿Cuál sería la diferencia si se incluye o no la cláusula WITH GRANT
+                  OPTION?
+              e.​ Retirarle a U1 el privilegio de borrado sobre la tabla INSTITUCION
+              f.​ Quitar el privilegio de inserción a todos los usuarios sobre la tabla TAREA. ¿Qué
+                  usuario podría entonces insertar datos en esa tabla?
+              g.​ Crear un rol ins_vol con capacidad de actualizar datos en el campo horas_aportadas
+                  de la tabla VOLUNTARIO
+              h.​ Crear el usuario U4 y asignarle el rol ins_prov. También asignárselo al usuario U3
+              i.​ Permitir que los usuarios con el rol ins_prov puedan también actualizar el campo
+                  nombre de la tabla VOLUNTARIO
+              j.​ Eliminar el rol ins_prov ¿qué sucede con los usuarios U3 y U4?
+
+
+
+
+                                                ITBA - 2026
+
+===== PAGINA 3 =====
+
+                                                                                                    3
+Base de Datos II - TP 8
+
+
+    3.​ El usuario A ha creado la tabla USUARIO(nro_u, nombre, tarea), y luego ejecuta los
+        siguientes comandos en forma consecutiva:
+                   GRANT INSERT ON usuario TO B WITH GRANT OPTION;
+                   GRANT SELECT ON usuario TO B WITH GRANT OPTION;
+                   GRANT SELECT ON usuario TO C;
+
+              a.​ Indique quiénes pueden ejecutar exitosamente los siguientes comandos:
+                   1. SELECT * FROM A.usuario WHERE nro_u='C';
+                   2. INSERT INTO A.usuario VALUES ('C','Gerente', ‘Control’);
+                   3. GRANT SELECT ON A.usuario TO D;
+
+              b.​ Teniendo en cuenta el estado anterior con respecto a los permisos, establezca si se
+                  pueden (o no) realizar los siguientes comandos, justifique su respuesta en caso
+                  negativo:
+                   1. Usuario B: GRANT INSERT ON usuario TO D;
+                   2. Usuario A: REVOKE INSERT ON usuario FROM B CASCADE;
+
+              c.​ ¿Cuáles permisos conservan los usuarios después de lo anterior?
+
+
+
+
+                                                 ITBA - 2026

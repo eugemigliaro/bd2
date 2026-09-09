@@ -14,6 +14,11 @@ El motor relacional de trabajo es **MySQL**. Las fuentes también contienen ejem
 | Quitar tabla con dependencias | rediseñar/eliminar FKs explícitamente | PostgreSQL: `DROP TABLE ... CASCADE` |
 | Patrones | `%` y `_`; regex con `REGEXP_LIKE`/`REGEXP` | T05C muestra corchetes de SQL Server en `LIKE` |
 | Vistas materializadas | T07 indica que MySQL no las admite de forma nativa | PostgreSQL: `CREATE MATERIALIZED VIEW`; SQL Server: vistas indexadas |
+| Trigger | `BEFORE`/`AFTER`, un evento y `FOR EACH ROW`; referencias `OLD.col`/`NEW.col` | T09 muestra sintaxis PostgreSQL/estándar con `INSTEAD OF`, eventos combinados y granularidad por sentencia |
+| Función que devuelve tabla | resolver como procedimiento que emite un resultado o rediseñar según el caso | T10 usa `RETURNS TABLE` y `RETURN QUERY` de PL/pgSQL |
+| Bloqueo explícito de fila | adaptar con sintaxis MySQL y verificar InnoDB | T11 muestra `WITH (UPDLOCK)` de SQL Server y `FOR UPDATE` de PostgreSQL |
+| FK compuesta con nulos | semántica efectiva `MATCH SIMPLE`; evitar `MATCH` explícito | SQL estándar distingue `SIMPLE`, `PARTIAL` y `FULL` |
+| Índice hash | disponible solo en motores que lo admiten, como `MEMORY`; InnoDB usa B-tree | T11 presenta `USING HASH` sin declarar motor |
 
 T05C mezcla formas de diversos motores: `TOP`, `DATEPART`, `DATENAME` y `GETDATE()` no son la forma MySQL, mientras `LIMIT`, `DAY`, `MONTH` y `YEAR` sí son relevantes. [T05C, pp. 7–16]
 
@@ -26,6 +31,20 @@ Los triggers `INSTEAD OF` se presentan como recurso conceptual para vistas no ac
 ## Planes de ejecución
 
 T08 es material de PostgreSQL: usa `psql`, `pg_class`, parámetros `enable_*`, `ANALYZE VERBOSE` y nodos de plan propios de ese motor. La lectura del árbol, la comparación entre filas estimadas y reales y el análisis de escaneos e índices son transferibles como conceptos; la sintaxis y el catálogo deben adaptarse antes de trabajar en MySQL. [T08, pp. 1–10]
+
+P05 es la guía MySQL para realizar esa adaptación: solicita `EXPLAIN`, `EXPLAIN ANALYZE`, formato `TREE` y comparaciones con PK e índices sobre datos pequeños y grandes. [P05, pp. 1–3]
+
+## Restricciones y SQL procedural
+
+T09 formula acciones referenciales, tipos de `MATCH`, dominios, `CHECK`, `ASSERTION` y triggers con SQL estándar o PostgreSQL. En MySQL, `SET DEFAULT` no es una acción referencial ejecutable en InnoDB, `NO ACTION` se comporta como `RESTRICT`, y los tipos de `MATCH` deben analizarse como teoría: una cláusula `MATCH` explícita no los implementa. [T09, pp. 8–14]
+
+T09 presenta triggers por fila y por sentencia; T10 desarrolla funciones y cursores en PL/pgSQL. MySQL exige `FOR EACH ROW` y usa `OLD`/`NEW` sin dos puntos. P07 marca explícitamente que `FOR EACH STATEMENT` debe resolverse solo desde la teoría. [T09, pp. 27–30; T10, pp. 6–13; P07, p. 1]
+
+Los `CHECK` de MySQL admiten condiciones de la fila, pero no subconsultas. Por eso los ejemplos SQL-1999 que agregan subconsultas a un `CHECK` de tabla y las `ASSERTION` deben reformularse con triggers u otro diseño para el laboratorio. [T09, pp. 22–25; P06, pp. 4–5]
+
+## Seguridad, transacciones e índices
+
+T11 usa sintaxis MySQL para cuentas, roles, `GRANT` y `REVOKE`, pero intercala ejemplos de bloqueo de SQL Server y PostgreSQL. También muestra un `CREATE INDEX ... USING HASH` sin fijar el motor; para InnoDB no debe suponerse un índice hash. [T11, pp. 7–13, 29–30, 35–38]
 
 ## Regla para soluciones
 

@@ -56,3 +56,17 @@ El caso de COVID compara un conteo total con una consulta generada por una API q
 5. Comparar estimaciones con valores reales, prestando atención a `loops` y paralelismo.
 6. Medir varias veces y, si hace falta, observar buffers.
 7. Probar un cambio concreto —consulta, índice o estadística— y volver a medir el mismo caso.
+
+## Práctica MySQL del TP 5
+
+P05 traslada el análisis al motor de trabajo. Comienza comparando `EXPLAIN` con `EXPLAIN ANALYZE` sobre una [instancia pequeña de `materia`](../../material/figuras/P05-p1-datos-materia.png) y luego modifica claves e índices para observar cómo cambia el plan de búsquedas por igualdad, claves compuestas, ordenamientos, joins y predicados con `OR`. [P05, pp. 1–3]
+
+El procedimiento de práctica es deliberadamente experimental:
+
+1. Obtener el plan sin índices adicionales.
+2. Agregar una PK, un índice `UNIQUE` o uno no único.
+3. Ejecutar exactamente la misma consulta y registrar el cambio de acceso, costo y tiempo.
+4. Eliminar la estructura antes de pasar al siguiente caso para no acumular efectos.
+5. Repetir con los conjuntos grandes [P05A](../../material/catedra/practica/recursos/tp-05-materia.csv) y [P05B](../../material/catedra/practica/recursos/tp-05-inscripto.csv). [P05, pp. 1–3; P05A; P05B]
+
+T11 agrega el contraste conceptual entre B-tree y hash: B-tree sirve para igualdad, rangos y prefijos de `LIKE`; hash se limita a igualdad, no acelera `ORDER BY` y necesita la clave completa. En MySQL, la posibilidad de elegir `USING HASH` depende del motor de almacenamiento, por lo que no debe probarse sobre InnoDB esperando un índice hash. [T11, pp. 31–38]

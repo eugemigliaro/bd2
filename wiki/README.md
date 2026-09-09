@@ -14,6 +14,10 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 8. [Dialectos SQL presentes en el material](temas/08-dialectos-sql.md)
 9. [Vistas](temas/09-vistas.md)
 10. [Planes de ejecución](temas/10-planes-de-ejecucion.md)
+11. [Integridad y restricciones](temas/11-integridad-y-restricciones.md)
+12. [SQL procedural](temas/12-sql-procedural.md)
+13. [Seguridad y transacciones](temas/13-seguridad-y-transacciones.md)
+14. [Recovery y WAL](temas/14-recovery-y-wal.md)
 
 ## Referencias rápidas
 
@@ -23,6 +27,8 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Guías prácticas](../practica/README.md)
 - [Esquema de películas](../material/figuras/P03-p1-esquema-peliculas.png)
 - [Esquema de envíos del TP 4](../material/figuras/P04-p1-esquema-envios.png)
+- [Esquemas del TP 6](../material/figuras/README.md)
+- [Esquemas del TP 8](../material/figuras/README.md)
 
 ## Cobertura actual
 
@@ -37,3 +43,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | Persistencia políglota y Docker | C01 | Curado |
 | Vistas y actualizabilidad | T06, T07, P04 | Curado; capturas visuales revisadas y esquema de P04 extraído |
 | Planes de ejecución | T08 | Curado; ejemplos específicos de PostgreSQL |
+| Integridad referencial y restricciones declarativas | T09, P06, P06A, P06B | Curado; `MATCH`, `CHECK` y `ASSERTION` distinguidos de MySQL |
+| Triggers, procedimientos, funciones y cursores | T09, T10, P07, P09, SQL02, SQL03 | Curado; sintaxis PostgreSQL separada de MySQL |
+| Seguridad, transacciones y concurrencia | T11, P08, P08A | Curado; ejemplos de privilegios y dialectos identificados |
+| Recovery, WAL, PostgreSQL e InnoDB | T12 | Curado; comparación conceptual por motor |

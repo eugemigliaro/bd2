@@ -18,6 +18,14 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 12. [SQL procedural](temas/12-sql-procedural.md)
 13. [Seguridad y transacciones](temas/13-seguridad-y-transacciones.md)
 14. [Recovery y WAL](temas/14-recovery-y-wal.md)
+15. [NoSQL, escalabilidad y CAP](temas/15-nosql-y-cap.md)
+16. [MongoDB: modelado documental](temas/16-mongodb-modelado.md)
+17. [MongoDB: consultas, CRUD e índices](temas/17-mongodb-consultas-y-crud.md)
+18. [MongoDB: agregaciones, vistas y MapReduce](temas/18-mongodb-agregaciones-y-vistas.md)
+19. [MongoDB: replicación y sharding](temas/19-mongodb-replicacion-y-sharding.md)
+20. [Cassandra: modelado y CQL](temas/20-cassandra-modelado-y-cql.md)
+21. [Cassandra: almacenamiento y Bloom filters](temas/21-cassandra-almacenamiento-y-bloom.md)
+22. [Cassandra: replicación, consistencia y DIGEST](temas/22-cassandra-consistencia-y-digest.md)
 
 ## Referencias rápidas
 
@@ -29,6 +37,11 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Esquema de envíos del TP 4](../material/figuras/P04-p1-esquema-envios.png)
 - [Esquemas del TP 6](../material/figuras/README.md)
 - [Esquemas del TP 8](../material/figuras/README.md)
+- [Datos de bandas del TP 9](../material/figuras/P10A-p7-datos-bandas.png)
+- [Incorporación de NoSQL/MongoDB](../material/incorporaciones/2026-10-02-nosql-mongodb.md)
+- [Incorporación de Cassandra](../material/incorporaciones/2026-10-02-cassandra.md)
+- [Claves, consistencia y Bloom filters: figuras](../material/figuras/README.md)
+- [Mecanismo DIGEST de cátedra](../material/catedra/teoria/recursos/c05-cassandra-digest.png)
 
 ## Cobertura actual
 
@@ -47,3 +60,13 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | Triggers, procedimientos, funciones y cursores | T09, T10, P07, P09, SQL02, SQL03 | Curado; sintaxis PostgreSQL separada de MySQL |
 | Seguridad, transacciones y concurrencia | T11, P08, P08A | Curado; ejemplos de privilegios y dialectos identificados |
 | Recovery, WAL, PostgreSQL e InnoDB | T12 | Curado; comparación conceptual por motor |
+| NoSQL, familias, escalabilidad, CAP y BASE | T13 | Curado; figuras revisadas y simplificaciones registradas |
+| MongoDB: BSON, embebidos y referencias | T13, T14, T15 | Curado; crecimiento y atomicidad del documento |
+| MongoDB: CRUD, filtros, arreglos, índices y explain | T13, T14, T15, P10A | Curado; métodos históricos diferenciados de mongosh |
+| MongoDB: pipelines, lookup, vistas y MapReduce | T13, T14, T15, C03, P11, P11A | Curado; omisiones de la solución oficial registradas |
+| MongoDB: replicación y sharding | T13, T15, C02 | Curado; propósitos y componentes diferenciados |
+| TP 9 MongoDB y datos de egresados/ciudades | P10A, P10B, P10C, P10D | Indexado; falta el libro remitido y revisar coordenadas del JSON |
+| Cassandra: modelado, claves y CQL | T16, P12 | Curado; columnas históricas separadas del esquema CQL |
+| Cassandra: commit log, memtable, SSTable, tombstones y Bloom filters | T16, C04 | Curado; diagramas recuperados y salvedades de durabilidad/compactación |
+| Cassandra: replicación, consistencia y DIGEST | T16, C05 | Curado; background read repair histórico y diferencias de versión registradas |
+| TP 10 Cassandra, parte I | P12 | Indexado; sin resolución ni ejecución; versión del entorno no fijada |

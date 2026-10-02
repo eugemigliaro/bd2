@@ -1,0 +1,374 @@
+FUENTE: T13
+TITULO: Introducción a NoSQL y MongoDB
+ORIGINAL: material/catedra/teoria/t13-introduccion-nosql-mongodb.pdf
+
+===== PAGINA 1 =====
+
+Bases de Datos II
+
+===== PAGINA 2 =====
+
+Introducción
+ Surge para perfeccionar las BD con exceso de datos,
+ que necesitan un gran indexado de documentos
+ Con el crecimiento de la web en tiempo real existía una
+ necesidad de proporcionar información procesada a
+ partir de grandes volúmenes de datos
+
+===== PAGINA 3 =====
+
+Por qué surgen las bases NoSQL
+ Poca eficiencia en aplicaciones en las BD
+  relacionales
+ Aumento de operaciones de lectura y escritura
+
+ Gran conjunto de transacciones
+
+ Sentencias complejas
+
+ Dificultades en la escalabilidad del sistema
+
+===== PAGINA 4 =====
+
+Modelo no relacional
+ Sistema de almacenamiento de información
+
+ No cumple con el esquema entidad-relación
+
+ No impone una estructura de datos
+
+ Almacena los datos en diferentes formatos
+
+===== PAGINA 5 =====
+
+Qué bases NoSQL conocen?
+
+===== PAGINA 6 =====
+
+Propiedades
+ Ausencia de esquema en los registros de datos:
+
+===== PAGINA 7 =====
+
+Propiedades
+ Alta velocidad de respuesta a peticiones
+
+===== PAGINA 8 =====
+
+Propiedades
+ Estructura distribuida
+
+===== PAGINA 9 =====
+
+Propiedades
+ Escalabilidad
+
+===== PAGINA 10 =====
+
+Ventajas
+ Estos sistemas responden a las necesidades de
+  escalabilidad horizontal que tienen
+  cada vez más empresas
+ Pueden manejar enormes cantidades de datos
+ No generan cuellos de botella
+ Escalamiento sencillo
+ Diferentes DBs NoSQL para diferentes proyectos
+ Se ejecutan en clusters de máquinas baratas
+
+===== PAGINA 11 =====
+
+Desventajas
+ No son suficientemente maduros para
+ algunas empresas
+ Falta de experiencia
+
+ No trata con datos críticos que
+ requieren ACID
+ Problemas de compatibilidad
+
+===== PAGINA 12 =====
+
+Teorema CAP
+ Un compromiso fundamental que afecta a cualquier
+  sistema distribuido obliga a los diseñadores de bases
+  de datos a elegir solo dos de estas tres propiedades:
+   consistencia de datos
+   disponibilidad del sistema
+   o tolerancia a las particiones de red
+ Esta limitación intrínseca de los sistemas distribuidos
+  se conoce como Teorema CAP o teorema de Brewer:
+   Es imposible garantizar simultáneamente lo siguientes
+    propiedades en un sistema distribuido:
+
+===== PAGINA 13 =====
+
+CAP gráficamente
+
+===== PAGINA 14 =====
+
+Consistencia
+ Si se cumple este atributo, se garantiza que una vez que
+ se escriben los datos están disponibles y actualizados
+ para cada usuario que utilice el sistema
+
+===== PAGINA 15 =====
+
+Disponibilidad
+ Esta propiedad se refiere a ofrecer el servicio
+  ininterrumpidamente y sin degradación dentro de un
+  cierto porcentaje de tiempo
+
+===== PAGINA 16 =====
+
+Tolerancia a la Partición
+ Si el sistema cumple con esta propiedad entonces una
+ operación puede ser completada incluso cuando
+ alguna parte de la red falla
+
+===== PAGINA 17 =====
+
+El teorema sólo garatiza
+ CP (Consistency & Partition): El sistema aplicará los
+  cambios de forma consistente y aunque se pierda la
+  comunicación entre nodos ocasionando el particionado,
+  no se asegura que haya disponibilidad
+ AP (Availability & Partition): El sistema siempre
+  estará disponible a las peticiones aunque se pierda la
+  comunicación entre los nodos ocasionando
+  el particionado, y en consecuencia por la pérdida de
+  comunicación existirá inconsistencia porque no todos los
+  nodos serán iguales
+ CA (Consistency & Availability): El sistema siempre
+  estará disponible respondiendo las peticiones y los datos
+  procesados serán consistentes. En este caso no se puede
+  permitir el particionado
+
+===== PAGINA 18 =====
+
+Clasificación según CAP
+
+===== PAGINA 19 =====
+
+Transacciones BASE
+
+===== PAGINA 20 =====
+
+Propiedad BASE
+ Disponibilidad todo el tiempo, un estado flexible y
+  consistencia eventual, por lo que en preciso momento
+  puede que no sea consistente pero a lo largo del tiempo
+  será eventualmente consistente
+ En conclusión los sistemas ACID fuerzan la
+  consistencia de la base de datos en todo momento
+  sacrificando parte de la disponibilidad. Sin embargo
+  BASE gana disponibilidad perdiendo parte de la
+  consistencia, otorgando un estado de los datos más
+  flexible
+
+===== PAGINA 21 =====
+
+Taxonomía: cuatro categorías
+principales
+
+===== PAGINA 22 =====
+
+BD orientadas a grafos
+ La información es representada en nodos
+ Ya está normalizada
+ No es necesario definir cantidad de atributos
+ Registros de longitud variable
+ Algunas bases: Neo4j, HyperGraphDB
+
+===== PAGINA 23 =====
+
+Ejemplo
+
+===== PAGINA 24 =====
+
+BD Familia de Columnas
+ Guarda los valores en columnas
+ Los datos son almacenados como secciones de
+ las columnas de datos
+
+===== PAGINA 25 =====
+
+BD Clave-Valor
+ Conjunto de duplas (Clave, Valor)
+ Existen contenedores
+ Permite variar la estructura de la información
+ Validación de los datos en la aplicación Cliente
+
+===== PAGINA 26 =====
+
+BD Orientada a Documentos
+ Almacena los datos en documentos
+ Son duplas Clave-(Valor => documento)
+ No existe un esquema estricto
+ Los documentos dentro de una colección
+pueden tener campos diferentes
+
+===== PAGINA 27 =====
+
+BD Orientada a Documentos
+
+===== PAGINA 28 =====
+
+¿Cuándo usar SQL o NoSQL?
+
+===== PAGINA 29 =====
+
+MongoDB
+ Escalable, alto rendimiento y disponibilidad
+
+ Puede trabajar en modo maestro-esclavo
+
+ Basada en esquemas BSON (Binary JSON )
+
+ Posee un rico y sencillo sistema de consulta
+
+ Soporte de índices
+
+ Replicación y soporte a prueba de fallos
+
+===== PAGINA 30 =====
+
+Propiedades
+ Escalabilidad horizontal (Auto-Sharding)
+
+ Replicación para alta disponibilidad
+
+===== PAGINA 31 =====
+
+Arquitectura de MongoDB
+ Los principales componentes de MongoDB
+ son los siguientes:
+ • Mongod (Núcleo de la base de datos)
+ • Mongos (Controlador de particionamiento)
+ • GridFS (Función de almacenamiento)
+
+===== PAGINA 32 =====
+
+Comparación entre SQL y
+MongoDB
+
+===== PAGINA 33 =====
+
+Migrando de SQL a NoSQL
+
+===== PAGINA 34 =====
+
+En MongoDB
+
+===== PAGINA 35 =====
+
+Creación de Base de Datos
+ use DATABASE_NAME
+
+
+ Para chequear la base seleccionada:
+    > db
+ Mostrar bases de datos corriendo:
+    > show dbs
+
+===== PAGINA 36 =====
+
+Borrar Base de datos
+ db.dropDatabase()
+
+===== PAGINA 37 =====
+
+Colecciones
+ db.createCollection(“myCollection”)
+{ “ok”: 1 }
+ db.myCollection.insert({"name" : "tutorial"})
+
+
+ Borrar Colección
+    db.myCollection.drop()
+
+===== PAGINA 38 =====
+
+Inserción de Documentos
+
+===== PAGINA 39 =====
+
+Inserción de Múltiples Documentos
+
+===== PAGINA 40 =====
+
+Consultas en MongoDB
+
+===== PAGINA 41 =====
+
+Consultas con “Where”
+
+===== PAGINA 42 =====
+
+Uso de AND
+
+
+
+
+ EN SQL: where by = 'tutorials point' AND title = 'MongoDB Overview‘
+
+===== PAGINA 43 =====
+
+Uso de OR
+
+
+
+
+  EN SQL: where by = 'tutorials point' OR title = 'MongoDB Overview‘
+
+===== PAGINA 44 =====
+
+  AND y OR juntos
+
+
+
+
+En SQL: where likes>10 AND (by = 'tutorials point' OR title = 'MongoDB Overview')
+
+===== PAGINA 45 =====
+
+Ordenamiento
+ >db.myCollection.find().sort({name: 1, surname: -1})
+
+===== PAGINA 46 =====
+
+Función de Agregación
+
+===== PAGINA 47 =====
+
+Función de Agregación
+
+
+
+
+  En SQL: select by_user, count(*) from mycol group by by_user.
+
+===== PAGINA 48 =====
+
+Ensamble de Colecciones
+
+===== PAGINA 49 =====
+
+Ensamble de Colecciones (cont.)
+
+===== PAGINA 50 =====
+
+Vistas en MongoDB
+ Creación de vistas
+
+===== PAGINA 51 =====
+
+Ejemplo de Vistas   Collection: Survey
+
+
+
+
+                     View: managementFeedback
+
+===== PAGINA 52 =====
+
+Uso de la Vista

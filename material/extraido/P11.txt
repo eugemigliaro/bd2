@@ -1,0 +1,73 @@
+FUENTE: P11
+TITULO: Ejercicio MongoDB: agregaciones en e-commerce
+ORIGINAL: material/catedra/practica/p11-mongodb-ecommerce.pdf
+
+===== PAGINA 1 =====
+
+Imagine que tiene una base de datos llamada ecommerce, con las siguientes
+colecciones: clientes, productos y ordenes. Usando MongoDB (Compass), resolver
+las siguientes preguntas:
+
+   1. ¿Cuál es el total de dinero gastado por cada cliente?
+      (Mostrar nombre, email, total gastado y ordenarlo de mayor a menor)
+   2. ¿Cuál es el producto más vendido y cuántas unidades se vendieron?
+   3. ¿Cuánto se vendió por categoría de producto?
+      (Sumar las cantidades vendidas y el ingreso total por categoría)
+   4. Listar el top 5 de clientes que más gastaron, indicando nombre, país y
+      monto total.
+   5. (Opcional avanzado): Para cada cliente, listar sus órdenes incluyendo el
+      nombre de los productos comprados.
+      (Requiere $lookup entre ordenes → productos)
+
+Colecciones:
+
+db.clientes.insertMany([
+  { _id: ObjectId("000000000000000000000001"), nombre: "Juan Pérez", email:
+"juan.perez@email.com", pais: "Argentina" },
+  { _id: ObjectId("000000000000000000000002"), nombre: "María Gómez", email:
+"maria.gomez@email.com", pais: "México" },
+  { _id: ObjectId("000000000000000000000003"), nombre: "Carlos Díaz", email:
+"carlos.diaz@email.com", pais: "Chile" }
+]);
+
+
+db.productos.insertMany([
+  { _id: ObjectId("100000000000000000000001"), nombre: "Auriculares Bluetooth",
+categoria: "Electrónica", precio: 4500 },
+  { _id: ObjectId("100000000000000000000002"), nombre: "Libro MongoDB", categoria:
+"Libros", precio: 3000 },
+  { _id: ObjectId("100000000000000000000003"), nombre: "Mouse Gamer", categoria:
+"Electrónica", precio: 5200 }
+]);
+
+db.ordenes.insertMany([
+ {
+   _id: ObjectId("200000000000000000000001"),
+   cliente_id: ObjectId("000000000000000000000001"),
+   fecha: ISODate("2023-10-10"),
+   items: [
+     { producto_id: ObjectId("100000000000000000000001"), cantidad: 2 },
+     { producto_id: ObjectId("100000000000000000000002"), cantidad: 1 }
+   ]
+ },
+ {
+   _id: ObjectId("200000000000000000000002"),
+   cliente_id: ObjectId("000000000000000000000002"),
+
+===== PAGINA 2 =====
+
+    fecha: ISODate("2023-10-11"),
+    items: [
+      { producto_id: ObjectId("100000000000000000000002"), cantidad: 2 }
+    ]
+  },
+  {
+    _id: ObjectId("200000000000000000000003"),
+    cliente_id: ObjectId("000000000000000000000003"),
+    fecha: ISODate("2023-10-12"),
+    items: [
+      { producto_id: ObjectId("100000000000000000000001"), cantidad: 1 },
+      { producto_id: ObjectId("100000000000000000000003"), cantidad: 1 }
+    ]
+  }
+]);

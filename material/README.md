@@ -11,3 +11,10 @@ El [catálogo](catalogo.tsv) asigna un ID estable a cada fuente. Las citas usan 
 3. El agente clasifica, asigna ID, preserva el original, extrae texto, actualiza la wiki y valida referencias.
 
 No copiar manualmente una fuente nueva a `extraido/`: ese contenido se regenera con `./scripts/extraer-fuentes.sh` a partir del catálogo.
+
+## Incorporaciones y continuidad
+
+- [2026-10-02 — NoSQL y MongoDB](incorporaciones/2026-10-02-nosql-mongodb.md): 11 fuentes incorporadas; registro de la primera unidad y su continuidad.
+- [2026-10-02 — Cassandra](incorporaciones/2026-10-02-cassandra.md): cuatro fuentes oficiales incorporadas (85 páginas PDF y una imagen); se completó lo pendiente en entrada.
+
+Los ID no tienen que coincidir con el número de clase o de TP. Se asignan sin reutilizar los existentes; las series con sufijos agrupan partes y recursos relacionados.

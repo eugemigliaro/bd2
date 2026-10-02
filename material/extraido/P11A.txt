@@ -1,0 +1,212 @@
+FUENTE: P11A
+TITULO: Solución de cátedra del ejercicio MongoDB e-commerce
+ORIGINAL: material/catedra/practica/recursos/p11-solucion-mongodb-ecommerce.pdf
+
+===== PAGINA 1 =====
+
+             Ejercicio de MongoDB: Agregaciones en un e-commerce
+
+1. Datos de ejemplo
+
+Colección: clientes
+db.clientes.insertMany([
+     {   _id:   ObjectId("000000000000000000000001"),   nombre:   "Juan      Pérez",   email:
+"juan.perez@email.com", pais: "Argentina" },
+     {   _id:  ObjectId("000000000000000000000002"),    nombre:   "María     Gómez",   email:
+"maria.gomez@email.com", pais: "México" },
+     {   _id:  ObjectId("000000000000000000000003"),    nombre:   "Carlos     Díaz",   email:
+"carlos.diaz@email.com", pais: "Chile" }
+]);
+
+Colección: productos
+db.productos.insertMany([
+      { _id: ObjectId("100000000000000000000001"), nombre: "Auriculares Bluetooth",
+categoria: "Electrónica", precio: 4500 },
+    { _id: ObjectId("100000000000000000000002"), nombre: "Libro MongoDB", categoria:
+"Libros", precio: 3000 },
+     { _id: ObjectId("100000000000000000000003"), nombre: "Mouse Gamer", categoria:
+"Electrónica", precio: 5200 }
+]);
+
+Colección: ordenes
+db.ordenes.insertMany([
+  {
+     _id: ObjectId("200000000000000000000001"),
+     cliente_id: ObjectId("000000000000000000000001"),
+     fecha: ISODate("2023-10-10"),
+     items: [
+       { producto_id: ObjectId("100000000000000000000001"), cantidad: 2 },
+       { producto_id: ObjectId("100000000000000000000002"), cantidad: 1 }
+     ]
+  },
+  {
+     _id: ObjectId("200000000000000000000002"),
+     cliente_id: ObjectId("000000000000000000000002"),
+     fecha: ISODate("2023-10-11"),
+     items: [
+       { producto_id: ObjectId("100000000000000000000002"), cantidad: 2 }
+     ]
+  },
+  {
+     _id: ObjectId("200000000000000000000003"),
+     cliente_id: ObjectId("000000000000000000000003"),
+     fecha: ISODate("2023-10-12"),
+     items: [
+       { producto_id: ObjectId("100000000000000000000001"), cantidad: 1 },
+       { producto_id: ObjectId("100000000000000000000003"), cantidad: 1 }
+     ]
+
+===== PAGINA 2 =====
+
+              Ejercicio de MongoDB: Agregaciones en un e-commerce
+
+  }
+]);
+
+
+2. Total gastado por cliente
+
+db.ordenes.aggregate([
+  { $unwind: "$items" },
+  {
+     $lookup: {
+       from: "productos",
+       localField: "items.producto_id",
+       foreignField: "_id",
+       as: "producto"
+     }
+  },
+  { $unwind: "$producto" },
+  {
+     $group: {
+       _id: "$cliente_id",
+       total: { $sum: { $multiply: ["$items.cantidad", "$producto.precio"] } }
+     }
+  },
+  {
+     $lookup: {
+       from: "clientes",
+       localField: "_id",
+       foreignField: "_id",
+       as: "cliente"
+     }
+  },
+  { $unwind: "$cliente" },
+  {
+     $project: {
+       _id: 0,
+       nombre: "$cliente.nombre",
+       email: "$cliente.email",
+       totalGastado: "$total"
+     }
+  },
+  { $sort: { totalGastado: -1 } }
+]);
+
+
+3. Producto más vendido
+
+db.ordenes.aggregate([
+  { $unwind: "$items" },
+  {
+    $group: {
+      _id: "$items.producto_id",
+
+===== PAGINA 3 =====
+
+              Ejercicio de MongoDB: Agregaciones en un e-commerce
+
+        totalUnidades: { $sum: "$items.cantidad" }
+    }
+  },
+  {
+    $lookup: {
+      from: "productos",
+      localField: "_id",
+      foreignField: "_id",
+      as: "producto"
+    }
+  },
+  { $unwind: "$producto" },
+  {
+     $project: {
+       _id: 0,
+       nombreProducto: "$producto.nombre",
+       totalUnidades: 1
+     }
+  },
+  { $sort: { totalUnidades: -1 } },
+  { $limit: 1 }
+]);
+
+
+4. Ventas por categoría
+
+db.ordenes.aggregate([
+  { $unwind: "$items" },
+  {
+     $lookup: {
+       from: "productos",
+       localField: "items.producto_id",
+       foreignField: "_id",
+       as: "producto"
+     }
+  },
+  { $unwind: "$producto" },
+  {
+     $group: {
+       _id: "$producto.categoria",
+       totalUnidades: { $sum: "$items.cantidad" },
+       totalIngresos: { $sum: { $multiply: ["$items.cantidad", "$producto.precio"] } }
+     }
+  },
+  {
+     $project: {
+       categoria: "$_id",
+       totalUnidades: 1,
+       totalIngresos: 1,
+       _id: 0
+
+===== PAGINA 4 =====
+
+              Ejercicio de MongoDB: Agregaciones en un e-commerce
+
+      }
+  }
+]);
+
+
+5. Top 5 clientes
+
+Agregar al final del pipeline del punto 2: { $limit: 5 }
+
+
+6. Detalle de órdenes con productos por cliente
+
+db.ordenes.aggregate([
+  {
+     $lookup: {
+       from: "clientes",
+       localField: "cliente_id",
+       foreignField: "_id",
+       as: "cliente"
+     }
+  },
+  { $unwind: "$cliente" },
+  { $unwind: "$items" },
+  {
+     $lookup: {
+       from: "productos",
+       localField: "items.producto_id",
+       foreignField: "_id",
+       as: "producto"
+     }
+  },
+  { $unwind: "$producto" },
+  {
+     $group: {
+       _id: "$cliente.nombre",
+       productosComprados: { $push: "$producto.nombre" }
+     }
+  }
+]);

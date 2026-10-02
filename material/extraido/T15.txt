@@ -1,0 +1,548 @@
+FUENTE: T15
+TITULO: MongoDB: funcionalidades, índices, agregación y distribución
+ORIGINAL: material/catedra/teoria/t15-mongodb-features.pdf
+
+===== PAGINA 1 =====
+
+document database
+   performance
+ ease data access
+    no-schema
+
+===== PAGINA 2 =====
+
+DB Ranking
+#5 Overall
+#1 Document stores
+
+https://db-engines.com/en/system/MongoDB
+
+
+
+Initial release: 2009
+Stable release: 6.0.5 / 2023-03-13
+
+
+repository: github.com/mongodb/mongo
+
+===== PAGINA 3 =====
+
+
+
+===== PAGINA 4 =====
+
+los creadores de mongodb
+
+
+
+
+Eliot Horowitz                                                 Dwight Merriman
+https://github.com/erh                                         https://github.com/dwight
+@eliothorowitz                                                 https://en.wikipedia.org/wiki/Dwight_Merriman
+https://en.wikipedia.org/wiki/Eliot_Horowitz
+
+17/03/2020: https://www.mongodb.com/blog/post/hasta-la-vista
+
+===== PAGINA 5 =====
+
+
+
+===== PAGINA 6 =====
+
+MongoDB is a JSON document database (though technically data is stored in a
+binary form of JSON known as BSON)
+
+===== PAGINA 7 =====
+
+Ejemplo de un tuit en formato JSON
+
+https://gist.github.com/aaizemberg/c297e70f46a57affee76d8886a607298
+{'contributors': None,
+'coordinates': None,
+'created_at': 'Sun Sep 01 19:05:54 +0000 2019',
+'display_text_range': [0, 92],
+'entities': {'hashtags': [],
+'media': [{'display_url': 'pic.twitter.com/OjmCRfs0Vv',
+   'expanded_url': 'https://twitter.com/aaizemberg/status/1168238568688553989/photo/1',
+   'id': 1168238539403943944,
+   'id_str': '1168238539403943944',
+   'indices': [93, 116],
+   'media_url': 'http://pbs.twimg.com/media/EDZqwxIX4AgqZkz.jpg',
+   'media_url_https': 'https://pbs.twimg.com/media/EDZqwxIX4AgqZkz.jpg',
+   'sizes': {'large': {'h': 2048, 'resize': 'fit', 'w': 1153},
+   'medium': {'h': 1200, 'resize': 'fit', 'w': 676},
+   'small': {'h': 680, 'resize': 'fit', 'w': 383},
+   'thumb': {'h': 150, 'resize': 'crop', 'w': 150}},
+
+===== PAGINA 8 =====
+
+ "_id" → ObjectId o generado por el usuario
+> db.egresados.findOne()
+{
+    "_id" : ObjectId("5d712e759bec0f1238869a1a"),
+    "Legajo" : "53213",
+    "Apellido" : "Freddo",                   > db.egresados.findOne()._id
+                                             ObjectId("5d712e759bec0f1238869a1a")
+    "Nombre" : "Ramiro",
+    "Título" : "Ingeniero en Informática",   > db.egresados.findOne()._id.getTimestamp()
+    "promedio_lineal" : 6.68                 ISODate("2019-09-05T15:49:09Z")
+}
+                                             > db.egresados.findOne()._id.toString()
+                                             ObjectId("5d712e759bec0f1238869a1a")
+
+                                             > db.egresados.findOne()._id.valueOf()
+                                             5d712e759bec0f1238869a1a
+
+===== PAGINA 9 =====
+
+"_id" → ObjectId o generado por el usuario
+> db.testing.insertOne({"_id": 1, "value": 10})
+{ "acknowledged" : true, "insertedId" : 1 }
+
+> db.testing.insertOne({"_id": "2", "value": 20})
+{ "acknowledged" : true, "insertedId" : "2" }
+
+> db.testing.insertOne({"value": 30})
+{ "acknowledged" : true, "insertedId" : ObjectId("5e95cbbf8d72de7f0b97e4bd") }
+
+> db.testing.find()
+{ "_id" : 1, "value" : 10 }
+{ "_id" : "2", "value" : 20 }
+{ "_id" : ObjectId("5e95cbbf8d72de7f0b97e4bd"), "value" : 30 }
+
+                                                    https://docs.mongodb.com/manual/reference/method/ObjectId/
+
+===== PAGINA 10 =====
+
+levantando el servicio y entrando al shell (mongosh)
+
+# prender y apagar el servicio
+#
+$ sudo service mongod start
+                                 MongoDB Shell, mongosh
+$ sudo service mongod stop       The MongoDB Shell (mongosh) is not installed with MongoDB Server.
+                                 You need to follow the mongosh installation instructions to download
+                                 and install mongosh separately.
+# levantar el shell
+#
+$ mongosh --host localhost --port 27017      # es equivalente a
+$ mongosh
+        # esta otra instrucción
+
+
+> show dbs
+
+===== PAGINA 11 =====
+
+
+
+===== PAGINA 12 =====
+
+insertando un registro
+# usar una base de datos
+#
+use test
+
+# crear una colección (o tabla)
+#
+db.createCollection("usuarios")
+
+# insertando 1 registro
+#
+db.usuarios.insert({"nombre": "Ariel", "apellido": "Aizemberg", "username":
+"aaizemberg"})
+
+===== PAGINA 13 =====
+
+colecciones o tablas?
+probar estas 3 instrucciones
+
+1. > show collections
+2. > show tables
+3. > db.getCollectionNames()
+
+
+
+> show dbs                // para listar las bases de datos
+
+===== PAGINA 14 =====
+
+Importando un archivo .tsv (mongoimport)
+$ mongoimport --headerline --db test --collection internos --type tsv <
+internos.tsv
+
+connected to: 127.0.0.1
+2018-10-03T15:40:31.471-0300 check 9 290
+2018-10-03T15:40:31.472-0300 imported 289 objects
+
+> db.internos.count()
+> db.internos.countDocuments()
+289
+
+===== PAGINA 15 =====
+
+Mostrando el primer registro (pretty print)
+
+> db.internos.findOne()
+
+{
+    "_id" : ObjectId("5f4e8167587f8b5c6d24ec31"),
+     "nombre" : "Aguiar Andrea",
+     "user" : "aaguiar",
+     "int" : 4741,
+     "area" : "Calidad Educativa",
+     "sector" : "Calidad Educativa",
+     "sede" : "Central"
+}
+
+===== PAGINA 16 =====
+
+Robomongo (GUI) → Robo 3T (Studio $)
+
+===== PAGINA 17 =====
+
+MongoDB Compass
+
+===== PAGINA 18 =====
+
+DataGrip
+a great database IDE to work with MongoDB Atlas
+
+===== PAGINA 19 =====
+
+NoSQLBooster for MongoDB - MongoBooster
+
+===== PAGINA 20 =====
+
+CRUD and Nesting
+use DATABASE_NAME                         # crea o usa una DB
+show dbs                                                   # muestra las
+db                                                                # te
+informa en que DB estas
+show collections
+db.towns.insert( <JSON> )                         # inserta un registro
+db.town.findOne()                                 # busca 1 registro
+db.town.find()
+
+Se puede ver cómo está implementada una función, si la llamamos sin los
+parentesis, ej: db.town.findOne
+
+===== PAGINA 21 =====
+
+buscando con expresiones regulares y rangos
+> db.towns.find( { name : /^P/ }, { _id: 0, name : 1, population : 1 } )
+{ "name" : "Punxsutawney", "population" : 6200 }
+{ "name" : "Portland", "population" : 582000 }
+
+> db.towns.find(   { name : /^P/ , population : { $lt : 10000 } }, {
+_id: 0, name : 1, population : 1 }   )
+{ "name" : "Punxsutawney", "population" : 6200 }
+
+> var pop_range = { $lt: 1000000, $gt: 10000 }
+> db.towns.find(   { name : /^P/ , population : pop_range}, { _id: 0,
+name : 1, population : 1 }   )
+
+> db.internos.find({nombre: /aiz.*/i})
+
+===== PAGINA 22 =====
+
+$all & $nin
+> db.towns.find( { famousFor : { $all : [ 'food' , 'beer' ] } }, { _id : 0,
+name:1, famousFor:1 } )
+
+> db.towns.find( { famousFor : { $nin : [ 'food' , 'beer' ] } }, { _id : 0,
+name:1, famousFor:1 } )
+
+$nin selects the documents where:
+- the field value is not in the specified array or
+- the field does not exist. # Be careful, do not misspell the
+field. Remember that the fields are case sensitive.
+
+===== PAGINA 23 =====
+
+The records do not necessarily have the same structure
+db.countries.insert({_id : "us" ,name : "United States",
+  exports : {foods : [{ name : "bacon" , tasty : true }, { name :
+"burgers" }]}})
+
+db.countries.insert({_id : "ca" ,name : "Canada" ,
+  exports : {foods : [{ name : "bacon" , tasty : false },{ name :
+"syrup" , tasty : true }]}})
+
+db.countries.insert({_id : "mx" ,name : "Mexico" ,
+  exports : {foods : [{ name : "salsa" , tasty : true , condiment
+: true }]}})
+
+===== PAGINA 24 =====
+
+operadores (and implícito y or)
+> db.countries.find( { _id : "mx", name : "United States" }, {
+_id:1, name:1 } )
+# no retorna nada
+
+> db.countries.find( { $or : [ { _id : "mx" }, { name : "United
+States" } ] }, { _id:1, name:1 } )
+{ "_id" : "us", "name" : "United States" }
+{ "_id" : "mx", "name" : "Mexico" }
+
+===== PAGINA 25 =====
+
+update
+> db.towns.update( { name : "Portland" }, { $set : { "state" :
+"OR" } } )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1
+})
+
+
+> db.towns.find({},{"_id":0, name:1, state:1})
+{ "name" : "New York" }
+{ "name" : "Punxsutawney" }
+{ "name" : "Portland", "state" : "OR" }
+
+===== PAGINA 26 =====
+
+updateOne (desde python)
+import pymongo
+from pymongo import MongoClient
+
+
+client = MongoClient('mongodb://<usuario>:<password>@<host>:<port>/'elecciones-2019')
+db = client['elecciones-2019']
+news_collection = db['news']
+
+
+aa_key = '***************************************'
+cursor = db.news.find({"engagement": None})
+for entry in cursor:
+ id   = entry['_id']
+ link = entry['link']
+ engagement = sharedcount_fb_engagement( link )
+ myquery = { "_id": id }
+ newvalues = { "$set": { "engagement": engagement } }
+ news_collection.update_one(myquery, newvalues)
+ print('{0} {1}'.format(link, engagement))
+
+===== PAGINA 27 =====
+
+delete
+> db.countries.count()
+3
+> var badBacon = { 'exports.foods' : { $elemMatch : { name :
+'bacon', tasty : false } } }
+
+> db.countries.find(badBacon)
+{ "_id" : "ca", "name" : "Canada", "exports" : { "foods" : [ {
+"name" : "bacon", "tasty" : false }, { "name" : "syrup", "tasty" :
+true } ] } }
+> db.countries.deleteOne(badBacon)
+> db.countries.count()
+2
+
+===== PAGINA 28 =====
+
+indexing
+default _id index
+
+MongoDB creates a unique index on the _id field during the creation of a
+collection. The _id index prevents clients from inserting two documents with the
+same value for the _id field. You cannot drop this index on the _id field.
+
+By default, all collections have an index on the _id field.
+
+// Show all indexes of the current database
+db.getCollectionNames().forEach(function(collection) {
+  print("Indexes for the " + collection + " collection:");
+  printjson(db[collection].getIndexes());
+});
+
+===== PAGINA 29 =====
+
+single field indexes
+> db.phones.count()
+100,000 rows
+
+> db.phones.find({display: "+1 800-5650001"}).explain()       → 61 ms
+> db.phones.ensureIndex( { display : 1 }, { unique : true } )
+> db.phones.find({display: "+1 800-5650001"}).explain()       → 0 ms
+
+// index on nested values
+> db.phones.ensureIndex({ "components.area": 1 }, { background : 1 })
+
+
+
+                       +info: https://docs.mongodb.com/manual/core/index-single/
+
+===== PAGINA 30 =====
+
+
+
+===== PAGINA 31 =====
+
+Aggregated Queries
+
+===== PAGINA 32 =====
+
+https://www.practical-mongodb-aggregations.com/
+
+===== PAGINA 33 =====
+
+Aggregated Queries
+
+SELECT tipo, Count(*)
+FROM hospitales
+GROUP BY tipo
+ORDER BY Count(*) DESC
+
+                   db.hospitales.aggregate([
+                    { $group : {_id: "$properties.TIPO", count:{$sum:1} } },
+                    { $sort : { count : -1 } }
+                   ])
+
+                   { "_id" : "Hospital especializado", "count" : 20 }
+                   { "_id" : "Hospital de agudos", "count" : 13 }
+                   { "_id" : "Hospital de niños", "count" : 3 }
+
+===== PAGINA 34 =====
+
+Aggregated Queries
+db.phones.count({'components.number': { $gt : 5599999 } } )
+
+db.phones.distinct('components.number',{'components.number': { $lt :
+5550005 } } )
+
+db.cities.aggregate([ { $match: { 'timezone': { $eq: 'Europe/London' } } },
+{ $group: { _id: 'averagePopulation', avgPop: { $avg: '$population' } } }
+])
+
+db.cities.aggregate([
+  { $match: { 'timezone': { $eq: 'Europe/London' } } },
+  { $sort: { population: -1 } },
+  { $project: { _id: 0, name: 1, population: 1 } }
+])
+
+===== PAGINA 35 =====
+
+MapReduce
+In MongoDB, the map step involves creating a mapper function that calls an
+emit() function. The benefit of this approach is you can emit more than once per
+document. The reduce() function accepts a single key and a list of values that
+were emitted to that key. Finally, Mongo provides an optional third step called
+finalize(), which is executed only once per mapped value after the reducers are
+run. This allows you to perform any final calculations or cleanup you may need.
+
+
+
+         [2004] MapReduce: Simplified Data Processing on Large Clusters
+
+                                     https://en.wikipedia.org/wiki/MapReduce
+
+===== PAGINA 36 =====
+
+MapReduce
+ejemplo de la página 120
+
+ 1. https://media.pragprog.com/titles/pwrdata/code/mongo/distinctDigits.js
+ 2. https://media.pragprog.com/titles/pwrdata/code/mongo/map1.js
+ 3. https://media.pragprog.com/titles/pwrdata/code/mongo/reduce1.js
+
+results = db.runCommand({                {"result" : "phones.report",
+  mapReduce: 'phones',                     "timeMillis" : 2464,
+                                           "counts" : {
+  map: map,
+                                             "input" : 100000,
+  reduce: reduce,                            "emit" : 100000,
+  out: 'phones.report' })                    "reduce" : 25719,
+                                             "output" : 3479
+                                           }, "ok" : 1 }
+
+===== PAGINA 37 =====
+
+
+
+===== PAGINA 38 =====
+
+user-defined functions in system.js
+any JavaScript function can be stored in a special collection named system.js
+
+> db.system.js.save({
+    _id: 'getLast',
+    value: function(collection) {
+    return collection.find({}).sort({'_id':-1}).limit(1)[0]; }
+})
+
+> use book
+> db.loadServerScripts()
+> getLast(db.phones).display
+
++8 800-5649989
+
+===== PAGINA 39 =====
+
+accessing mongoDB from python
+$ pip install pymongo
+
+import pymongo
+from pymongo import MongoClient
+client = MongoClient()      # client = MongoClient('localhost', 27017)
+                                               # client =
+MongoClient('mongodb://localhost:27017/')
+
+db = client['book']
+collection = db.countries
+for c in collection.find({},{'name':1}):
+         print c['name']
+
+United States
+Canada
+Mexico
+
+===== PAGINA 40 =====
+
+Replica sets
+
+===== PAGINA 41 =====
+
+Replica Sets (rs)
+Mongo’s default port is 27017, so we’ll start up each server on other ports.
+
+$ mkdir ./mongo1 ./mongo2 ./mongo3
+$ mongod --replSet book --dbpath ./mongo1 --port 27011
+$ mongod --replSet book --dbpath ./mongo2 --port 27012
+$ mongod --replSet book --dbpath ./mongo3 --port 27013
+
+$ mongo localhost:27011
+> rs.initiate({ _id: 'book', members: [
+{_id: 1, host: 'localhost:27011'},
+{_id: 2, host: 'localhost:27012'},
+{_id: 3, host: 'localhost:27013'} ] })
+> rs.status().ok
+                                                                      pag. 124 (example)
+
+===== PAGINA 42 =====
+
+Viewing the replica set from Robo3T
+
+===== PAGINA 43 =====
+
+Replica Set Elections
+
+===== PAGINA 44 =====
+
+Sharding
+One of the core goals of Mongo is to provide safe and quick handling of very large
+datasets. The clearest method of achieving this is through horizontal sharding by
+value ranges - or just sharding for brevity.
+
+mongoDB: allows sharding from version 1.6
+https://docs.mongodb.com/manual/sharding/
+
+ ● Seguir el ejemplo, de la pag. 127 o mirar este video "Sharding a MongoDB
+   Collection"
+ ● De donde viene el termino SHARD →
+   https://en.wikipedia.org/wiki/Shard_(database_architecture)
+
+===== PAGINA 45 =====
+
+more info
+Documentación sitio oficial MongoDB -
+https://www.mongodb.com/docs/manual/reference/

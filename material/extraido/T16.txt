@@ -1,0 +1,1106 @@
+FUENTE: T16
+TITULO: Introducción a Cassandra
+ORIGINAL: material/catedra/teoria/t16-introduccion-cassandra.pdf
+
+===== PAGINA 1 =====
+
+                  Bases de Datos Tabulares
+Guillermo Rodriguez - Ingeniería Informática ITBA
+
+                                                    1
+
+===== PAGINA 2 =====
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   2
+
+===== PAGINA 3 =====
+
+Bases de Datos Tabulares
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   3
+
+===== PAGINA 4 =====
+
+     RDBMS                                          Tabular
+     Instancia                                      Cluster
+     Base de Dato                                   KeySpace
+     Tabla                                          Familia de Columnas
+     Fila                                           Fila
+     Columna                                        Columna (distinto por cada fila)
+
+
+
+
+         Terminología RDBMS vs Tabular
+Guillermo Rodriguez - Ingeniería Informática ITBA
+
+                                                                                       4
+
+===== PAGINA 5 =====
+
+                                                       Estructura Libre (puede variar entre
+                                                        registros de la misma familia de
+                                                        columnas)
+                                                       Buena para registrar eventos (logs de
+                                                        aplicaciones).
+                                                       Las familias de columnas pueden
+Bases de Datos                                          almacenar datos, etiquetas, categorías,
+                                                        vínculos, etc.
+Tabulares                                              Pueden hacer     referencia   a       otros
+                                                        keySpace.
+                                                       Permiten contar y clasificar accesos y
+                                                        posteriormente    calcular     análisis
+                                                        estadísticos.
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                         5
+
+===== PAGINA 6 =====
+
+                                                       Sistemas que requieran transacciones ACID para
+                                                        lecturas y escrituras.
+                                                        Consultas de agregación de datos (sum o avg) ya
+       Cuando NO es                                 
+                                                        que deben hacerse del lado del cliente.
+       conveniente                                     No es ideal para prototipos tempranos donde no se
+                                                        tenga seguridad sobre los patrones de las
+       utilizarlas                                      consultas
+                                                       Cambios costosos del esquema para consultas
+                                                        existentes.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                      6
+
+===== PAGINA 7 =====
+
+
+
+===== PAGINA 8 =====
+
+Guillermo Rodriguez - Ingeniería Informática ITBA
+
+
+                                                    8
+
+===== PAGINA 9 =====
+
+Cassandra
+
+
+
+   Dentro de los nuevos sistemas de almacenamiento que están surgiendo dentro del universo Big Data,
+
+
+    Cassandra es uno de los más interesantes
+
+
+   Cassandra se define como una base de datos NoSQL distribuida y masivamente escalable
+
+
+   Además, Cassandra introduce conceptos muy interesantes como el soporte para multi data center o
+
+    la comunicación peer-to-peer entre sus nodos
+
+===== PAGINA 10 =====
+
+    Historia y orígenes
+
+   El desarrollo inicial de Cassandra tiene su origen en Facebook, que lo diseñó para potenciar la
+    funcionalidad de búsqueda en el inbox
+
+   En 2008 fue liberado como proyecto open source y en febrero de 2010 se convirtió en un proyecto
+    top-level de la fundación Apache
+
+   Está inspirado e influenciado por los papers de Amazon Dynamo de 2007 y de Google BigTable de 2006
+
+   Hoy en día está mantenido y desarrollado por la compañía Datastax
+
+   Su nombre está inspirado por la sacerdotisa Cassandra de la mitología griega, que tenía el don de la
+    profecía, y predijo el engaño del Caballo de Troya
+
+===== PAGINA 11 =====
+
+    Arquitectura y características
+   Cassandra nos proporciona tolerancia a particiones y disponibilidad, pero a cambio de ser
+    eventualmente consistente, tal y como define el teorema CAP
+   El nivel de consistencia puede ser configurado, según nos interese, incluso a nivel de
+    query
+   Es distribuida, lo quiere decir que la información está repartida a lo largo de los nodos del
+    cluster. Además ofrece alta disponibilidad, de manera que si alguno de los nodos se cae el
+    servicio no se degradará
+   Escala linealmente, lo que quiere decir que el rendimiento crece de forma lineal respecto
+    al número de nodos que añadamos. Por ejemplo, si con 2 nodos soportamos 100.000
+    operaciones por segundo, con 4 nodos soportaremos 200.000. Esto da mucha
+    predictibilidad a nuestros sistemas
+   Escala de forma horizontal, lo que quiere decir que podemos escalar nuestro sistema
+    añadiendo nuevos nodos basados en hardware de bajo costo
+
+===== PAGINA 12 =====
+
+    Arquitectura y características
+   Implementa una arquitectura Peer-to-Peer, lo que elimina los puntos de fallo único y no sigue patrones
+    maestro-esclavo como otros sistemas de almacenamiento
+   De esta manera cualquiera de los nodos puede tomar el rol de coordinador de una query. Será el driver el
+    que decida qué nodo quiere que sea el coordinador
+   Los datos son repartidos a lo largo del cluster en base a un token único calculado para cada fila por una
+    función hash.
+   Los nodos se reparten equitativamente el rango de tokens que va de -263 a 263, esto define el nodo
+    primario. Internamente Cassandra replicará los datos entre los nodos con la política que le definamos, por
+    ejemplo definiendo el factor de replicación
+   Además soporta el concepto de data center para agrupar los nodos lógicamente y tener los datos más cerca
+    del usuario
+
+===== PAGINA 13 =====
+
+    Lenguaje CQL
+   Cassandra Query Language (CQL) es el lenguaje de acceso a datos en
+    Cassandra, es un derivado reducido de SQL
+
+   En Cassandra los datos están desnormalizados de manera que el concepto de
+    joins o subqueries no existe
+
+   Podemos interactuar con Cassandra mediante CQL a través de la shell. de CQL,
+    cqlshell
+
+   También podemos usar herramientas gráficas como DevCenter o a través de los
+    drivers soportados para múltiples lenguajes de programación
+
+===== PAGINA 14 =====
+
+Modelado de datos
+
+
+   También combina propiedades de una base de datos clave-valor y una
+    orientada a columnas
+   Como podemos ver en el siguiente diagrama la información se organiza de
+    manera que toda fila tiene una clave única y una serie de pares de clave,
+    valor de columna
+   Es importante tener en mente estas características a la hora de diseñar
+    nuestro modelo de datos
+
+===== PAGINA 15 =====
+
+Modelado de datos
+
+===== PAGINA 16 =====
+
+     Modelado de datos
+
+   Cuando diseñemos nuestro modelo debemos de guiarnos por el patrón de acceso a los datos,
+    hay que hacer un análisis de las queries que pretendemos ejecutar contra nuestro sistema y de
+    esta forma podremos diseñar un modelo eficiente que pueda sacar partido de las ventajas de
+    Cassandra
+
+   Es importante también definir adecuadamente la clave de partición de nuestro datos, ya que
+    Cassandra se basará en esta clave para distribuir los datos a lo largo del cluster. Si queremos
+    aprovechar nuestro cluster debemos pensar en distribuir los datos para evitar cuellos de
+    botella
+
+   También es recomendable, dado nuestro patrón de consulta, intentar minimizar el número de
+    particiones a las que hay que acceder durante una lectura
+
+===== PAGINA 17 =====
+
+    Cuándo Cassandra es la mejor solución
+   La alta disponibilidad es una de las características principio
+   Su arquitectura distribuida y la manera en que se almacenan los datos
+    va a permitir tener una alta disponibilidad de la base de datos,
+    evitando caídas que pueden suponer pérdida de dinero o pérdida de
+    datos
+   Si tenemos grandes cantidades de datos y preferimos la velocidad
+    para acceder a los datos a la normalización de estos,
+    entonces Cassandra también puede ser la base de datos a elegir. Pero
+    cuidado, si estás acostumbrado a trabajar con bases de datos
+    relacionales deberás cambiar la forma de pensar a la hora de diseñar
+    tu modelo de datos
+
+===== PAGINA 18 =====
+
+    Cuándo Cassandra es la mejor solución (cont.)
+
+   En el mundo relacional estamos acostumbrados a pensar en relaciones de tablas y la normalización de
+
+    estas. Sin embargo, en el mundo Cassandra, hay que pensar en el almacenamiento en columnas. De
+
+    modo que lo que llamaríamos una tabla, se va a convertir en una familia de columnas
+
+   Para acceder de forma más rápida y eficaz manejando grandes volúmenes de datos, diseñaremos familias
+
+    de columnas sin importar el número de éstas. Así pues, podemos tener un registro en una familia de
+
+    columnas que cuente con 50 columnas, y otro registro de la misma familia que tenga 300 columnas, ya
+
+    que accederemos por el llamado Row Key
+
+===== PAGINA 19 =====
+
+Cuándo Cassandra es la mejor solución
+(cont.)
+ Es cierto que quizás la parte más compleja de la
+  adopción de esta base de datos sea cambiar la
+  forma de pensar a la hora de diseñar el modelo,
+  pues éste se debe basar en las consultas que
+  haremos en la aplicación, y no en la relación de
+  datos entre sí
+ Recuerda, en Cassandra no existen los JOIN entre
+  tablas
+
+===== PAGINA 20 =====
+
+Ejemplo de CQL
+
+===== PAGINA 21 =====
+
+                                Principales Clientes
+Guillermo Rodriguez - Ingeniería Informática ITBA
+
+                                                       21
+
+===== PAGINA 22 =====
+
+                       Cassandra
+
+ Iniciado por Facebook
+ Código abierto en 2008
+ Proyecto apache en 2009
+ Licencia: Apache License 2.0
+ Escrito en Java
+ Multiplataforma
+ Soporta terabytes de datos y millones de ficheros.
+
+===== PAGINA 23 =====
+
+                                                    Cassandra
+
+       Esquema dinámico: El esquema que define la
+        estructura de los datos puede cambiar en tiempo de
+        ejecución.
+       No hay un único punto de fallo: Los datos se
+        replican automáticamente a varios nodos. Perder un
+        nodo no causa la baja del clúster.
+       Alta disponibilidad: Los datos estás disponibles la
+        mayor parte del tiempo gracias a la redundancia que
+        introduce la replicación de datos.
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA               23
+
+===== PAGINA 24 =====
+
+                                                    Cassandra
+
+    Particionado de los datos: La topología de
+     Cassandra es la de un anillo a través del cual se
+     distribuyen los datos para minimizar cuellos de
+     botella en el acceso a los mismos.
+    Escalabilidad horizontal: Hasta un alto número de
+     máquinas la capacidad de cómputo aumenta
+     linealmente con el número de máquinas.
+    Capacidad para manejar cientos de gigabytes
+     de datos.
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA               24
+
+===== PAGINA 25 =====
+
+              Arquitectura de Cassandra
+
+Varios nodos indepen-
+dientes    comunicados
+mediante un protocolo
+P2P (peer-to-peer):
+
+ Todos     los nodos
+  intercambian
+ información con el
+  resto     de  forma
+  continua.
+
+
+
+
+ Guillermo Rodriguez - Ingeniería Informática ITBA   25
+
+===== PAGINA 26 =====
+
+                                                       No hay nodos “principales”. Los
+                                                        clientes pueden conectarse a
+                                                        cualquiera de los nodos para realizar
+                                                        las operaciones de lectura y escritura:
+
+Arquitectura de                                        El nodo al que se conecta el cliente
+                                                        actúa como coordinador entre éste y
+Cassandra                                               el resto de los nodos en dónde se
+                                                        encuentran los datos afectados por la
+                                                        consulta.
+                                                       El coordinador determina qué nodos
+                                                        deben responder a la consulta.
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                           26
+
+===== PAGINA 27 =====
+
+                                                    Replicación en
+                                                    Cassandra
+
+                                                    Uno o más nodos de un clúster actúan
+                                                    como réplicas de un dato dado.
+                                                    Si se detecta que algunos de los nodos
+                                                    respondieron con un valor
+                                                    desactualizado, devolverá el valor más
+                                                    reciénte al cliente.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                             27
+
+===== PAGINA 28 =====
+
+Replicación en Cassandra
+
+     Después de devolver el valor más reciente, Cassandra realiza una reparación
+      de lectura en segundo plano para actualizar los valores obsoletos.
+     Utiliza el Protocolo Gossip (chisme) en segundo plano para permitir que los
+      nodos se comuniquen entre ellos y detecten cualquier nodo defectuoso en el
+      clúster.
+     Gossip : Procedimiento o proceso de comunicación entre pares basado en la
+      forma en que se propagan las epidemias (el vecino le informa los cambios)
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                   28
+
+===== PAGINA 29 =====
+
+    Elementos de Cassandra
+    Nodo: Es una instancia de Cassandra que almacena datos y responde a las
+     solicitudes de lectura/escritura. Cada nodo es responsable de una parte
+     específica del conjunto de datos. En términos simples, un nodo es un servidor
+     que forma parte del sistema distribuido y tiene una copia de los datos que le
+     corresponde según el algoritmo de partición de la base de datos.
+    Data Center: Es un conjunto de nodos agrupados lógicamente. Un data center
+     puede estar ubicado en una única ubicación física o distribuido geográficamente
+     para replicación y alta disponibilidad. En Cassandra, los data centers se utilizan
+     principalmente para separar nodos por motivos de rendimiento o para replicación
+     en distintas zonas geográficas. Puedes tener diferentes data centers para
+     manejar cargas de trabajo distintas, como uno para operaciones de análisis y
+     otro para procesamiento en tiempo real.
+    Clúster: Es el conjunto completo de todos los nodos de Cassandra organizados
+     bajo una configuración común. Un cluster incluye uno o más data centers y está
+     diseñado para brindar redundancia, alta disponibilidad y escalabilidad. Los nodos
+     en un cluster trabajan juntos para almacenar y replicar datos, lo que asegura la
+     resistencia a fallas.
+    Guillermo Rodriguez - Ingeniería Informática ITBA                                29
+
+===== PAGINA 30 =====
+
+Elementos de Cassandra
+
+     Commit log : el registro de confirmación (Commit log) es un mecanismo de
+      recuperación de fallas en Cassandra. Cada operación de escritura se escribe
+      en el registro de confirmación.
+     MemTable: es una estructura de datos residente en la memoria. Después del
+      registro de confirmación (Commit log), los datos se escribirán en la SStable
+      desde MemTable.
+     SSTable: es un archivo de disco en donde se guarda el contenido de la
+      MemTable cuando alcanza un valor determinado. Cada fichero SSTable es
+      inmutable una vez creado.
+     Filtros de Bloom: no son más que algoritmos rápidos, no deterministas, para
+      probar si un elemento es miembro de un conjunto. Es un tipo especial de
+      caché. Se accede a los filtros Bloom después de cada consulta.
+Guillermo Rodriguez - Ingeniería Informática ITBA                                    30
+
+===== PAGINA 31 =====
+
+                                                    Actividad de
+                                                    Escritura
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA              31
+
+===== PAGINA 32 =====
+
+Actividad de Escritura
+
+       Escritura en Commit log: almacena TODA la actividad de escritura para
+        garantizar la durabilidad de los datos.
+       Escritura en MemTable: almacena las escrituras de cada familia de columnas
+        de forma temporal en memoria.
+              En Cassandra, las escrituras son “baratas”.
+              Si el sistema se apaga, se recupera desde el Commit log
+       Flush de la MemTable: cuando se llena se libera la memoria mediante un
+        borrado de los datos.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                32
+
+===== PAGINA 33 =====
+
+Actividad de Escritura
+
+       Escritura en SSTable: los datos de la MemTable se escriben en ficheros
+        SSTable antes de borrar la MenTable.
+              Los ficheros SSTable son inmutables, no se vuelve a escribir en ellos
+               después de volcar los datos de la MemTable, por ello, los datos de una
+               misma partición pueden estar repartidos en varias SSTable.
+              Este es el motivo por el que las lecturas son más “caras” que las
+               escrituras en Cassandra, ya que una lectura suele requerir el acceso y
+               búsqueda en varias SSTable.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                       33
+
+===== PAGINA 34 =====
+
+Actividad de Escritura
+
+       Compactación: Ejecutada periódicamente por Cassandra, se trata de reducir
+        el número de ficheros SSTable, eliminando los datos antiguos.
+              El objetivo es hacer más eficientes las lecturas.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                               34
+
+===== PAGINA 35 =====
+
+                                                    Actividad de
+                                                    Escritura
+                                                    (Cluster)
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA              35
+
+===== PAGINA 36 =====
+
+Actividad de Escritura (Cluster)
+
+     El nodo coordinador envía una petición de escritura a todas las réplicas que
+      contengan la fila a ser escrita.
+     Los datos se escriben en todos los nodos disponibles que reciben la petición.
+     El nivel definido de consistencia determina cuántos nodos han de responder a
+      la petición para determinar que la escritura se ha realizado con éxito.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                     36
+
+===== PAGINA 37 =====
+
+Actividad de Escritura (Cluster)
+
+     El éxito de la escritura significa que el dato ha sido escrito en el Commit log y
+      el MemTable.
+     Todos los nodos pueden ser coordinadores en una petición.
+     La selección del nodo coordinador en cada petición se realiza en base a una
+      política predefinida en la Base de Datos.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                     37
+
+===== PAGINA 38 =====
+
+Peticiones de Borrado
+
+     Cuando una fila es eliminada, no se borra del disco (SSTables inmutables),
+      sino que se marca como eliminada (tombstone).
+     Durante la compactación, las filas marcadas son eliminadas definitivamente
+      del disco.
+     Tiempo de gracia: si un nodo que contiene la fila a ser eliminada se encuentra
+      caído en ese momento, aún tiene la posibilidad de recibir la orden de
+      eliminación si se recupera en un intervalo de tiempo predefinido.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                  38
+
+===== PAGINA 39 =====
+
+Peticiones de Borrado
+
+     Si no se recupera en ese tiempo, la fila no será marcada como eliminada, por
+      lo que pueden existir inconsistencias en las réplicas. Por ello, se recomienda
+      que los administradores realicen cada cierto tiempo tareas de mantenimiento
+      en Cassandra.
+     LLTS: los datos pueden tener una “fecha de caducidad”, a partir de la cual
+      son marcados por Cassandra como eliminados.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                  39
+
+===== PAGINA 40 =====
+
+                                                       En cada nodo que recibe la lectura, se accede mediante
+                                                        key a la MemTable para recuperar los datos requeridos.
+
+
+                                                       Si los datos (o parte de ellos) no se encuentran en la
+                                                        MemTable, se accede a las SSTable.
+Peticiones de
+                                                        Si no se ha realizado la tarea de compactación
+Lectura
+                                                    
+                                                        recientemente, es probable que haya que leer en varias
+                                                        SSTables para recuperar todas las filas requeridas
+                                                        (Problema de lentitud)
+
+
+                                                       Existen tres mecanismos distintos para la obtención del
+                                                        resultado
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                     40
+
+===== PAGINA 41 =====
+
+                                                       Se define un nivel de consistencia (Consistency
+                                                        Level) en la recuperación de información, es
+                                                        decir se define cuantos nodos son necesarios
+                                                        que respondan para asumir que la respuesta es
+                                                        consistente.
+
+Peticiones de                                          Existen tres mecanismos distintos para la
+Lectura                                                 obtención del resultado:
+
+
+                                                            Direct read request: el nodo coordinador
+                                                             contacta con un nodo que contenga la
+                                                             réplica requerida y la recupera.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                               41
+
+===== PAGINA 42 =====
+
+                                                       Background read repair request: en caso de
+                                                        existir inconsistencias en las réplicas, las
+                                                        réplicas con un timestamp más antiguo son
+                                                        sobrescritas con los datos de la réplica “más
+
+Peticiones de                                           actual”.
+
+
+Lectura                                                Digest request: contacta con tantos nodos con
+                                                        réplicas como se determine en el nivel de
+                                                        consistencia. Se comprueba la consistencia de
+                                                        los datos retornados por el nodo contactado
+                                                        mediante Direct read request.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                              42
+
+===== PAGINA 43 =====
+
+                                                    Digest request (continuación)
+
+                                                       Se envía la consulta aquellos nodos que estén
+                                                        respondiendo “más rápido”.
+
+Peticiones de                                          Si existen inconsistencias, se consideran como
+                                                        válidos las réplicas con un timestamp más
+Lectura                                                 reciente. Estos serán los retornados al cliente.
+                                                       Una vez contactados los nodos determinados
+                                                        por el nivel de consistencia, se envía un Digest
+                                                        request al resto de réplicas, para determinar si
+                                                        son también consistentes.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                43
+
+===== PAGINA 44 =====
+
+                                                    Consistencia
+Consistencia reconfigurable (consistency_level)
+ Al escribir, determina en cuántas réplicas se debe
+  escribir para confirmar a la aplicación cliente.
+ Al leer, se especifica cuántas réplicas deben responder
+  para retornar los datos a la aplicación cliente.
+ Los datos se guardan en un Clúster o Ring donde se
+  asignan datos a los nodos dentro de un anillo.
+ Un nodo tiene réplicas para diferentes rangos de datos.
+  Si un nodo se cae, su réplica puede responder.
+ Un protocolo P2P hace que los datos se repliquen entre
+  nodos acorde a un factor de replicación definido.
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                  44
+
+===== PAGINA 45 =====
+
+Consistencia
+      Se ofrece la elección del nivel de consistencia para las lecturas y escrituras.
+       Un ejemplo posible de consulta utilizando consistencia es el siguiente:
+         SELECT * FROM users WHERE state='TX' USING CONSISTENCY QUORUM;
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                            45
+
+
+                                             Quorum = (sum_of_replication_factors / 2) + 1
+
+===== PAGINA 46 =====
+
+Consistencia
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   46
+
+===== PAGINA 47 =====
+
+Consistencia
+
+
+     Ante la posibilidad de encontrar datos inconsistentes en los
+      nodos a pesar de tombstones, se recomienda realizar tareas
+      rutinarias de mantenimiento.
+     Existe una operación llamada repair, que puede utilizarse por
+      parte del usuario para asegurar que todos los nodos son
+      consistentes
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                     47
+
+===== PAGINA 48 =====
+
+                                                        Seguridad
+                                                     Seguridad a nivel de usuarios:
+                                                      logins con passwords y permisos
+                                                      de gestión y administración vía
+                                                      GRANT/REVOKE.
+                                                     Opciones de encriptación tanto
+                                                      entre clientes y clústeres como
+                                                      entre nodos.
+                                                     Ofrece varias opciones de backup.
+                                                      Recomendado hacerlos de forma
+                                                      regular ante errores como los
+                                                      borrados accidentales.
+                                                     Existen herramientas externas
+                                                      (DataStax Enterprise) que ofrecen
+                                                      opciones avanzadas de seguridad
+                                                      (autentificación externa,
+                                                      encriptación de tablas, y auditoría
+                                                      de datos).
+Guillermo Rodriguez - Ingeniería Informática ITBA                                48
+
+===== PAGINA 49 =====
+
+Securidad (cont.)
+   Roles
+          CREATE ROLE alice WITH PASSWORD = 'password_a' AND LOGIN = true;
+          GRANT report_writer TO alice;
+          REVOKE report_writer FROM alice;
+          LIST ROLES;
+   Users
+          CREATE USER alice WITH PASSWORD 'password_a' SUPERUSER;
+   Permissions
+          GRANT SELECT ON ALL KEYSPACES TO data_reader;
+          REVOKE SELECT ON ALL KEYSPACES FROM data_reader;
+          LIST ALL PERMISSIONS ON keyspace1.table1 OF bob;
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                             49
+
+===== PAGINA 50 =====
+
+Estructura de Datos
+
+     Columna (Columns): unidad básica de almacenamiento.
+      Consistente en una estructura de tres valores: name, value y
+      timestamp.
+
+
+     Super Columna(SuperColumns): se consideran Columnas
+      que almacenan subcolumnas. Son opcionales (se desaconseja
+      su uso).
+
+
+     Filas o entradas (Rows): conjunto de columnas de una familia
+      con valor asignado.
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                 50
+
+===== PAGINA 51 =====
+
+Estructura de Datos
+
+     Familia de Columnas (ColumnFamilies): contenedor de múltiples
+      columnas. Es equivalente a una tabla en el modelo relacional. Cada
+      fila se identifica y accede a ella mediante una ClaveDeFila
+     Keyspace: es la agrupación de Familia de Columnas, normalmente
+      hay un keyspace por aplicación.
+     Clúster: las máquinas (nodos) de una instancia de Cassandra. Los
+      clústers pueden contener múltiples keyspaces.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                          51
+
+===== PAGINA 52 =====
+
+                                                    Columna
+Estructura:
+
+ Name: nombre de la columna.
+
+ Value: valor almacenado en la columna.
+
+ Timestamp: fecha y hora de escritura.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA             52
+
+===== PAGINA 53 =====
+
+Supercolumnas
+     Super Column: es una column cuyos values son una o más columns, que en
+      este contexto se llamarán subcolumns. Las subcolumns están ordenadas y el
+      número de columnas que se puede definir es ilimitada. Las supercolumns, a
+      diferencia de las columns, no tienen un timestamp definido. Además no son
+      recursivas, es decir, solamente tienen un nivel de profundidad. Esquema
+      visual del modelo de datos:
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                 53
+
+===== PAGINA 54 =====
+
+                                                    Ejemplo
+  Los valores son proporcionados por la aplicación,
+   incluido el timestamp. Por ello, es necesario tener
+   sincronizado el reloj del sistema con el reloj del clúster.
+  El timestamp es usa para resolver conflictos
+   (Consistencia Eventual)
+  El timestamp puede ser de cualquier tipo, pero la
+   convención marca que sea el valor en microsegundos
+   desde 01/01/1970.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA             54
+
+===== PAGINA 55 =====
+
+                                                    Fila
+ Agregación de columnas con un nombre para
+  referenciarlo (rowKey).
+ Equivalente a la fila en el modelo relacional.
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA          55
+
+===== PAGINA 56 =====
+
+                                                    RowKey
+
+La RowKey (RK) es el equivalente a la clave primaria del
+modelo relacional. Tienen dos partes (claves):
+
+ De particionado (partition key): las filas con el mismo
+  valor de clave de particionado se almacenan en la
+  misma partición del disco (físicamente juntas).
+ De agrupamiento (clustering key): determina el orden
+  físico en el que se almacenan las filas.
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA            56
+
+===== PAGINA 57 =====
+
+                               Familia de Columnas
+Es una agregación de filas donde cada ColumnFamily es
+guardada en un fichero separado y ordenado por la
+RowKey (equivale a las tablas en el modelo relacional).
+
+Tipos de columnas:
+    Standard Columns
+    Counter Columns
+    Collection Columns: SET, LIST, MAP
+    User-defined type
+    Tuple-type
+    Timestamp type
+Guillermo Rodriguez - Ingeniería Informática ITBA    57
+
+===== PAGINA 58 =====
+
+                               Familia de Columnas
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA    58
+
+===== PAGINA 59 =====
+
+                                                    KeySpace
+ Es equiparable al esquema del modelo relacional, uno
+  por app. Los atributos básicos de un keyspace son:
+ Replication_factor:       Número    de    nodos  que
+  almacenarán una copia de cada fragmento de datos.
+  En el ejemplo, 3 significa que habrá 3 réplicas.
+ SimpleStrategy: Utilizada para configuraciones simples o
+  de un solo centro de datos
+ NetworkTopologyStrategy:                                 (varios   centros   de
+  datos)
+
+CREATE KEYSPACE nombre WITH replication =
+          {'class':'SimpleStrategy', 'replication_factor' : 3};
+Guillermo Rodriguez - Ingeniería Informática ITBA                              59
+
+===== PAGINA 60 =====
+
+                                                    Particionado
+Cassandra ofrece soporte para particionado distribuido de datos:
+
+         RandomPartitioner: usa un algoritmo de hash para
+          distribuir las filas de datos aleatoriamente a lo largo del
+          clúster. La idea principal es garantizar un equilibrio
+          uniforme de los datos entre todos los nodos del clúster.
+
+         OrderPreservingPartitionioner: distribuye las claves de
+          partición de manera que las claves con valores cercanos en
+          el espacio de claves también se almacenan cerca en el
+          mismo nodo o nodos adyacentes. Es decir, mantiene el
+          orden natural de las claves.
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                  60
+
+===== PAGINA 61 =====
+
+                                       Índices Primarios
+
+ Los índices primarios son únicos por cada fila.
+
+ Las filas son asignadas a cada nodo por el partitioner y
+  el replica placement strategy en base a su índice
+  primario.
+
+ Dado que cada nodo conoce qué rango de valores del
+  índice primario almacena, las consultas pueden
+  realizarse de forma eficiente escaneando únicamente
+  los índices de las réplicas de las filas buscadas.
+
+Guillermo Rodriguez - Ingeniería Informática ITBA          61
+
+===== PAGINA 62 =====
+
+                                 Índices Secundarios
+
+ Son índices sobre columnas.
+
+ Se implementan como una tabla oculta, separada de la
+  tabla que contiene los valores originales.
+
+ No se recomienda su uso para consultas que requieran
+  comprobar un gran volumen de datos para finalmente
+  retornar un pequeño conjunto de resultados
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA      62
+
+===== PAGINA 63 =====
+
+                            Creación de una tabla
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   63
+
+===== PAGINA 64 =====
+
+                                              Clave Primaria
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA              64
+
+===== PAGINA 65 =====
+
+                            Asignación de Espacio
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   65
+
+===== PAGINA 66 =====
+
+                            Asignación de Espacio
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   66
+
+===== PAGINA 67 =====
+
+                      Consulta
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   67
+
+===== PAGINA 68 =====
+
+        La siguiente consulta devolvería un error, ya que no se han incluido en el
+                     WHERE todas las columnas de la partition_key:
+                           SELECT idusuario FROM usuarios WHERE mes=9
+      La siguiente consulta sería correcta, ya que incluye todos los campos de la
+                              partition_key en el WHERE:
+
+SELECT idusuario FROM usuarios WHERE mes=9
+                               AND   idusuario=‘agp88’
+Guillermo Rodriguez - Ingeniería Informática ITBA                     68
+
+===== PAGINA 69 =====
+
+Primary Key in Cassandra
+
+
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA   69
+
+===== PAGINA 70 =====
+
+    Why ALLOW FILTERING?
+CREATE TABLE blogs (
+blogId int,
+time1 int,
+time2 int,
+author text,
+content text,
+PRIMARY KEY(blogId, time1, time2));
+If you execute the following query:
+SELECT * FROM blogs;
+Cassandra will return you all the data that the table blogs contains. If you now want only the data at a
+specified time1, you will naturally add an equal condition on the column time1:
+SELECT * FROM blogs WHERE time1 = 1418306451235;
+In response, you will receive the following error message:
+Bad Request: Cannot execute this query as it might involve data filtering and thus may have
+unpredictable performance. If you want to execute this query despite the performance
+unpredictability, use ALLOW FILTERING.
+    Guillermo Rodriguez - Ingeniería Informática ITBA                                                 70
+
+===== PAGINA 71 =====
+
+    Why ALLOW FILTERING?
+   Cassandra knows that it might not be able to execute the query in an efficient way. It is
+    therefore warning you: “Be careful. Executing this query as such might not be a good idea
+    as it can use a lot of your computing resources”.
+   The only way Cassandra can execute this query is by retrieving all the rows from the table
+    blogs and then by filtering out the ones which do not have the requested value for the
+    time1 column.
+   If your table contains for example a 1 million rows and 95% of them have the requested
+    value for the time1 column, the query will still be relatively efficient and you should use
+    ALLOW FILTERING.
+   On the other hand, if your table contains 1 million rows and only 2 rows contain the
+    requested value for the time1 column, your query is extremely inefficient. Cassandra will
+    load 999, 998 rows for nothing. If the query is often used, it is probably better to add an
+    index on the time1 column.
+   Unfortunately, Cassandra has no way to differentiate between the 2 cases above as they are
+    depending on the data distribution of the table. Cassandra is therefore warning you and
+    relying on you to make the good choice.
+    Guillermo Rodriguez - Ingeniería Informática ITBA                                        71
+
+===== PAGINA 72 =====
+
+Materialized Views
+
+  CREATE MATERIALIZED VIEW monkeySpecies_by_population AS
+  SELECT * FROM monkeySpecies
+  WHERE population IS NOT NULL AND species IS NOT NULL
+  PRIMARY KEY (population, species)
+  WITH comment='Allow query by population instead of species';
+
+
+                                        A materialized view cannot be directly updated, but
+                                         updates to the base table will cause corresponding
+                                                        updates in the view
+Guillermo Rodriguez - Ingeniería Informática ITBA                                             72
+
+===== PAGINA 73 =====
+
+Functions
+
+  CQL supports 2 main categories of functions:
+          scalar functions that take a number of values and produce an
+               output
+             For example the last two days of data can be retrieved using:
+
+             SELECT * FROM myTable WHERE date >= currentDate() - 2d;
+
+
+          aggregate functions that aggregate multiple rows resulting from a
+               SELECT statement
+
+                                                    SELECT SUM (players) FROM plays;
+
+
+Guillermo Rodriguez - Ingeniería Informática ITBA                                      73
+
+===== PAGINA 74 =====
+
+Triggers
+     CREATE TRIGGER myTrigger
+     ON myTable
+     #(java class)
+     USING 'org.apache.cassandra.triggers.AuditTrigger„
+                                The actual logic that makes up the trigger can be written
+                                in any Java (JVM) language and exists outside the
+                                database, i.e. in a lib/triggers subdirectory of the
+                                Cassandra installation directory
+                                It loads during cluster startup, and exists on every node
+                                that participates in a cluster. The trigger defined on a
+                                table fires before a requested DML statement occurs,
+                                which ensures the atomicity of the transaction
+
+     DROP TRIGGER myTrigger;
+Guillermo Rodriguez - Ingeniería Informática ITBA                                           74

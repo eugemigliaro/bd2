@@ -1,0 +1,88 @@
+FUENTE: P10B
+TITULO: TP 9 — MongoDB, parte II
+ORIGINAL: material/catedra/practica/tp-09-mongodb-parte-2.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                     1
+Base de Datos II - TP 9 Parte II​
+
+
+
+                                    TP N°9 - MongoDB Parte II
+
+Esta práctica se basa mayormente en el libro “Seven Databases in Seven Weeks (2nd Edition)”
+de Luc Perkins.
+
+Antes de comenzar, es necesario levantar MongoDB en la PC que vayan a utilizar para este
+práctico, de acuerdo a la opción de instalación que hayan elegido en el TP anterior.
+
+Ejercicios:
+
+     1)​ Capítulo 4, página 109 y 110 (es posible que varios de los métodos especificados en el libro,
+         estén deprecados, presten atención a los mensajes que obtienen al ejecutarlos)
+             a)​ Hacer el ejercicio Do.2 allí mencionado (previamente crear la colección towns como
+                 indican las páginas 95, 97 y 98)
+             b)​ Hacer el ejercicio Do.3 allí mencionado
+             c)​ Hacer el ejercicio Do.4 allí mencionado
+             d)​ Hacer el ejercicio Do.5 allí mencionado
+
+     2)​ Capítulo 4, página 110 y 111
+            a)​ ¿Cuál es el tipo de índice default que maneja Mongo?
+            b)​ ¿Hay índices creados automáticamente como ocurría en MySQL?
+
+     3)​ Capítulo 4, página 111
+            a)​ Describa las semejanzas y diferencias entre el EXPLAIN de MySQL y el de Mongo
+
+
+     4)​ Crear una base llamada academica para cargar una bajada de SGA de los títulos obtenidos
+         por los distintos alumnos del ITBA:
+             a)​ Importar el archivo egresados.csv usando el comando mongoimport (si estás con
+                 docker primero deberás copiar el archivo dentro del contenedor usando docker cp
+                 <filename> Mymongo:/<filename>)
+             b)​ Mostrar cuántos egresados hay por carrera (previamente ver las páginas 116 y 117)
+             c)​ Mostrar cuántos egresados hay por colación, ordenados de mayor a menor cantidad
+                 de egresados
+
+
+     5)​ Capítulo 4, página 132
+            a)​ Hacer el ejercicio Do.1 allí mencionado (previamente cargar las cities del archivo
+                mongoCities_fixed.json con el comando mongoimport y luego definir el índice 2d en
+                el campo location como indica la página 130).
+
+
+     6)​ Transforme las siguientes consultas SQL a MongoDB, suponiendo la o las colecciones y
+         vistas creadas en el TP anterior:
+             a)​ SELECT nombre_solista
+                 FROM bandas
+                 WHERE genero = 'ROCK' AND integrantes > 2;
+
+
+
+
+                                              ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                              2
+Base de Datos II - TP 9 Parte II​
+
+
+               b)​ SELECT genero, AVG(integrantes) AS promedio_integrantes, count(*) AS
+                   cant_bandas
+                   FROM bandas
+                   WHERE fecha_incripcion <= '2017-11-27'
+                   GROUP BY genero
+                   ORDER BY promedio_integrantes DESC;
+
+
+     7)​ Capítulo 4, página 133
+            a)​ Resuma las fortalezas y debilidades de MongoDB. ¿En qué situaciones utilizarían
+                esta base de datos?
+
+     8)​ Clasifique MongoDB según el Teorema CAP.
+
+
+
+
+                                           ITBA - 2026

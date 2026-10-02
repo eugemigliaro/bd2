@@ -31,3 +31,18 @@ P08A	catedra-recurso	Ejemplo de grafo de permisos	material/catedra/practica/recu
 P09	catedra-practica	Ejercicio de stored procedures: registro de entregas	material/catedra/practica/p09-ejercicio-stored-procedure.pdf	3	2026	vigente	Ejercicio_Stored_Procedure_BDII.pdf
 SQL02	catedra-recurso	Implementación MySQL del ejercicio de stored procedures	material/catedra/practica/recursos/p09-ejercicio-stored-procedure.sql	-	2026	vigente	ejercicio de SP.sql
 SQL03	catedra-recurso	Adaptación de un cursor de PostgreSQL a MySQL	material/catedra/practica/recursos/t10-cursor-postgresql-adaptado-mysql.sql	-	2026	vigente	ejercicio de teoria de PosgreSQL hecho en MySQL.sql
+T13	catedra-teoria	Introducción a NoSQL y MongoDB	material/catedra/teoria/t13-introduccion-nosql-mongodb.pdf	52	2026	vigente	BD2_Clase 12 - Introduccion a NoSQL.pdf
+T14	catedra-teoria	MongoDB: diseño del modelo de datos, embebidos y referencias	material/catedra/teoria/t14-mongodb-modelado-embebidos-referencias.pdf	28	2026	vigente	BD2_Clase 13 - NoSQL-EmbebidosVSNormalizado(1).pdf
+T15	catedra-teoria	MongoDB: funcionalidades, índices, agregación y distribución	material/catedra/teoria/t15-mongodb-features.pdf	45	2026	vigente	BD2_Clase 14 - MongoDB Features.pdf
+C02	catedra-clase	Diferencia entre sharding y replicación en MongoDB	material/catedra/teoria/c02-mongodb-sharding-replicacion.pdf	2	2026	vigente	Diferencia_Sharding_Replication_MongoDB.pdf
+C03	catedra-clase	Ejemplo de MapReduce en MongoDB	material/catedra/teoria/c03-mongodb-mapreduce.pdf	2	2026	vigente	Ejemplo_MapReduce_MongoDB.pdf
+P10A	catedra-practica	TP 9 — MongoDB, parte I	material/catedra/practica/tp-09-mongodb-parte-1.pdf	7	2026	vigente	ITBA TP 9 - MongoDB Parte I.pdf
+P10B	catedra-practica	TP 9 — MongoDB, parte II	material/catedra/practica/tp-09-mongodb-parte-2.pdf	2	2026	vigente	ITBA TP 9 - MongoDB Parte II.pdf
+P10C	catedra-recurso	Datos de egresados para el TP 9	material/catedra/practica/recursos/tp-09-egresados.csv	-	2026	vigente	egresados.csv
+P10D	catedra-recurso	Datos de ciudades para el TP 9 (JSON por línea)	material/catedra/practica/recursos/tp-09-mongo-cities.json	-	2026	vigente	mongoCities_fixed.json
+P11	catedra-practica	Ejercicio MongoDB: agregaciones en e-commerce	material/catedra/practica/p11-mongodb-ecommerce.pdf	2	2026	vigente	Consigna MONGO DB.pdf
+P11A	catedra-recurso	Solución de cátedra del ejercicio MongoDB e-commerce	material/catedra/practica/recursos/p11-solucion-mongodb-ecommerce.pdf	4	2026	vigente	Consigna MONGO DB (solucion).pdf
+T16	catedra-teoria	Introducción a Cassandra	material/catedra/teoria/t16-introduccion-cassandra.pdf	74	2026	vigente	BD2_Clase 15 - Introduccion a Cassandra.pdf
+C04	catedra-clase	Bloom filters en Cassandra	material/catedra/teoria/c04-cassandra-bloom-filters.pdf	8	2026	vigente	Slides_Bloom_Filters_Cassandra.pdf
+C05	catedra-recurso	Mecanismo de obtención de resultados DIGEST en Cassandra	material/catedra/teoria/recursos/c05-cassandra-digest.png	-	2026	vigente	mecanismo de obtencion de resultados DIGEST (cassandra).png
+P12	catedra-practica	TP 10 — Cassandra, parte I	material/catedra/practica/tp-10-cassandra-parte-1.pdf	3	2026	vigente	ITBA TP 10 - Cassandra Parte I.pdf

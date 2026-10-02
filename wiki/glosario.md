@@ -57,3 +57,52 @@
 | Vista materializada | Resultado de una consulta precalculado y almacenado, que debe mantenerse consistente con sus tablas base. | [T07, p. 17] |
 | `WITH CHECK OPTION` | Opción que rechaza cambios cuyo resultado no satisface el predicado controlado por la vista. | [T06, p. 15] |
 | WAL | Regla de logging que exige persistir el registro de un cambio antes que la página modificada. | [T12, p. 4] |
+
+## NoSQL y MongoDB
+
+| Término | Definición breve | Fuente |
+|---|---|---|
+| BASE | Disponibilidad básica, estado flexible y consistencia eventual. | [T13, pp. 19–20] |
+| BSON | Formato binario de documentos usado por MongoDB. | [T13, p. 29; T15, p. 6] |
+| CAP | Compromiso entre consistencia, disponibilidad y tolerancia a particiones; el material lo presenta mediante CP, AP y CA. | [T13, pp. 12–18] |
+| Colección | Agrupación de documentos cuyos campos pueden diferir. | [T13, p. 26; T15, p. 23] |
+| Consistencia eventual | Admisión de estados transitorios no consistentes, con convergencia posterior según la explicación de BASE. | [T13, p. 20] |
+| Documento embebido | Documento relacionado almacenado dentro del principal. | [T14, pp. 3–5] |
+| Escalabilidad horizontal | Aumento de capacidad agregando servidores, según el contraste visual de la unidad. | [T13, p. 9] |
+| Escalabilidad vertical | Aumento de recursos de un servidor, según el contraste visual de la unidad. | [T13, p. 9] |
+| `_id` | Identificador único del documento; puede ser provisto o generado como ObjectId. | [T15, pp. 8–9; P10A, p. 2] |
+| `$lookup` | Etapa de ensamble entre colecciones que incorpora las coincidencias en un arreglo. | [T13, pp. 48–49; T14, pp. 22–24] |
+| MapReduce | Procesamiento que emite pares clave–valor y combina los valores de cada clave. | [T15, pp. 35–37; C03, pp. 1–2] |
+| `mongod` | Proceso núcleo de la base de datos MongoDB en la arquitectura presentada. | [T13, p. 31; T15, p. 41] |
+| `mongos` | Router de consultas de un cluster fragmentado. | [C02, p. 1] |
+| Referencia documental | Vínculo entre documentos mediante valores identificadores. | [T14, pp. 7, 18–20] |
+| Replica set | Conjunto de copias con primario y secundarios orientado a disponibilidad y failover. | [C02, p. 1; T15, pp. 41–43] |
+| Shard | Servidor que conserva una parte de los datos fragmentados. | [C02, p. 1] |
+| Shard key | Clave usada para distribuir datos entre shards. | [C02, p. 1] |
+| Upsert | Actualización que inserta un documento si el filtro no encuentra coincidencias. | [P10A, pp. 4–5] |
+
+Las precisiones actuales de CAP, validación, transacciones y métodos de MongoDB están etiquetadas como complemento en los [apuntes NoSQL](temas/15-nosql-y-cap.md) y en [dudas y conflictos](dudas-y-conflictos.md).
+
+## Cassandra
+
+| Término | Definición breve | Fuente |
+|---|---|---|
+| Bloom filter | Vector de bits y hashes para descartar ausencia con certeza; una respuesta positiva requiere comprobación. | [C04, pp. 3–7] |
+| Clustering key | Columnas que ordenan filas dentro de una partición y completan su identificación. | [T16, pp. 56, 63–69; P12, p. 2] |
+| Commit log | Registro de escrituras usado en la recuperación del nodo. | [T16, pp. 30–32] |
+| Consistency level (CL) | Cantidad de respuestas o confirmaciones requeridas para completar una operación. | [T16, pp. 36, 41, 44–46] |
+| Coordinador | Nodo que recibe una petición del cliente y coordina las réplicas involucradas. | [T16, pp. 25–26] |
+| CQL | Lenguaje de consulta de Cassandra, similar a SQL, sin joins ni subconsultas en el material. | [T16, p. 13] |
+| Data center | Agrupación lógica de nodos dentro del cluster. | [T16, p. 29] |
+| Digest request | Solicitud de un resumen hash para contrastar el resultado entre réplicas. | [T16, pp. 42–43; C05] |
+| Familia de columnas | Contenedor de filas, declarado como tabla en CQL en el TP. | [T16, p. 51; P12, p. 1] |
+| Gossip | Comunicación entre pares para propagar información de estado y detectar fallas. | [T16, p. 28] |
+| Keyspace | Agrupación de tablas/familias de columnas con política de replicación. | [T16, pp. 51, 59; P12, p. 1] |
+| Memtable | Estructura en memoria que conserva escrituras antes de su flush a SSTables. | [T16, pp. 30–33] |
+| Partition key | Clave que agrupa filas en una partición y participa en su distribución. | [T16, pp. 16, 56, 63–69] |
+| Read repair | Reparación de datos desactualizados detectados durante una lectura; el mecanismo depende de versión/configuración. | [T16, pp. 28, 42–43; C05]; salvedad en [dudas](dudas-y-conflictos.md) |
+| Replication factor (RF) | Cantidad de nodos que guardan una copia de cada fragmento; RF=1 no añade redundancia. | [T16, p. 59; P12, p. 1] |
+| SSTable | Archivo persistente e inmutable creado a partir de una memtable. | [T16, pp. 30, 33] |
+| Tombstone | Marca de borrado que permite representar eliminaciones sin modificar SSTables existentes. | [T16, pp. 38–39] |
+
+Ver [modelado/CQL](temas/20-cassandra-modelado-y-cql.md), [almacenamiento/Bloom](temas/21-cassandra-almacenamiento-y-bloom.md) y [consistencia/DIGEST](temas/22-cassandra-consistencia-y-digest.md). Los complementos del manual se distinguen allí de las afirmaciones de cátedra.

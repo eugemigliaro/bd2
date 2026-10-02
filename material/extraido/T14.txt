@@ -1,0 +1,241 @@
+FUENTE: T14
+TITULO: MongoDB: diseño del modelo de datos, embebidos y referencias
+ORIGINAL: material/catedra/teoria/t14-mongodb-modelado-embebidos-referencias.pdf
+
+===== PAGINA 1 =====
+
+Bases de Datos II
+
+===== PAGINA 2 =====
+
+Introducción
+ Los   modelos de datos efectivos satisfacen las
+ necesidades de su aplicación. La consideración clave
+ para la estructura de sus documentos es la decisión de
+ embeberlos o utilizar referencias.
+
+===== PAGINA 3 =====
+
+Enfoque de documentos
+embebidos
+ Con MongoDB, puede embeber datos relacionados
+  en una única estructura o documento
+ Estos esquemas generalmente se conocen como
+  modelos "desnormalizados" y aprovechan los
+  documentos de MongoDB
+ Considere el siguiente diagrama:
+
+===== PAGINA 4 =====
+
+Esquema de ejemplo
+
+===== PAGINA 5 =====
+
+Enfoque de documentos
+embebidos
+ Los modelos de datos embebidos permiten que las aplicaciones
+  almacenen información relacionada en el mismo registro de la base
+  de datos. Como resultado, es posible que las aplicaciones deban
+  emitir menos consultas y actualizaciones para completar las
+  operaciones comunes
+ En general, utilice modelos de datos incrustados cuando:
+    Tenga relaciones "contiene" entre las entidades
+    Tenga relaciones de uno a muchos entre entidades. En estas relaciones,
+     los "muchos" o documentos secundarios siempre aparecen con o se ven
+     en el contexto de "uno" o documentos principales
+ En general, los documentos embebidos proporcionan un mejor
+  rendimiento para las operaciones de lectura, así como la capacidad
+  de solicitar y recuperar datos relacionados en una sola operación de
+  base de datos. Los modelos de datos embebidos permiten actualizar
+  los datos relacionados en una sola operación de escritura atómica
+
+===== PAGINA 6 =====
+
+Documentos BSON
+ El tamaño máximo del documento BSON es de 16
+
+ megabytes
+
+ MongoDB no admite más de 100 niveles de
+
+ anidamiento para documentos BSON
+
+===== PAGINA 7 =====
+
+Modelo de Datos Normalizado
+ Los modelos de datos normalizados describen
+  relaciones usando referencias entre documentos
+
+===== PAGINA 8 =====
+
+Modelo de Datos Normalizado
+ En general, utilice modelos de datos normalizados:
+    cuando la incorporación resultaría en una duplicación de datos
+     pero no proporcionaría suficientes ventajas de rendimiento de
+     lectura para superar las implicaciones de la duplicación
+    para representar relaciones más complejas de muchos a
+     muchos
+    para modelar grandes conjuntos de datos jerárquicos
+ Las referencias proporcionan más flexibilidad que el modelo
+  embebido. Sin embargo, las aplicaciones del lado del cliente
+  deben emitir consultas de seguimiento para resolver las
+  referencias. En otras palabras, los modelos de datos
+  normalizados pueden requerir más viajes de ida y vuelta al
+  servidor
+
+===== PAGINA 9 =====
+
+Modelo de relaciones One-to-One
+con documentos embebidos
+ Considere el siguiente ejemplo que mapea las
+  relaciones de usuario y dirección
+ El ejemplo ilustra la ventaja de embeber sobre las
+  referencias si necesita ver una entidad de datos en el
+  contexto de la otra
+ En esta relación de one-to-one entre el usuario y los
+  datos de la dirección, la dirección pertenece al usuario
+ En el modelo de datos normalizado, el documento de
+  dirección contiene una referencia al documento del
+  usuario
+
+===== PAGINA 10 =====
+
+Ejemplo
+
+===== PAGINA 11 =====
+
+Ejemplo (cont)
+ Si los datos de la dirección se recuperan con frecuencia
+  con la información del nombre y luego con la
+  referencia, su aplicación debe emitir varias consultas
+  para resolver la referencia
+ El mejor modelo de datos sería incrustar los datos de
+  dirección en los datos del usuario, como en el siguiente
+  documento:
+
+===== PAGINA 12 =====
+
+Ejemplo (cont)
+
+
+
+
+  Con el modelo de datos embebidos, su aplicación puede recuperar
+        la información completa del usuario con una consulta
+
+===== PAGINA 13 =====
+
+Modelo de relaciones one-to-many
+con documentos embebidos
+ En base al ejemplo anterior:
+
+===== PAGINA 14 =====
+
+Modelo de relaciones one-to-many
+con documentos embebidos
+ Si su aplicación recupera con frecuencia los datos de la dirección
+
+  con la información del nombre, entonces su aplicación debe
+
+  emitir varias consultas para resolver las referencias
+
+ Un esquema más óptimo sería incrustar las entidades de datos de
+
+  dirección en los datos del usuario, como en el siguiente
+
+  documento:
+
+===== PAGINA 15 =====
+
+Modelo de relaciones one-to-many
+con documentos embebidos
+
+===== PAGINA 16 =====
+
+Modelo de relaciones one-to-many
+con referencias de documentos
+ Considere el siguiente ejemplo que mapea relaciones
+  de editor y libro. El ejemplo ilustra la ventaja de hacer
+  referencia sobre documentos embebidos para evitar la
+  repetición de la información del editor
+
+ Embeber el documento del editor dentro del
+  documento del libro llevaría a la repetición de los
+  datos del editor, como muestran los siguientes
+  documentos:
+
+===== PAGINA 17 =====
+
+
+
+===== PAGINA 18 =====
+
+Modelo de relaciones one-to-many
+con referencias de documentos
+ Para evitar la repetición de los datos del editor, use
+  referencias y mantenga la información del editor en una
+  colección separada de la colección de libros
+
+ Cuando se usan referencias, el crecimiento de las relaciones
+  determina dónde almacenar la referencia. Si el número de
+  libros por editor es pequeño con un crecimiento limitado, a
+  veces puede ser útil almacenar la referencia del libro dentro
+  del documento del editor. De lo contrario, si el número de
+  libros por editor no tiene límites, este modelo de datos
+  llevaría a arreglos mutables y en crecimiento, como en el
+  siguiente ejemplo:
+
+===== PAGINA 19 =====
+
+
+
+===== PAGINA 20 =====
+
+Modelo de relaciones one-to-many
+con referencias de documentos
+ Para evitar arreglos crecientes y mutables, almacene la referencia del
+  editor dentro del documento del libro:
+
+===== PAGINA 21 =====
+
+Agregaciones
+ Lookup
+ Sort
+ Match
+ Unwind
+ Project
+
+===== PAGINA 22 =====
+
+Lookup
+
+===== PAGINA 23 =====
+
+Lookup: Left outer join
+
+===== PAGINA 24 =====
+
+Resultado
+
+===== PAGINA 25 =====
+
+Link de Referencia
+ https://docs.mongodb.com/manual/reference/operato
+  r/aggregation-pipeline/
+
+===== PAGINA 26 =====
+
+Ejemplo
+ Obtener el teléfono y el número de cliente del cliente
+  con nombre “Wanda” y apellido “Baker”
+
+ db.cliente.find({nombre: "Wanda", apellido: "Baker"},
+  {codigo_area: 1, nro_telefono:1}).pretty()
+
+===== PAGINA 27 =====
+
+Lógica de control
+
+===== PAGINA 28 =====
+
+Explain

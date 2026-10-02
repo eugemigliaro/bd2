@@ -1,0 +1,205 @@
+FUENTE: C04
+TITULO: Bloom filters en Cassandra
+ORIGINAL: material/catedra/teoria/c04-cassandra-bloom-filters.pdf
+
+===== PAGINA 1 =====
+
+Bloom Filters en Cassandra
+Una estructura probabilística para evitar búsquedas innecesarias en SSTables
+
+
+
+
+                      “Puede decir con certeza NO está; si dice puede estar, hay que
+                                              comprobar.”
+
+
+
+                                                  NO                             TAL VEZ
+                                               → definitivo                    → comprobar
+
+
+
+
+Base de Datos II · Cassandra · Bloom Filters       1
+
+===== PAGINA 2 =====
+
+1. El problema
+Una lectura puede tener que considerar varias SSTables
+
+
+
+
+              SSTable 1                            SSTable 2           SSTable 3            SSTable 4   SSTable 5
+
+
+
+
+                                                               Buscar partition key = 125
+
+
+                      Pregunta: ¿cómo descartar rápidamente SSTables donde la clave seguro no existe?
+
+
+
+Base de Datos II · Cassandra · Bloom Filters   2
+
+===== PAGINA 3 =====
+
+2. ¿Qué contiene un Bloom Filter?
+Un vector de bits + varias funciones hash
+
+
+
+
+                0                       0      0         0       0       0       0        0        0          0
+                 0                       1     2         3       4        5       6       7        8          9
+
+
+
+
+                                   h1(clave)                         h2(clave)                         h3(clave)
+
+
+
+                                                   Cada hash selecciona una posición del vector.
+
+
+
+
+Base de Datos II · Cassandra · Bloom Filters   3
+
+===== PAGINA 4 =====
+
+3. Insertar una clave
+Ejemplo: Juan → posiciones 2, 5 y 8
+
+
+
+
+                0                       0      1     0        0       1        0        0    1   0
+                 0                       1     2     3        4        5       6        7    8   9
+
+
+
+
+                                                          h1(Juan)=2 h2(Juan)=5
+                                                                h3(Juan)=8
+
+
+                                                   Al insertar, esas posiciones pasan a 1.
+
+
+
+
+Base de Datos II · Cassandra · Bloom Filters   4
+
+===== PAGINA 5 =====
+
+4. Consultar: ¿está Pedro?
+Supongamos h(Pedro) → posiciones 2, 4 y 8
+
+
+
+
+                0                       0         1     0       0       1      0       0   1   0
+
+
+
+
+                                               Aparece un 0 → Pedro DEFINITIVAMENTE NO fue
+                                                                 agregado
+
+
+                                                            No hay falsos negativos.
+
+
+
+Base de Datos II · Cassandra · Bloom Filters      5
+
+===== PAGINA 6 =====
+
+5. ¿Y si todas las posiciones son 1?
+El Bloom Filter sólo puede responder: “posiblemente está”
+
+
+
+
+                                                                      Luego hay que comprobar la
+                   Bloom Filter: PUEDE ESTAR
+                                                                               SSTable
+
+
+
+                                          NO está           No está                   ✓
+
+
+                                          NO está           Sí está               ✗ imposible
+
+
+                                     Puede estar            Sí está                   ✓
+
+
+                                     Puede estar            No está             ✓ falso positivo
+
+
+
+Base de Datos II · Cassandra · Bloom Filters        6
+
+===== PAGINA 7 =====
+
+6. ¿Cómo lo usa Cassandra?
+El Bloom Filter no encuentra el dato: descarta dónde no vale la pena buscar
+
+
+                        SSTable 1                    Bloom → NO               DESCARTAR
+
+
+
+                        SSTable 2                    Bloom → NO               DESCARTAR
+
+
+
+                        SSTable 3                  Bloom → TAL VEZ            COMPROBAR
+
+
+
+                        SSTable 4                    Bloom → NO               DESCARTAR
+
+
+
+                        SSTable 5                  Bloom → TAL VEZ            COMPROBAR
+
+
+
+
+                  Más memoria para el filtro → menos falsos positivos → menos búsquedas innecesarias
+
+Base de Datos II · Cassandra · Bloom Filters   7
+
+===== PAGINA 8 =====
+
+7. Para cerrar la explicación
+Tres ideas que deberían llevarse
+
+
+
+
+                                               1 · Un Bloom Filter es probabilístico y muy compacto.
+
+
+
+                                           2 · “NO” es seguro; “puede estar” requiere comprobación.
+
+
+
+                           3 · Cassandra lo usa para evitar trabajo innecesario sobre SSTables.
+
+
+
+                              Pregunta: ¿por qué es aceptable tener falsos positivos, pero no falsos
+                                                          negativos?
+
+
+Base de Datos II · Cassandra · Bloom Filters       8

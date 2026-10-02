@@ -100,3 +100,55 @@ No incluyen respuestas para permitir autoevaluación. Pedile al agente `tomame e
 64. Describí las fases de análisis, redo y undo de ARIES.
 65. Compará WAL de PostgreSQL con redo log, undo log, doublewrite buffer y binlog de InnoDB.
 66. ¿Por qué redo log y binlog no son intercambiables en MySQL?
+
+## NoSQL, CAP y MongoDB
+
+67. Compará escalabilidad vertical y horizontal usando el esquema de T13, p. 9.
+68. Distinguí las cuatro familias NoSQL de la unidad y ubicá MongoDB y Cassandra.
+69. Explicá C, A y P; ¿qué resignan CP y AP en el escenario de partición?
+70. ¿Cómo clasifica la cátedra MongoDB y qué supuestos hay que explicitar al analizar una instalación real?
+71. Desarrollá BASE y distinguí consistencia eventual de consistencia transaccional.
+72. ¿Por qué esquema flexible no significa ausencia de diseño del modelo?
+73. Compará embebidos y referencias según consultas, duplicación, crecimiento y atomicidad.
+74. En el ejemplo editor–libros, ¿por qué puede convenir `publisher_id` en cada libro frente a `books` en el editor?
+75. Distinguí documento, colección, BSON y `_id`.
+76. Armá un filtro que combine AND implícito, `$or` y un rango; explicá `$exists`.
+77. Compará `$all`, `$nin` y `$elemMatch`; ¿qué ocurre con campos ausentes en el ejemplo de `$nin`?
+78. Compará `$set`, `$inc` y `$push`; explicá la forma del tercer argumento para upsert.
+79. ¿Qué cambia entre `updateOne` y `updateMany`, o `deleteOne` y `deleteMany`?
+80. ¿Cómo se excluye `_id` de una proyección y cómo se combinan sort, skip y limit?
+81. ¿Qué índice predeterminado describe el material y cómo comprobarías si una consulta usa un índice?
+82. Compará `$sum: 1` con `$sum` de un campo y explicá el papel de `_id` en `$group`.
+83. Describí `from`, `localField`, `foreignField` y `as` en `$lookup`.
+84. ¿Cómo cambia la cantidad de documentos al aplicar `$unwind` sobre un arreglo?
+85. ¿Cómo define T13 una vista y para qué pide `bandas_resumen` el TP 9?
+86. Explicá map, emit y reduce usando el ejemplo de ventas; distinguí el concepto del estado actual del método MongoDB.
+87. Compará replicación y sharding por objetivo, distribución de datos y componentes.
+88. ¿Cómo se combinan shards y replica sets? ¿Qué muestra el esquema de elección de primario?
+89. Antes de importar P10C y P10D, ¿qué revisarías sobre cabecera, formato, tipos y orden de coordenadas?
+
+Fuentes para corregir el bloque: [T13, pp. 9, 12–30, 41–52; T14, pp. 2–24, 28; T15, pp. 8–9, 21–29, 31–44; C02, pp. 1–2; C03, pp. 1–2; P10A, pp. 2–7; P10B, pp. 1–2; P10C; P10D]. Las precisiones externas necesarias están identificadas en los apuntes y en dudas.
+
+## Cassandra, Bloom filters y DIGEST
+
+90. ¿Por qué el diseño de tablas Cassandra parte de las consultas y qué implica que no existan joins?
+91. Distinguí cluster, data center, keyspace y familia de columnas.
+92. Compará `PRIMARY KEY (a, b, c)` con `PRIMARY KEY ((a, b), c)` por partición, identificación y orden.
+93. En la playlist del TP 10, ¿por qué se repite `id` y qué aporta `nro_cancion`?
+94. Explicá el rechazo de una consulta que solo restringe `mes` cuando la partition key es `(idusuario, mes)`.
+95. Compará acceso por partition key, índice secundario y `ALLOW FILTERING`; ¿qué costo puede ocultar el último?
+96. Recorré una escritura local desde commit log hasta SSTable. ¿Cómo se recupera la memtable tras una caída?
+97. ¿Por qué pueden existir datos de una partición en varias SSTables y qué mejora la compactación?
+98. Explicá tombstone y período de gracia; ¿qué problema crea una réplica que no recibe un borrado?
+99. Reproducí el vector de Juan y explicá el rechazo de Pedro en C04. ¿Dónde aparece el bit decisivo?
+100. ¿Por qué un Bloom filter admite falsos positivos pero no falsos negativos? ¿Devuelve el dato?
+101. Separá el hash del partitioner, los hashes del Bloom filter y el digest entre réplicas por propósito.
+102. Distinguí RF y CL: con RF=3 y escritura ONE, ¿se envía la escritura a una sola réplica?
+103. Explicá ONE, QUORUM y ALL; ¿qué cantidad representa una mayoría con RF=3 y RF=4?
+104. Recorré C05: dato completo, digest, comparación y timestamp. ¿Qué paso adicional necesita un digest diferente?
+105. ¿Qué salvedad hay que hacer sobre background read repair al usar Cassandra 4.0 o posterior?
+106. ¿Por qué read repair no equivale al mantenimiento periódico `repair` ni garantiza consultar siempre todas las réplicas?
+107. En el TP 10, distinguí borrar una canción de la playlist, toda la playlist, la tabla y el keyspace.
+108. Identificá la contradicción sobre agregaciones de T16 y explicá por qué sus ejemplos no deben copiarse sin revisar tipos y versión.
+
+Fuentes para corregir el bloque: [T16, pp. 12–19, 25–47, 51, 56, 59–74; C04, pp. 3–8; C05; P12, pp. 1–3]. Las precisiones de versión, tipos y reparación que no constan en las fuentes están etiquetadas como complemento en los [apuntes](../temas/22-cassandra-consistencia-y-digest.md) y en [dudas](../dudas-y-conflictos.md).

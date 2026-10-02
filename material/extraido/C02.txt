@@ -1,0 +1,88 @@
+FUENTE: C02
+TITULO: Diferencia entre sharding y replicación en MongoDB
+ORIGINAL: material/catedra/teoria/c02-mongodb-sharding-replicacion.pdf
+
+===== PAGINA 1 =====
+
+                                      Diferencia entre Sharding y Replication en MongoDB
+
+
+
+
+En MongoDB, sharding y replication son dos mecanismos fundamentales pero con propósitos distintos:
+
+
+
+1. Replication (Replicación)
+
+Objetivo: Alta disponibilidad y tolerancia a fallos.
+
+- Se realiza mediante un replica set (conjunto de réplicas).
+
+- Hay un nodo primario y uno o más nodos secundarios.
+
+- Las escrituras y lecturas por defecto van al nodo primario.
+
+- Si el primario falla, uno de los secundarios se promueve automáticamente (failover automático).
+
+
+
+Ventajas:
+
+- Alta disponibilidad.
+
+- Recuperación automática ante fallos.
+
+- Lecturas distribuidas si se configura.
+
+
+
+2. Sharding (Fragmentación)
+
+Objetivo: Escalabilidad horizontal.
+
+- Los datos se dividen en múltiples servidores llamados shards.
+
+- Cada shard contiene solo una parte de los datos.
+
+- Se usa una shard key para distribuir los datos.
+
+- Se requiere un mongos (query router) y config servers para coordinar.
+
+
+
+Ventajas:
+
+- Escala la base de datos más allá de un solo servidor.
+
+- Mejora el rendimiento para bases de datos grandes.
+
+
+
+Comparación rápida:
+
+
+
+| Característica        | Replication                       | Sharding                              |
+
+|--------------------|-----------------------------------|--------------------------------------|
+
+| Propósito           | Alta disponibilidad                  | Escalabilidad horizontal                 |
+
+| Cómo funciona            | Copia de los mismos datos                  | División de los datos             |
+
+===== PAGINA 2 =====
+
+| Componentes clave | Replica set                 | Shards, mongos, config servers      |
+
+| Fallos       | Soporta failover           | Requiere diseño cuidadoso             |
+
+| Lectura/Escritura | Principalmente en el primario   | Distribuidas entre shards       |
+
+
+
+Combinación:
+
+En sistemas grandes, ambos se pueden combinar: shards que sean replica sets, logrando alta disponibilidad y
+
+escalabilidad horizontal.

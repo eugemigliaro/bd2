@@ -1,0 +1,82 @@
+FUENTE: C03
+TITULO: Ejemplo de MapReduce en MongoDB
+ORIGINAL: material/catedra/teoria/c03-mongodb-mapreduce.pdf
+
+===== PAGINA 1 =====
+
+                                              Ejemplo de MapReduce en MongoDB
+
+
+
+
+Supongamos una colección 'orders':
+
+
+
+{ "_id": 1, "product": "laptop", "quantity": 2, "price": 1000 }
+
+{ "_id": 2, "product": "mouse", "quantity": 5, "price": 50 }
+
+{ "_id": 3, "product": "laptop", "quantity": 1, "price": 1000 }
+
+{ "_id": 4, "product": "keyboard", "quantity": 3, "price": 80 }
+
+
+
+Objetivo: Calcular el total vendido por producto.
+
+
+
+1. Función map:
+
+function() {
+
+    emit(this.product, this.quantity * this.price);
+
+}
+
+
+
+2. Función reduce:
+
+function(key, values) {
+
+    return Array.sum(values);
+
+}
+
+
+
+3. Comando MapReduce:
+
+db.orders.mapReduce(
+
+    function() {
+
+        emit(this.product, this.quantity * this.price);
+
+    },
+
+    function(key, values) {
+
+        return Array.sum(values);
+
+    },
+
+    {
+
+        out: "total_ventas_por_producto"
+
+    }
+
+)
+
+===== PAGINA 2 =====
+
+Resultado esperado:
+
+{ "_id": "laptop", "value": 3000 }
+
+{ "_id": "mouse", "value": 250 }
+
+{ "_id": "keyboard", "value": 240 }

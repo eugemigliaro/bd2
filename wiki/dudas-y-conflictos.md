@@ -91,7 +91,8 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 ## Nombre del rol en TP 8
 
 - P08 pide crear el rol `ins_vol` en 2.g y luego asignar/modificar/eliminar `ins_prov` en 2.h–2.j. [P08, p. 2]
-- **Decisión:** tratar `ins_prov` como error tipográfico y usar un único nombre coherente al resolver, dejando asentado el supuesto.
+- Leída literalmente, la consigna falla en MySQL 9.7.2: `GRANT ins_prov TO …` da `ERROR 3523`, `GRANT … TO ins_prov` da `ERROR 1410` y `DROP ROLE ins_prov` da `ERROR 1396`. Verificado en la [resolución del TP 8](../practica/tp-08/solucion.md).
+- **Decisión:** tratar `ins_prov` como error tipográfico de `ins_vol` y resolver 2.h–2.j con `ins_vol`; la lectura literal se conserva solo para explicar esos errores.
 
 ## Nombre del CSV de materias en TP 5
 

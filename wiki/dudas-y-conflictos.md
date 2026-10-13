@@ -116,6 +116,12 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 - **Complemento del agente (no consta en el material cargado):** el compromiso C/A surge ante particiones; la C de CAP no equivale a la C de ACID. La disponibilidad formal exige respuesta eventual a cada petición del servicio considerado. Referencias primarias: [Brewer, apartados “Why 2 of 3…” y “ACID, BASE, and CAP”](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) y [Gilbert y Lynch, sección 2](https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf).
 - **Decisión:** conservar la clasificación de T13 para el ejercicio de cátedra y explicitar escenario, configuración y operaciones al analizar un sistema concreto. No atribuir la precisión externa a la diapositiva. [P10B, p. 2]
 
+## MongoDB y kernels Linux 6.19+
+
+- P10A propone `docker pull mongo`, sin etiqueta de versión. [P10A, p. 1]
+- **Complemento del agente (no consta en el material cargado):** al 2026-10-12, `mongo:latest` es 9.0.2 y aborta al iniciar con “MongoDB cannot start: Linux kernel versions 6.19 and newer has a known incompatibility”. El ticket [SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912) lo atribuye a TCMalloc y a un cambio de `rseq` en el kernel que afecta a MongoDB 8.0+; [SERVER-125742](https://jira.mongodb.org/browse/SERVER-125742) indica que los kernels 7.0.14+ y 7.1+ restauran el comportamiento y que la serie 7.0 no está afectada. El entorno corre Ubuntu `7.0.0-30-generic`, basado en 7.0.12.
+- **Decisión:** fijar `mongo:7.0.43` en `compose.yaml`. Todo lo que pide el TP 9 —CRUD, agregación, vistas, índices `2d`, `mongoimport`— existe en 7.0. Revisar al actualizar el kernel.
+
 ## MongoDB: métodos históricos y datos de versión
 
 - Las fuentes usan `insert`, `update`, `remove`, `count` y `ensureIndex`; T15 también muestra `mongo`, `system.js.save`, `loadServerScripts` y un ejemplo Python con `print` sin paréntesis. [T13, pp. 32, 37–39; T15, pp. 12–14, 20, 25, 27–29, 38–39, 41; P10A, p. 6]
@@ -134,6 +140,13 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 - La tabla visual repite `EFECTO ALFONS` en dos filas: inscripción 27/11/2017, disco de 2000, y 06/11/2017, disco de 1995. No especifica si son dos inscripciones de una banda o filas que deben unificarse. [P10A, p. 7]
 - La cabecera usa `FECHA_INSCRIPCION`, pero la consulta de la parte II escribe `fecha_incripcion`. [P10A, p. 7; P10B, p. 2]
 - **Decisión:** no deduplicar automáticamente; fijar identidad/granularidad al resolver. Mantener el nombre de campo elegido de manera coherente y señalar la errata de la consulta.
+- **Resolución adoptada en el TP 9:** un documento por banda. `EFECTO ALFONS` reúne sus dos discos y `fecha_inscripcion` es un arreglo de fechas en todas las bandas, porque las consultas cuentan bandas. Ver la [resolución](../practica/tp-09/solucion.md).
+
+## Fechas de nacimiento de `players` en TP 9
+
+- P10A crea las fechas con `new Date(año, mes, día, 0, 0)` usando el mes calendario: Messi figura como `new Date(1987,6,24,0,0)`. [P10A, pp. 2–3]
+- **Complemento del agente (no consta en el material cargado):** en JavaScript el mes va de 0 a 11, así que esa expresión guarda el 24 de julio; Messi nació el 24 de junio. Todas las fechas de nacimiento de la guía quedan corridas un mes.
+- **Decisión:** reproducir los comandos tal como están, porque ninguna consulta del TP depende de esas fechas, y señalar la trampa. Las fechas propias se escriben como texto ISO (`new Date('2017-11-27')`).
 
 ## Egresados: esquema de ejemplo frente al CSV recibido
 
@@ -146,6 +159,8 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 - **Complemento del agente (no consta en el material cargado):** para coordenadas terrestres se usa longitud primero y latitud después; la documentación de [`2dsphere`](https://www.mongodb.com/docs/manual/core/indexes/index-types/geospatial/2dsphere/) exige longitud en [-180,180] y latitud en [-90,90]. [`2d`](https://www.mongodb.com/docs/manual/core/indexes/index-types/geospatial/2d/) modela un plano y no es equivalente a geometría esférica.
 - **Inferencia del agente a partir de los datos:** el orden parece mezclado. Los ejemplos y rangos no permiten corregir con certeza todos los registros, especialmente cuando ambos componentes están entre -90 y 90.
 - **Decisión:** conservar el JSON recibido y auditar el orden antes del ejercicio geoespacial. No intercambiar todas las coordenadas ni sustituir silenciosamente el índice `2d` pedido por la guía. [P10B, p. 1]
+- **Auditoría del 2026-10-13 (inferencia del agente a partir de los datos):** el orden sigue una regla de signo sin excepciones. Los 62 678 documentos con ambos componentes ≥ 0 están en `[lat, lon]`; los 37 160 con algún componente negativo, en `[lon, lat]`. Es compatible con un archivo original del libro entero en `[lat, lon]` —su ejemplo rotula al revés Sant Julià de Lòria y su `$geoNear` pone la latitud primero— al que se le invirtieron solo los pares con algún negativo. [B01, pp. 116, 130]
+- **Resolución adoptada en el TP 9:** derivar `cities_lonlat` con un `$out` que invierte los pares no negativos y consultar con `$centerSphere` sobre el índice `2d`. Alrededor de Londres, sobre el meridiano de Greenwich, la consulta sin normalizar devuelve 297 ciudades y ninguna al este; normalizada, 453. Ver la [resolución](../practica/tp-09/solucion.md).
 
 ## MapReduce deprecado
 
@@ -167,8 +182,9 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 
 ## Vacíos de cobertura del TP 9 y figuras
 
-- P10B remite a *Seven Databases in Seven Weeks*, segunda edición, capítulo 4. No está cargado el libro: faltan los enunciados Do.2–Do.5 de las páginas 109–110, Do.1 de la página 132 y las preparaciones específicas remitidas a otras páginas. [P10B, pp. 1–2]
-- **Decisión:** registrar la dependencia y no reconstruir ejercicios por número de página. Sí están cargados los dos datasets recibidos. [P10C; P10D]
+- P10B remite a *Seven Databases in Seven Weeks*, segunda edición, capítulo 4. [P10B, pp. 1–2] El libro se incorporó el 2026-10-13 como B01, con estado `local`: la copia tiene licencia institucional para la biblioteca del ITBA, así que no se versiona en el repositorio público y su texto extraído también queda fuera de git.
+- La página impresa N del libro es la página N + 13 del PDF. Los enunciados de Do.2–Do.5 están en las pp. 109–110 y el de Do.1 en la p. 132. [B01, pp. 109–110, 132]
+- **Decisión:** usar B01 solo para lo que el TP 9 remite, sin volcar el libro a la wiki, que no es de lectura completa obligatoria. Las soluciones parafrasean los enunciados en vez de copiarlos.
 - La captura de resultado de `$lookup` se interrumpe al mostrar el documento con `_id: 3`; el recorte ya está en el original. [T14, p. 24]
 - **Decisión:** no atribuir a esa imagen un resultado completo que no se ve. La semántica adicional se documenta como complemento del manual oficial.
 

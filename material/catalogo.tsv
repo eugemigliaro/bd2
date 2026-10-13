@@ -47,3 +47,4 @@ C04	catedra-clase	Bloom filters en Cassandra	material/catedra/teoria/c04-cassand
 C05	catedra-recurso	Mecanismo de obtención de resultados DIGEST en Cassandra	material/catedra/teoria/recursos/c05-cassandra-digest.png	-	2026	vigente	mecanismo de obtencion de resultados DIGEST (cassandra).png
 P12	catedra-practica	TP 10 — Cassandra, parte I	material/catedra/practica/tp-10-cassandra-parte-1.pdf	3	2026	vigente	ITBA TP 10 - Cassandra Parte I.pdf
 P13	catedra-practica	TP 10 — Cassandra, parte II	material/catedra/practica/tp-10-cassandra-parte-2.pdf	2	2026	vigente	ITBA TP 10 - Cassandra Parte II.pdf
+B01	catedra-bibliografia	Seven Databases in Seven Weeks, 2.ª ed. (Perkins, Redmond y Wilson, 2018)	material/catedra/bibliografia/b01-seven-databases-in-seven-weeks-2e.pdf	354	2026	local	Seven-databases-in-seven-weeks-second-edition_p1_0.pdf

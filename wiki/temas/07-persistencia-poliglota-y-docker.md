@@ -32,6 +32,14 @@ make db-reset    # eliminar datos locales y reinicializar
 
 El laboratorio es deliberadamente local y no representa una configuración de producción.
 
+## Entorno MongoDB del repositorio
+
+`compose.yaml` agrega el servicio `mongo` (contenedor `bd2-mongo`) para el TP 9. La guía propone `docker pull mongo` sin versión [P10A, p. 1]; el repositorio fija `mongo:7.0.43` porque las series 8.0 y posteriores no arrancan en el kernel Linux del entorno (ver [dudas](../dudas-y-conflictos.md#mongodb-y-kernels-linux-619)).
+
+- Publica `27017` solo en `127.0.0.1`: corre sin autenticación.
+- Monta `material/catedra/practica/recursos` en `/recursos` y `practica/` en `/practica`, ambos de solo lectura, así que `mongoimport` y `load()` leen los archivos sin `docker cp`.
+- `make mongo-shell` abre `mongosh` sobre la base `lab`; `make db-up` levanta ambos motores.
+
 ## Entorno Cassandra de la guía
 
 El TP 10 propone un contenedor Cassandra y `cqlsh`; ofrece DataGrip como alternativa con el puerto 9042 publicado. El [espacio del TP 10](../../practica/tp-10/README.md) indexa esa preparación y sus límites: la imagen no fija versión y no se desplegó un laboratorio durante la incorporación. La parte II no agrega instalación: pide levantar Cassandra según lo hecho en la parte I. Para diseñar el modelo, seguir [Cassandra y CQL](20-cassandra-modelado-y-cql.md). [P12, p. 1; P13, p. 1; T16, pp. 13, 16–19]

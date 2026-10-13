@@ -4,7 +4,7 @@
 
 El TP utiliza `mongosh`, con comandos sobre `db`. `use lab` selecciona una base; la creación efectiva se produce al crear su primera colección o insertar datos. `db.getCollectionNames()` enumera colecciones, `db.stats()` informa estadísticas y `db.help()` muestra ayuda. Omitir paréntesis muestra el método en vez de ejecutarlo. [P10A, pp. 1–2; T15, pp. 10–14, 20]
 
-El TP propone Docker o instalación Community y clientes como `mongosh`, DataGrip o Compass. Sus instrucciones de contenedor están en el original; el laboratorio reproducible ya existente del repo sigue siendo el de MySQL. No se ejecutó ni configuró un laboratorio MongoDB durante la incorporación. [P10A, p. 1]
+El TP propone Docker o instalación Community y clientes como `mongosh`, DataGrip o Compass. Sus instrucciones de contenedor están en el original. [P10A, p. 1] El repositorio agrega un servicio MongoDB reproducible; ver el [entorno](07-persistencia-poliglota-y-docker.md#entorno-mongodb-del-repositorio).
 
 ## Correspondencias para leer las consultas
 

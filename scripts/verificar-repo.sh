@@ -13,6 +13,8 @@ fi
 while IFS=$'\t' read -r id tipo titulo ruta paginas ciclo estado original; do
     [[ "$id" == "id" ]] && continue
     [[ -z "$id" ]] && continue
+    # Las fuentes `local` no se versionan (licencia): solo se validan si están presentes.
+    [[ "$estado" == "local" && ! -f "$repo_dir/$ruta" ]] && continue
     if [[ ! -f "$repo_dir/$ruta" ]]; then
         echo "Falta la fuente $id: $ruta" >&2
         errores=$((errores + 1))
@@ -35,7 +37,7 @@ while IFS= read -r citado; do
         echo "La wiki usa un ID sin catálogo: $citado" >&2
         errores=$((errores + 1))
     fi
-done < <(rg -o --no-filename '\b(T|C|P|SQL|X)[0-9]+[A-Z]?\b' "$repo_dir/wiki" | sort -u)
+done < <(rg -o --no-filename '\b(T|C|P|SQL|X|B)[0-9]+[A-Z]?\b' "$repo_dir/wiki" | sort -u)
 
 for script in "$repo_dir"/scripts/*.sh; do
     if [[ ! -x "$script" ]]; then

@@ -4,8 +4,11 @@
 - Datos: [egresados (P10C)](../../material/catedra/practica/recursos/tp-09-egresados.csv) y [ciudades (P10D)](../../material/catedra/practica/recursos/tp-09-mongo-cities.json).
 - Figura necesaria: [tabla de bandas](../../material/figuras/P10A-p7-datos-bandas.png).
 - Apuntes: [CAP](../../wiki/temas/15-nosql-y-cap.md), [modelado](../../wiki/temas/16-mongodb-modelado.md), [CRUD](../../wiki/temas/17-mongodb-consultas-y-crud.md), [agregaciones y vistas](../../wiki/temas/18-mongodb-agregaciones-y-vistas.md).
-- Motor: MongoDB; cliente propuesto `mongosh`.
-- Estado: pendiente de resolución; no se crearon respuestas individuales.
+- Motor: MongoDB 7.0.43 en `bd2-mongo` (la guía propone la última versión, que no arranca en el kernel del entorno); cliente `mongosh`.
+- Bibliografía: *Seven Databases in Seven Weeks* (B01), uso local; la página impresa N es la N + 13 del PDF.
+- Estado: resolución registrada de las partes I y II.
+- Consultas: [consultas.js](consultas.js); cargas: [players.js](players.js), [bandas.js](bandas.js), [towns.js](towns.js).
+- Análisis completo: [solucion.md](solucion.md).
 
 ## Parte I
 
@@ -23,7 +26,7 @@ La tabla tiene 12 filas y repite `EFECTO ALFONS` con fechas/discos distintos. An
 | 6 | Traducción de dos consultas SQL sobre bandas al modelo de la parte I. |
 | 7–8 | Fortalezas/debilidades de MongoDB y clasificación según CAP. |
 
-La guía remite al capítulo 4 de *Seven Databases in Seven Weeks*, segunda edición: páginas 95, 97–98, 109–111, 116–117, 130 y 132–133. El libro no está cargado, por lo que no se dispone del texto de los ejercicios Do.2–Do.5 del punto 1 ni Do.1 del punto 5. No reconstruirlos a partir del número de página. [P10B, pp. 1–2]
+La guía remite al capítulo 4 de *Seven Databases in Seven Weeks*, segunda edición: páginas 95, 97–98, 109–111, 116–117, 130 y 132–133. El libro está incorporado como B01 con uso local: no se versiona porque es una copia con licencia institucional. [P10B, pp. 1–2]
 
 ## Recursos recibidos
 
@@ -42,3 +45,5 @@ mongoimport --db academica --collection cities --type json \
 ```
 
 Revisar los tipos importados y las coordenadas antes de resolver cálculos o consultas geoespaciales. No cambiar el original catalogado para corregirlos; cualquier preparación debe quedar en este espacio práctico como derivado.
+
+Con el entorno del repositorio los archivos están montados en `/recursos`: los comandos efectivos usan `docker compose exec mongo mongoimport … --file /recursos/…`, registrados en [consultas.js](consultas.js). La auditoría de coordenadas y su normalización están en [solucion.md](solucion.md).

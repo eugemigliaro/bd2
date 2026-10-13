@@ -18,6 +18,12 @@ tail -n +2 "$catalogo" | while IFS=$'\t' read -r id tipo titulo ruta paginas cic
     destino="$salida/$id.txt"
     temporal="$(mktemp)"
 
+    if [[ ! -f "$pdf" && "$estado" == "local" ]]; then
+        echo "Omitida $id: fuente local no versionada ausente en esta copia."
+        rm -f "$temporal"
+        continue
+    fi
+
     if [[ ! -f "$pdf" ]]; then
         echo "Error: no existe $ruta (fuente $id)." >&2
         rm -f "$temporal"

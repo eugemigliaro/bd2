@@ -46,3 +46,4 @@ T16	catedra-teoria	Introducción a Cassandra	material/catedra/teoria/t16-introdu
 C04	catedra-clase	Bloom filters en Cassandra	material/catedra/teoria/c04-cassandra-bloom-filters.pdf	8	2026	vigente	Slides_Bloom_Filters_Cassandra.pdf
 C05	catedra-recurso	Mecanismo de obtención de resultados DIGEST en Cassandra	material/catedra/teoria/recursos/c05-cassandra-digest.png	-	2026	vigente	mecanismo de obtencion de resultados DIGEST (cassandra).png
 P12	catedra-practica	TP 10 — Cassandra, parte I	material/catedra/practica/tp-10-cassandra-parte-1.pdf	3	2026	vigente	ITBA TP 10 - Cassandra Parte I.pdf
+P13	catedra-practica	TP 10 — Cassandra, parte II	material/catedra/practica/tp-10-cassandra-parte-2.pdf	2	2026	vigente	ITBA TP 10 - Cassandra Parte II.pdf

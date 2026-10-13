@@ -27,6 +27,8 @@ La presentación introduce tres propiedades: **consistencia** de los datos obser
 
 El [gráfico de clasificación](../../material/figuras/T13-p18-clasificacion-cap.png), revisado visualmente, ubica MongoDB en CP, Cassandra en AP y MySQL/PostgreSQL en CA. Esta es la clasificación didáctica de esa diapositiva y la referencia para la pregunta 8 del TP 9, parte II. [T13, p. 18; P10B, p. 2]
 
+El ejercicio 3 del TP 10, parte II, pide clasificar Cassandra. Además del gráfico de T13, la clase de Cassandra la describe como tolerante a particiones y disponible a cambio de consistencia eventual, y aclara que el nivel de consistencia se configura incluso por consulta. Ese ajuste se desarrolla en [replicación y consistencia](22-cassandra-consistencia-y-digest.md). [T13, p. 18; T16, p. 11; P13, p. 2]
+
 **Complemento del agente (no consta en el material cargado):** el compromiso de CAP se plantea ante una partición: no se pueden garantizar simultáneamente consistencia fuerte y disponibilidad para todas las peticiones. Fuera de esa situación, la regla “elegir dos” oculta posibilidades del diseño. CAP usa consistencia de una copia única, distinta de la preservación de restricciones de la C de ACID; su disponibilidad tampoco es simplemente un porcentaje de uptime. Véanse [Brewer, CAP Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) y [Gilbert y Lynch, Perspectives on the CAP Theorem, sección 2](https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf).
 
 Para estudiar o corregir, enunciar primero el criterio de T13 y después explicitar la configuración y las operaciones consideradas cuando se razone sobre un sistema real. No deducir garantías de toda instalación solo por el nombre del motor.

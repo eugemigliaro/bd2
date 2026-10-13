@@ -150,5 +150,9 @@ Fuentes para corregir el bloque: [T13, pp. 9, 12–30, 41–52; T14, pp. 2–24,
 106. ¿Por qué read repair no equivale al mantenimiento periódico `repair` ni garantiza consultar siempre todas las réplicas?
 107. En el TP 10, distinguí borrar una canción de la playlist, toda la playlist, la tabla y el keyspace.
 108. Identificá la contradicción sobre agregaciones de T16 y explicá por qué sus ejemplos no deben copiarse sin revisar tipos y versión.
+109. ¿Qué dos objetivos fija el TP 10, parte II, antes de diseñar las tablas y por qué pueden entrar en tensión al elegir la partition key?
+110. En el blog de noticias del TP 10, ¿qué consultas combinan datos de dos entidades y cómo se resuelven sin joins?
+111. ¿Qué supuestos del DER de e-commerce conviene declarar antes de modelarlo en Cassandra?
+112. ¿Cómo clasifica la cátedra a Cassandra según CAP y qué matiz agrega el nivel de consistencia configurable?
 
-Fuentes para corregir el bloque: [T16, pp. 12–19, 25–47, 51, 56, 59–74; C04, pp. 3–8; C05; P12, pp. 1–3]. Las precisiones de versión, tipos y reparación que no constan en las fuentes están etiquetadas como complemento en los [apuntes](../temas/22-cassandra-consistencia-y-digest.md) y en [dudas](../dudas-y-conflictos.md).
+Fuentes para corregir el bloque: [T13, p. 18; T16, pp. 11–19, 25–47, 51, 56, 59–74; C04, pp. 3–8; C05; P12, pp. 1–3; P13, pp. 1–2]. Las precisiones de versión, tipos y reparación que no constan en las fuentes están etiquetadas como complemento en los [apuntes](../temas/22-cassandra-consistencia-y-digest.md) y en [dudas](../dudas-y-conflictos.md).

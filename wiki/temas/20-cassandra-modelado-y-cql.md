@@ -22,6 +22,8 @@ Antes de crear tablas, identificar las consultas de la aplicación. Elegir una p
 
 El TP concreta la desnormalización con `canciones` y `lista_reproduccion`: esta última guarda `cancion_id`, título, álbum y artista junto con la posición de la canción. La guía copia esos valores para consultar una lista sin hacer un join. [P12, pp. 1–2]
 
+La parte II del TP convierte ese criterio en ejercicios de diseño. Antes de crear las tablas fija dos objetivos, que retoman T16: repartir los datos por todo el clúster para equilibrar la carga y resolver cada consulta accediendo a la menor cantidad posible de particiones. Luego enumera las consultas frecuentes de un blog de noticias y de un e-commerce descrito por un DER. Varias combinan datos de dos entidades, como noticias con la descripción del autor o comentarios con el título de la noticia. Sin joins, cada combinación debe resolverse en el diseño de las tablas. [P13, pp. 1–2; T16, pp. 13, 16, 19]
+
 ## Primary key, partition key y clustering key
 
 La primary key identifica la fila y se compone de la clave de partición y, cuando existen, columnas de clustering. La primera determina qué filas pertenecen a la misma partición; las segundas ordenan las filas dentro de ella. El orden y los paréntesis de la declaración cambian el modelo. Los [ejemplos de claves](../../material/figuras/T16-p64-claves-compuestas.png) y la [comparación de formas](../../material/figuras/T16-p69-formas-primary-key.png) se revisaron visualmente. [T16, pp. 56, 63–69]
@@ -61,5 +63,5 @@ La clase distingue funciones escalares y agregadas, y muestra `SUM(players)`. Es
 
 - [Almacenamiento, borrados y Bloom filters](21-cassandra-almacenamiento-y-bloom.md).
 - [Replicación, consistencia y DIGEST](22-cassandra-consistencia-y-digest.md).
-- [TP 10, parte I](../../practica/tp-10/README.md): enunciado indexado, pendiente de resolución.
+- [TP 10, partes I y II](../../practica/tp-10/README.md): enunciados indexados, pendientes de resolución; supuestos de la parte II en [dudas](../dudas-y-conflictos.md#tp-10-parte-ii-supuestos-de-modelado).
 - [Dudas y conflictos](../dudas-y-conflictos.md): ejemplos con tipos incompatibles y diferencias de versión.

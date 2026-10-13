@@ -34,4 +34,4 @@ El laboratorio es deliberadamente local y no representa una configuración de pr
 
 ## Entorno Cassandra de la guía
 
-El TP 10 propone un contenedor Cassandra y `cqlsh`; ofrece DataGrip como alternativa con el puerto 9042 publicado. El [espacio del TP 10](../../practica/tp-10/README.md) indexa esa preparación y sus límites: la imagen no fija versión y no se desplegó un laboratorio durante la incorporación. Para diseñar el modelo, seguir [Cassandra y CQL](20-cassandra-modelado-y-cql.md). [P12, p. 1; T16, pp. 13, 16–19]
+El TP 10 propone un contenedor Cassandra y `cqlsh`; ofrece DataGrip como alternativa con el puerto 9042 publicado. El [espacio del TP 10](../../practica/tp-10/README.md) indexa esa preparación y sus límites: la imagen no fija versión y no se desplegó un laboratorio durante la incorporación. La parte II no agrega instalación: pide levantar Cassandra según lo hecho en la parte I. Para diseñar el modelo, seguir [Cassandra y CQL](20-cassandra-modelado-y-cql.md). [P12, p. 1; P13, p. 1; T16, pp. 13, 16–19]

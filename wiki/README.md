@@ -38,8 +38,10 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Esquemas del TP 6](../material/figuras/README.md)
 - [Esquemas del TP 8](../material/figuras/README.md)
 - [Datos de bandas del TP 9](../material/figuras/P10A-p7-datos-bandas.png)
+- [DER del e-commerce del TP 10](../material/figuras/P13-p2-der-ecommerce.png)
 - [Incorporación de NoSQL/MongoDB](../material/incorporaciones/2026-10-02-nosql-mongodb.md)
 - [Incorporación de Cassandra](../material/incorporaciones/2026-10-02-cassandra.md)
+- [Incorporación del TP 10, parte II](../material/incorporaciones/2026-10-13-cassandra-tp10-parte-2.md)
 - [Claves, consistencia y Bloom filters: figuras](../material/figuras/README.md)
 - [Mecanismo DIGEST de cátedra](../material/catedra/teoria/recursos/c05-cassandra-digest.png)
 
@@ -66,7 +68,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | MongoDB: pipelines, lookup, vistas y MapReduce | T13, T14, T15, C03, P11, P11A | Curado; omisiones de la solución oficial registradas |
 | MongoDB: replicación y sharding | T13, T15, C02 | Curado; propósitos y componentes diferenciados |
 | TP 9 MongoDB y datos de egresados/ciudades | P10A, P10B, P10C, P10D | Indexado; falta el libro remitido y revisar coordenadas del JSON |
-| Cassandra: modelado, claves y CQL | T16, P12 | Curado; columnas históricas separadas del esquema CQL |
+| Cassandra: modelado, claves y CQL | T16, P12, P13 | Curado; columnas históricas separadas del esquema CQL |
 | Cassandra: commit log, memtable, SSTable, tombstones y Bloom filters | T16, C04 | Curado; diagramas recuperados y salvedades de durabilidad/compactación |
 | Cassandra: replicación, consistencia y DIGEST | T16, C05 | Curado; background read repair histórico y diferencias de versión registradas |
-| TP 10 Cassandra, parte I | P12 | Indexado; sin resolución ni ejecución; versión del entorno no fijada |
+| TP 10 Cassandra, partes I y II | P12, P13 | Indexado; sin resolución ni ejecución; supuestos del modelado de la parte II registrados; versión del entorno no fijada |

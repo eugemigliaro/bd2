@@ -34,7 +34,7 @@ La diferencia central de versión es el background read repair de T16/C05: se co
 
 Las precisiones externas consultadas en documentación oficial de Apache Cassandra están enlazadas y etiquetadas **Complemento del agente (no consta en el material cargado)**. La documentación leída identifica versión 5.0; se usa como contraste técnico, no como versión fijada para el laboratorio ni como material oficial recibido de la cátedra.
 
-Faltan la parte II del TP 10, una versión del entorno de práctica fijada por la guía y datos de versión/fecha de C05. C04 no presenta dimensionamiento matemático de filtros. No se inventaron contenidos para cubrir esos vacíos.
+Faltan la parte II del TP 10 (**actualización:** incorporada como P13 en el [lote del 2026-10-13](2026-10-13-cassandra-tp10-parte-2.md)), una versión del entorno de práctica fijada por la guía y datos de versión/fecha de C05. C04 no presenta dimensionamiento matemático de filtros. No se inventaron contenidos para cubrir esos vacíos.
 
 ## Cierre y validación
 

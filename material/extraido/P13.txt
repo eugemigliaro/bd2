@@ -1,0 +1,89 @@
+FUENTE: P13
+TITULO: TP 10 — Cassandra, parte II
+ORIGINAL: material/catedra/practica/tp-10-cassandra-parte-2.pdf
+
+===== PAGINA 1 =====
+
+                                                                                                   1
+Base de Datos II - TP 10 Parte II​
+
+
+
+                                     TP N°10 - Cassandra - Parte II
+
+Documentación oficial de Cassandra: http://cassandra.apache.org/doc/latest/
+
+Antes de comenzar, es necesario levantar Cassandra en la PC que vayan a utilizar para este práctico,
+de acuerdo a la instalación que hayan realizado en el TP anterior.
+
+
+Ejercicio 1:
+
+Se precisa diseñar un blog de noticias donde los usuarios registrados pueden publicar sus
+comentarios, el cual será implementado en Cassandra:
+
+     ●​ Cada autor tiene un nombre, un nombre de usuario, una cuenta de X y una descripción
+     ●​ Las noticias tienen un título, un cuerpo y una fecha de publicación. Son publicadas por un
+        autor y pueden contener o no, una lista de tags
+     ●​ Las noticias reciben comentarios, quedando registrado la persona que lo escribió, el
+        comentario escrito y el momento en el que lo hizo
+
+Como vamos a utilizar Cassandra, siempre tenemos que tener en mente estos 2 objetivos:
+
+     1.​ Distribuir los datos por todo el clúster (equilibrio de carga en los nodos)
+     2.​ Optimizar las consultas para que sean lo más rápidas posibles (Cuantas menos particiones
+         tengan que ser accedidas, mejor)
+
+Y antes de diseñar las Column Families es importante saber cuales son las consultas más frecuente,
+En este caso:
+
+     ●​ Búsquedas de usuarios por nombre de usuario
+     ●​ Búsquedas de usuarios por cuenta de X
+     ●​ Búsquedas de las noticias publicadas por un usuario concreto, según su nombre de usuario,
+        y en las que aparezca también su descripción de usuario, ordenadas por fecha
+     ●​ Búsquedas de los comentarios en un rango de fechas, ordenados por fecha, junto con el
+        título de la noticia a la que pertenecen y el usuario que los realiza
+
+     a)​ Cree la o las column families que sean necesarias para cumplir con los requerimientos del
+         sistema
+     b)​ Inserte algunos registros de prueba
+     c)​ Realice las consultas más frecuentes para comprobar su correcto funcionamiento
+
+
+
+
+                                                ITBA - 2026
+
+===== PAGINA 2 =====
+
+                                                                                               2
+Base de Datos II - TP 10 Parte II​
+
+
+Ejercicio 2:
+
+Usted es el arquitecto de un nuevo sitio de e-commerce que pretende revolucionar al mercado con
+sus rápidos tiempos de respuesta. Las entidades más importantes han sido definidas como se
+muestra a continuación:
+
+
+
+
+Cree en Cassandra las estructuras necesarias para modelar el sistema descrito, tomando en cuenta
+que se debe dar respuesta a las siguientes consultas:
+
+     ●​ Obtener la información de usuario por ID de usuario
+     ●​ Obtener la información de producto por ID de producto
+     ●​ Obtener todos los productos publicados por un usuario en particular (nombre usuario)
+     ●​ Obtener todos los usuarios que comentaron un producto particular (nombre producto)
+     ●​ Obtener que producto calificó un usuario ‘X’ por fecha
+
+
+Ejercicio 3:
+
+Clasifique a Cassandra según el Teorema CAP.
+
+
+
+
+                                             ITBA - 2026

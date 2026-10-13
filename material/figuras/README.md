@@ -72,3 +72,9 @@ Se leyó el texto completo y se revisaron las páginas renderizadas de T16, C04 
 - [C04-p7-descartar-sstables.png](C04-p7-descartar-sstables.png): descartar sstables. [C04, p. 7]
 
 - [DIGEST (C05)](../catedra/teoria/recursos/c05-cassandra-digest.png): imagen original revisada visualmente, sin duplicarla como figura derivada. Presenta reparación en segundo plano; consultar la salvedad de versión en [dudas y conflictos](../../wiki/dudas-y-conflictos.md). [C05]
+
+## TP 10, parte II (incorporación 2026-10-13)
+
+Se leyó el texto completo de P13 y se revisaron sus dos páginas renderizadas. La página 2 contiene un DER que `pdftotext` no recupera; se recortó el ejercicio 2 completo, con el diagrama y las consultas.
+
+- [P13-p2-der-ecommerce.png](P13-p2-der-ecommerce.png): DER del e-commerce del ejercicio 2 (`Usuario`, `Producto`, `Categoría` y las relaciones publica, comenta, califica y pertenece) y las cinco consultas requeridas. [P13, p. 2]

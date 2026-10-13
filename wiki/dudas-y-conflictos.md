@@ -264,3 +264,17 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 - **Decisión:** preservar el original y declarar los supuestos al resolver: equivalencia entre “nombre producto” y `título`, papel de cada fecha de `califica`, unicidad de nombres y títulos, y partición elegida para el rango de comentarios. No presentar un puntaje como si constara en el DER.
 - **Resolución adoptada en el TP 10:** “nombre producto” es el título; nombres y títulos no son únicos, así que el id va en el clustering; `califica` tiene una sola fecha y ningún puntaje; los comentarios por rango se particionan por día. Ver la [resolución](../practica/tp-10/solucion.md).
 - El ejercicio 3 coincide con la clasificación AP de T13; T16 afirma lo mismo y agrega que el nivel de consistencia es configurable incluso por consulta. Para el alcance de esa clasificación, ver [CAP](#cap-simplificación-elegir-dos-y-clasificación-de-motores). [P13, p. 2; T13, p. 18; T16, p. 11]
+
+## Ejercicios tipo parcial (P14)
+
+- **Neo4j sin material.** P14 pide leer una consulta Cypher, pero el material cargado solo nombra Neo4j como ejemplo de base de grafos y como caso de persistencia políglota; no enseña Cypher. [P14, p. 4; T13, pp. 21–23; C01, p. 6] Cualquier explicación de la sintaxis es complemento del agente.
+- **Mensajería: "a lo sumo 3 adjuntos".** No aclara si incluye los mensajes con **cero** adjuntos que cumplan las condiciones. Un `JOIN` con `HAVING COUNT(*) <= 3` los pierde. Además, `ADJUNTO.anio_creacion` es de tipo `date` pese a su nombre, y `tamanio` es `int` sin unidad declarada frente a "50 Mb". [P14, p. 1]
+- **Mensajería: dos caminos entre mensaje y adjunto.** `CONTIENE` registra qué adjuntos tiene cada mensaje (n:m); las columnas `tipo_mensaje`/`cod_mensaje` de `ADJUNTO` registran solo el primer mensaje en que se incluyó. "Contienen" corresponde a `CONTIENE`. [P14, p. 1]
+- **Películas: notación PostgreSQL.** La consulta califica las tablas con el esquema `unc_esq_peliculas.`; en el entorno MySQL del repositorio el esquema equivalente es la base `mydb` [SQL01]. [P14, p. 2]
+- **Decisión:** resolver con los supuestos explícitos en el [espacio de práctica](../practica/parcial/README.md) y marcar como complemento la parte de Neo4j.
+
+## Posición de `NULL` al ordenar
+
+- T05B afirma que, para `ORDER BY`, `NULL` es el "mayor". [T05B, p. 29]
+- Es el comportamiento de PostgreSQL. En MySQL 9.7.2 es al revés: `NULL` se ordena como el **menor** valor y sale primero en orden ascendente. Verificado: `ORDER BY x` sobre `{1, NULL, 2}` devuelve `NULL, 1, 2`. *Complemento del agente (no consta en el material cargado).*
+- **Decisión:** citar T05B para PostgreSQL y, al resolver en MySQL, no asumir la posición de los nulos: si importa, ordenar explícitamente, por ejemplo con `ORDER BY x IS NULL, x` para mandarlos al final.

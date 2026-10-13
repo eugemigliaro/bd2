@@ -78,3 +78,12 @@ Se leyó el texto completo y se revisaron las páginas renderizadas de T16, C04 
 Se leyó el texto completo de P13 y se revisaron sus dos páginas renderizadas. La página 2 contiene un DER que `pdftotext` no recupera; se recortó el ejercicio 2 completo, con el diagrama y las consultas.
 
 - [P13-p2-der-ecommerce.png](P13-p2-der-ecommerce.png): DER del e-commerce del ejercicio 2 (`Usuario`, `Producto`, `Categoría` y las relaciones publica, comenta, califica y pertenece) y las cinco consultas requeridas. [P13, p. 2]
+
+## Ejercicios tipo parcial (incorporación 2026-10-13)
+
+Se extrajeron las cuatro imágenes embebidas de P14 a su resolución original con `pdfimages`; `pdftotext` no recupera ninguna.
+
+- [P14-p1-esquema-mensajes.png](P14-p1-esquema-mensajes.png): esquema de mensajería (`MENSAJE`, `CONTIENE`, `ADJUNTO` y sus subtipos `Audio` e `Imagen`), con la nota que describe el dominio. Es un esquema nuevo. [P14, p. 1]
+- [P14-p2-esquema-voluntarios.png](P14-p2-esquema-voluntarios.png): esquema de Voluntarios con tipos PostgreSQL (`character varying`, `numeric`); el mismo modelo que P08 con otra notación de tipos. [P14, p. 2]
+- [P14-p3-esquema-peliculas.png](P14-p3-esquema-peliculas.png): esquema de Películas en Vertabelo; el mismo modelo que SQL01. [P14, p. 3]
+- [P14-p4-consulta-hospitales.png](P14-p4-consulta-hospitales.png): la consulta SQL sobre `hospitales` que el ejercicio de MongoDB pide traducir. [P14, p. 4]

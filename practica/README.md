@@ -17,6 +17,7 @@ Los TP 1–10 son guías individuales de práctica y no entregables. Los origina
 
 ## Práctica adicional
 
+- [Ejercicios tipo parcial](parcial/README.md): enunciado P14, con ejercicios de SQL, teoría, seguridad, MongoDB, Neo4j y Cassandra.
 - [Ejercicio de stored procedures](ejercicio-stored-procedure/README.md): registro de entregas, con enunciado P09 e implementación MySQL SQL02.
 - [Ejercicio MongoDB e-commerce](mongodb-ecommerce/README.md): enunciado P11 y solución oficial P11A, con diferencias de alcance registradas.
 

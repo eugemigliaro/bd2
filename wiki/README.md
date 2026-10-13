@@ -42,6 +42,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Incorporación de NoSQL/MongoDB](../material/incorporaciones/2026-10-02-nosql-mongodb.md)
 - [Incorporación de Cassandra](../material/incorporaciones/2026-10-02-cassandra.md)
 - [Incorporación del TP 10, parte II](../material/incorporaciones/2026-10-13-cassandra-tp10-parte-2.md)
+- [Ejercicios tipo parcial](../practica/parcial/README.md) y su [incorporación](../material/incorporaciones/2026-10-13-ejercicios-parcial.md)
 - [Claves, consistencia y Bloom filters: figuras](../material/figuras/README.md)
 - [Mecanismo DIGEST de cátedra](../material/catedra/teoria/recursos/c05-cassandra-digest.png)
 

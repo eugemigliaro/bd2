@@ -1,0 +1,208 @@
+FUENTE: P14
+TITULO: Ejercicios tipo parcial
+ORIGINAL: material/catedra/practica/p14-ejercicios-tipo-parcial.pdf
+
+===== PAGINA 1 =====
+
+Ejercicio. Sea el esquema lógico de una BD de Investigadores:
+
+Investigador (IdInvest, IdCateg, nombre, mail, fec_nac, horas_invest, jerarquía, jefe)
+Categoria (IdCateg, denominación, hs_requeridas)
+Campus (id_campus, nomCampus, Universidad, superficie, dirección, provincia)
+Proyecto (IdInvest, fecha_inicio, IdInst, fecha_fin, desempeño)
+Instituto (IdInst, nombre, id_campus, superficieInst)
+
+Nota: fecha_fin null en Proyecto indica el cargo actual del investigador. Jerarquia = {senior, junior, master}
+
+Valores por defecto: En Investigador mail=postmaster@gmail.com, horas_invest=30, jerarquía=junior.
+Atributos que aceptan nulos están en negrita cursiva
+
+Provea las sentencias SQL que permitan armar las vistas requeridas para cada inciso:
+
+A. Obtener el identificador, nombre y fecha de nacimiento de todos los investigadores que han dirigido
+proyectos en al menos 3 institutos diferentes de la provincia de Buenos Aires.
+B. Obtener el identificador, nombre y fecha de nacimiento de todos los investigadores que han dirigido
+proyectos en al menos 3 institutos diferentes de la provincia de Buenos Aires, y tienen menos de 30 años.
+Utilice la vista anterior.
+C. Obtener el identificador, nombre, y fecha de nacimiento de todos los investigadores, conjuntamente con los
+proyectos que se han dirigido, con fecha de inicio posterior al 31/12/2015.
+
+
+Ejercicio. Considerando el siguiente esquema de BD
+
+
+
+
+A. Obtener el identificador de los mensajes, junto con el asunto, texto y fecha de envío, si es que contienen a
+lo sumo 3 adjuntos creados en el corriente año con tamaño menor a 50 Mb.
+
+B. Obtener todos los datos comunes de adjunto más un atributo indicando la duración o la resolución, según
+sea el adjunto de tipo audio o imagen.
+
+===== PAGINA 2 =====
+
+Ejercicio. Considere que la tabla tarea del esquema de Voluntarios posee 20 tuplas y suponga que en todas
+ellas el atributo min_horas es nulo. ¿Cuál sería el resultado de la siguiente consulta? Seleccione una única
+opción.
+
+SELECT sum(min_horas), count(*), count(min_horas) FROM tarea;
+
+A. Una tabla con la tupla (null, null, null)
+B. Una tabla con la tupla (0, 20, 0)
+C. Una tabla con la tupla (0, 20, 20)
+D. Una tabla con la tupla (null, 20, 0)
+E. Ninguna de las opciones
+
+
+
+
+Ejercicio 4. La siguiente consulta sobre el esquema de Películas debería “listar los datos completos de las
+películas con género Drama entregadas por un distribuidor nacional que no tenga distribuidor mayorista”
+
+        SELECT * FROM unc_esq_peliculas.pelicula p
+        JOIN unc_esq_peliculas.renglon_entrega re ON (p.codigo_pelicula = re.codigo_pelicula)
+        JOIN unc_esq_peliculas.entrega e ON (re.nro_entrega = e.nro_entrega)
+        JOIN unc_esq_peliculas.distribuidor d ON (e.id_distribuidor = d.id_distribuidor)
+        JOIN unc_esq_peliculas.nacional n ON (e.id_distribuidor = n.id_distribuidor)
+        WHERE p.genero LIKE 'Drama%' AND n.id_distrib_mayorista IS NULL;
+
+===== PAGINA 3 =====
+
+a) ¿La consulta responde a lo solicitado? Justifique brevemente
+b) ¿Se le ocurre otra forma de resolverlo? Si su respuesta es SÍ, escriba la nueva consulta.
+
+
+Ejercicio. Responda las siguientes preguntas:
+A. ¿Qué es un Sistema Gestor de Bases de Datos (SGBD)?
+B. ¿Qué es el modelo conceptual de datos? Indique los elementos de un DER.
+C. En el modelo conceptual, ¿qué diferencia hay entre una jerarquía exclusiva y una compartida?
+D. Defina el concepto de una entidad débil en el modelo conceptual y cómo se deriva al modelo lógico.
+
+Ejercicio. Roles y privilegios
+Considere la siguiente secuencia de acciones de cesión y revocación de privilegios y tradúzcala a SQL.
+
+A. El usuario ADMIN concede al usuario U1 permisos de selección sobre la tabla REMERA con la posibilidad de
+concederlos a otros usuarios.
+B. El usuario ADMIN concede al usuario U2 permisos de inserción y actualización sobre las tablas CLIENTE y
+VENTAS.
+C. Permitir que el usuario U2 autorice al usuario U3 para que pueda insertar en la tabla VENDEDOR.
+D. El ADMIN le retira el privilegio de actualización sobre la tabla VENTAS al usuario U2.
+E. El usuario ADMIN le permite al usuario U3 consultar la vista RemerasDeportivas
+
+Nota: asegúrese que todas las operaciones sean permitidas.
+
+===== PAGINA 4 =====
+
+Ejercicio. MongoDB.
+
+a) Traduzca a MongoDB la siguiente query:
+
+
+
+
+Ejercicio. Neo4j. Redacte en lenguaje natural la pregunta que le solicitan responder para construir la siguiente
+consulta:
+
+MATCH (:User {name: 'Mary'})-[:FRIENDS_WITH*2..3]-(friend_of_friend:User)
+WHERE NOT (:User {name: 'Mary'})-[:FRIENDS_WITH]-(friend_of_friend)
+RETURN DISTINCT friend_of_friend.name
+
+
+Ejercicio. Cassandra. Escriba en CQL la sentencia correcta para crear un keyspace.
+
+===== PAGINA 5 =====
+
+Ejercicios adicionales. MongoDB.
+Ejercicio. Considere la colección productos:
+ {
+     "_id": 101,
+     "nombre": "Notebook Lenovo",
+     "categoria": "Informática",
+     "precio": 950000,
+     "stock": 12,
+     "marcas": ["Lenovo", "Intel"],
+     "proveedor": {"nombre": "TecnoSur", "provincia": "Buenos Aires"}
+ }
+
+A. Obtener nombre y precio de los productos de categoría "Informática" cuyo precio sea menor a
+$1.000.000. No mostrar _id.
+B. Obtener los productos cuyo nombre comience con "Note" y tengan stock mayor que 0.
+C. Obtener los productos que posean simultáneamente "Lenovo" e "Intel" dentro del arreglo marcas.
+D. Obtener los productos cuyo proveedor pertenezca a la provincia de Buenos Aires.
+E. Incrementar en un 10% el precio del producto cuyo _id es 101.
+F. Eliminar todos los productos cuyo stock sea 0.
+G. Crear un índice ascendente sobre categoria. Explique brevemente qué efecto espera sobre las
+búsquedas por categoría.
+H. Utilizando aggregate(), obtener para cada categoría la cantidad de productos y el precio promedio.
+
+Ejercicio. Analice la siguiente consulta:
+ db.productos.find(
+   { marcas: { $nin: ["Apple", "Samsung"] } },
+   { _id: 0, nombre: 1 }
+ )
+
+A. Explique en lenguaje natural qué documentos devuelve.
+B. ¿Qué ocurre con un documento que no posee el atributo marcas?
+C. ¿Cambiaría el resultado si se reemplazara $nin por $all? Justifique.
+
+Ejercicio. Considere una colección paises que posee un arreglo exports.foods con objetos que
+contienen los atributos name y tasty.
+A. Escriba una consulta que encuentre países que exporten un alimento llamado "bacon" cuyo atributo tasty
+sea false.
+B. Indique qué operador utilizaría para asegurar que ambas condiciones correspondan al mismo elemento
+del arreglo.
+C. Escriba la sentencia para eliminar un único documento que satisfaga esa condición.
+
+===== PAGINA 6 =====
+
+Ejercicios adicionales. Cassandra.
+Ejercicio. Una aplicación registra mediciones de sensores con los atributos: id_sensor, fecha_hora, tipo,
+valor y ciudad. La consulta más frecuente es: “Obtener cronológicamente las mediciones realizadas por un
+sensor determinado durante un día.”
+A. Proponga una tabla Cassandra adecuada para soportar eficientemente esta consulta.
+B. Indique cuál sería la partition key y cuál la clustering key.
+C. Escriba la sentencia CQL CREATE TABLE.
+D. Escriba una sentencia CQL para insertar una medición.
+E. Escriba la consulta CQL para obtener las mediciones del sensor S01 del día 2026-10-01, ordenadas
+cronológicamente.
+F. Explique por qué no sería conveniente resolver este escenario mediante un modelo normalizado que
+requiera JOIN.
+
+Ejercicio. Keyspace, replicación y consistencia.
+A. Escriba en CQL una sentencia para crear el keyspace sensores con factor de replicación 3.
+B. Explique qué significa que el factor de replicación sea 3.
+C. Suponga Replication Factor = 3. Si una escritura utiliza QUORUM, ¿cuántas réplicas deben confirmar la
+escritura?
+D. ¿Qué ventaja podría tener ONE frente a QUORUM? ¿Y QUORUM frente a ONE?
+E. Si uno de los nodos se encuentra caído, ¿necesariamente queda indisponible la base? Justifique.
+
+Ejercicio. Arquitectura de Cassandra.
+A. Explique por qué Cassandra utiliza una arquitectura peer-to-peer.
+B. ¿Existe un nodo maestro permanente? Justifique.
+C. ¿Qué función cumple el nodo coordinador?
+D. ¿Qué función cumple el protocolo Gossip?
+E. ¿Qué ventaja aporta el soporte de múltiples data centers?
+
+===== PAGINA 7 =====
+
+Ejercicios adicionales. Cassandra (continuación).
+Ejercicio. Escritura y almacenamiento interno.
+A. Ordene Commit Log, MemTable y SSTable según su participación en una operación de escritura.
+B. ¿Cuál reside en memoria?
+C. ¿Cuál permite recuperar información ante una falla?
+D. ¿Por qué una SSTable se considera inmutable?
+E. ¿Por qué las escrituras son relativamente baratas mientras que las lecturas pueden requerir mayor
+trabajo?
+F. ¿Qué función cumple la compactación?
+
+Ejercicio. Borrado en Cassandra.
+A. ¿Qué ocurre internamente cuando se elimina una fila?
+B. ¿Por qué el dato no se elimina inmediatamente de una SSTable?
+C. ¿En qué momento se elimina físicamente el dato marcado como borrado?
+D. ¿Qué problema podría producir un nodo que permaneció caído durante una operación de borrado?
+
+Ejercicio. Filtros de Bloom. Indique Verdadero o Falso y justifique.
+A. Si un Bloom Filter indica que un elemento no está en una SSTable, Cassandra puede evitar consultar esa
+SSTable.
+B. Si el Bloom Filter indica que un elemento puede estar, existe certeza de que el elemento se encuentra allí.
+C. El uso de Bloom Filters busca disminuir accesos innecesarios durante las lecturas.

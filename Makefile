@@ -1,4 +1,4 @@
-.PHONY: db-up db-down db-reset db-shell db-status mongo-shell extract verify note
+.PHONY: db-up db-down db-reset db-shell db-status mongo-shell cql-shell extract verify note
 
 db-up:
 	docker compose up -d
@@ -18,6 +18,9 @@ db-status:
 
 mongo-shell:
 	docker compose exec mongo mongosh lab
+
+cql-shell:
+	docker compose exec cassandra cqlsh
 
 extract:
 	./scripts/extraer-fuentes.sh

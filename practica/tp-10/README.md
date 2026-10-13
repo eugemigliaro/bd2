@@ -3,13 +3,15 @@
 - Fuentes: [P12](../../material/catedra/practica/tp-10-cassandra-parte-1.pdf), parte I, tres páginas; [P13](../../material/catedra/practica/tp-10-cassandra-parte-2.pdf), parte II, dos páginas. Ambas ITBA 2026.
 - Motor y cliente: Cassandra, CQL y `cqlsh`; DataGrip es una alternativa de la guía.
 - Apuntes: [modelado/CQL](../../wiki/temas/20-cassandra-modelado-y-cql.md), [almacenamiento/Bloom](../../wiki/temas/21-cassandra-almacenamiento-y-bloom.md), [consistencia/DIGEST](../../wiki/temas/22-cassandra-consistencia-y-digest.md), [NoSQL y CAP](../../wiki/temas/15-nosql-y-cap.md).
-- Estado: enunciados leídos completos e indexados; pendientes de resolución. No se generaron respuestas individuales ni se ejecutó un servidor.
+- Motor: Cassandra 5.0.9 en `bd2-cassandra` (un nodo, sin autenticación, `make cql-shell`).
+- Estado: resolución registrada de las partes I y II.
+- Registros: [parte1.cql](parte1.cql), [ejercicio1.cql](ejercicio1.cql), [ejercicio2.cql](ejercicio2.cql); análisis completo en [solucion.md](solucion.md).
 
 ## Preparación indicada por la guía
 
 P12 propone descargar la imagen `cassandra`, crear la red `network-cassandra` e iniciar `Mycassandra`. Se accede con `docker exec -it Mycassandra bash` y luego `cqlsh`. Para DataGrip, la guía ofrece otro comando de creación que publica `9042:9042`; `SHOW HOST` permite consultar el nodo conectado. Las dos variantes de `docker run` son alternativas para el mismo contenedor. [P12, p. 1]
 
-No está fijada la versión de la imagen ni consta la configuración de autenticación. La guía menciona usuario y contraseña `cassandra`; revisar el [registro de dudas](../../wiki/dudas-y-conflictos.md) antes de reproducir la instalación. El laboratorio MySQL del repo no configura Cassandra. [P12, p. 1]
+No está fijada la versión de la imagen ni consta la configuración de autenticación. La guía menciona usuario y contraseña `cassandra`; revisar el [registro de dudas](../../wiki/dudas-y-conflictos.md) antes de reproducir la instalación. [P12, p. 1] El repositorio agrega el servicio `cassandra` a `compose.yaml`, fijado en 5.0.9 y sin autenticación, en lugar del `docker run` de la guía.
 
 ## Parte I, ejercicio 1: servicio de música
 

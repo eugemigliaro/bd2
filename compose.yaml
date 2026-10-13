@@ -41,6 +41,29 @@ services:
       retries: 20
       start_period: 20s
 
+  cassandra:
+    # La guía usa `cassandra` sin etiqueta; se fija la última 5.0 estable.
+    image: cassandra:5.0.9
+    container_name: bd2-cassandra
+    restart: unless-stopped
+    environment:
+      # Un solo nodo de laboratorio: se acota el heap de la JVM.
+      MAX_HEAP_SIZE: 1G
+      HEAP_NEWSIZE: 200M
+    # Sin autenticación: solo se publica en localhost.
+    ports:
+      - "127.0.0.1:${CASSANDRA_PORT:-9042}:9042"
+    volumes:
+      - bd2_cassandra_data:/var/lib/cassandra
+      - ./practica:/practica:ro
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
 volumes:
   bd2_mysql_data:
   bd2_mongo_data:
+  bd2_cassandra_data:

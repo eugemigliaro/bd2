@@ -63,5 +63,5 @@ La clase distingue funciones escalares y agregadas, y muestra `SUM(players)`. Es
 
 - [Almacenamiento, borrados y Bloom filters](21-cassandra-almacenamiento-y-bloom.md).
 - [Replicación, consistencia y DIGEST](22-cassandra-consistencia-y-digest.md).
-- [TP 10, partes I y II](../../practica/tp-10/README.md): enunciados indexados, pendientes de resolución; supuestos de la parte II en [dudas](../dudas-y-conflictos.md#tp-10-parte-ii-supuestos-de-modelado).
+- [TP 10, partes I y II](../../practica/tp-10/README.md): resolución registrada y verificada en Cassandra 5.0.9; supuestos de la parte II en [dudas](../dudas-y-conflictos.md#tp-10-parte-ii-supuestos-de-modelado).
 - [Dudas y conflictos](../dudas-y-conflictos.md): ejemplos con tipos incompatibles y diferencias de versión.

@@ -20,7 +20,10 @@ repositorio es público, el original y su texto extraído **no se versionan**:
 ## Lectura y productos
 
 - Se leyeron solo las páginas que el TP 9 remite: capítulo 4, pp. 95, 97–98,
-  109–112, 116–117, 130–133. La página impresa N es la N + 13 del PDF.
+  109–112, 116–117, 130–133. En el capítulo 4, la página impresa N es la N + 13
+  del PDF. **Actualización 2026-11-06:** el desfase varía por capítulo: + 11 en el
+  6 (Neo4j), + 10 en el 7 (DynamoDB) y + 9 en el 8 (Redis); ver el
+  [lote de Neo4j, Redis y DynamoDB](2026-11-06-neo4j-redis-dynamodb.md).
 - No se modificaron las páginas temáticas de la wiki. Se actualizó la entrada de
   vacíos del TP 9 en [dudas y conflictos](../../wiki/dudas-y-conflictos.md#vacíos-de-cobertura-del-tp-9-y-figuras).
 - Los ejercicios se resuelven en el [espacio del TP 9](../../practica/tp-09/README.md),

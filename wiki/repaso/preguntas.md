@@ -156,3 +156,67 @@ Fuentes para corregir el bloque: [T13, pp. 9, 12–30, 41–52; T14, pp. 2–24,
 112. ¿Cómo clasifica la cátedra a Cassandra según CAP y qué matiz agrega el nivel de consistencia configurable?
 
 Fuentes para corregir el bloque: [T13, p. 18; T16, pp. 11–19, 25–47, 51, 56, 59–74; C04, pp. 3–8; C05; P12, pp. 1–3; P13, pp. 1–2]. Las precisiones de versión, tipos y reparación que no constan en las fuentes están etiquetadas como complemento en los [apuntes](../temas/22-cassandra-consistencia-y-digest.md) y en [dudas](../dudas-y-conflictos.md).
+
+## Neo4j
+
+113. Ordená los tipos de grafo de la clase de menor a mayor complejidad. ¿Cuál usa Neo4j y qué agrega?
+114. Distinguí nodo, relación, propiedad y label con el diagrama `Employee`–`Company`–`City`.
+115. En `MATCH (:Person {name:"Dan"})-[:LOVES]->(whom) RETURN whom`, señalá label, propiedad, relación y variable.
+116. ¿Por qué hace falta un `MATCH` antes de `CREATE (p)-[:reported_on]->(w)`? ¿Qué pasa si el `MATCH` encuentra tres vinos?
+117. ¿Qué diferencia hay entre `DELETE` y `DETACH DELETE` al vaciar un grafo?
+118. Con el grafo de Patty, Tom y Alice, explicá por qué `(Alice)-->(p2:Person)` no devuelve nada y `(Patty)-->(p2:Person)` sí.
+119. Escribí la consulta de amigos de amigos con y sin dirección. ¿En qué grafo dejarían de coincidir?
+120. ¿Qué expresa `[:FRIEND*..5]` dentro de `shortestPath`?
+121. ¿Qué error produce crear un segundo `Person` llamado Tom después de la restricción de unicidad? ¿Qué label corrige la página 28?
+122. Compará `CREATE`, `MATCH` y `MERGE`. ¿Cuándo corren `ON CREATE SET` y `ON MATCH SET`?
+123. ¿Por qué conviene resolver los nodos con `MERGE` antes de hacer `MERGE` de la relación? ¿Qué no resuelve `MERGE` sin una restricción `UNIQUE`?
+124. Distinguí Neo4j HA (master-slave) de Causal Clustering: ¿quién acepta escrituras y quién vota?
+125. Recorré los cinco pasos con que Raft confirma una escritura.
+126. Con 3 primarios y 2 secundarios: falla el líder, luego otro primario. ¿Qué escrituras siguen siendo posibles?
+127. ¿Qué riesgo tiene leer desde un secundario y cómo lo mitiga un bookmark?
+128. ¿Qué fortalezas y debilidades atribuye el libro a Neo4j?
+129. ¿Por qué no hay una única clasificación CAP de Neo4j en el material? Fundamentá una respuesta indicando la arquitectura supuesta.
+
+Fuentes para corregir el bloque: [T17, pp. 3–40; C06, pp. 2–13; P15, pp. 1–2].
+
+## Clave-valor y Redis
+
+130. ¿Qué operaciones ofrece una base clave-valor y por qué el valor suele tratarse como un BLOB?
+131. Dá dos casos de uso adecuados y dos inadecuados para una base clave-valor.
+132. ¿Qué estructuras de datos ofrece Redis además de cadenas?
+133. Explicá `MULTI`, `EXEC`, `DISCARD` y `WATCH`. ¿En qué se diferencia `DISCARD` de un `ROLLBACK`?
+134. ¿Cómo se concilian “transacción atómica” y “sin rollback” en Redis?
+135. Distinguí resincronización parcial y total entre maestro y réplica.
+136. Compará RDB y AOF: qué guardan, cuánto se puede perder y cuál se usa al reiniciar si están ambos.
+137. ¿Qué significa `save 300 10`? ¿Por qué se prefiere `BGSAVE` a `SAVE` en producción?
+138. ¿Qué rol cumplen los procesos Sentinel y por qué se recomiendan al menos tres?
+139. ¿Qué medidas de seguridad propone T18 y en qué difiere la postura del libro sobre `AUTH`?
+140. ¿Qué comando usarías para una cola y cuál para una pila con listas? ¿Qué agrega `BRPOP`?
+141. Explicá la diferencia entre `SPOP` y `SREM`, y entre `SRANDMEMBER` con argumento positivo y negativo.
+142. En `ZRANGEBYSCORE visits (9 9999`, ¿qué significa el paréntesis y por qué no aparece `prag`?
+143. ¿Qué devuelve `TTL` antes de un `EXPIRE`, durante el plazo y después del vencimiento?
+144. ¿Para qué sirven las bases numeradas y qué limitación tienen con Redis Cluster?
+145. ¿Por qué un pipeline acelera la carga de 100.000 claves? ¿Qué relación tiene con `MULTI`/`EXEC` en el cliente Python?
+146. Compará pub/sub con una lista bloqueante como mecanismo de mensajería.
+147. ¿Qué responde un Bloom filter y cómo se implementa con `SETBIT` y `GETBIT`?
+148. ¿Qué limita el tamaño de los datos en Redis y qué relación tiene con su velocidad?
+
+Fuentes para corregir el bloque: [T18, pp. 2–31; T19, pp. 4–36; P18; P18A]. Las precisiones de versión están en [dudas](../dudas-y-conflictos.md#redis-transacciones-persistencia-y-replicación).
+
+## DynamoDB
+
+149. ¿Qué significa que DynamoDB sea un servicio “totalmente administrado”? ¿Qué límite tiene un ítem?
+150. ¿Qué tres aspectos del *paper* de Dynamo recoge la clase?
+151. Traducí tabla, fila, columna, clave primaria, índice y vista al vocabulario de DynamoDB.
+152. Distinguí partition key y sort key: ¿cuál es obligatoria, cuál determina la distribución y cuál habilita consultas por rango?
+153. Compará la clave de `ShoppingCart` con la de `Books`. ¿Por qué `Books` admite varias ediciones de *Moby Dick*?
+154. ¿Por qué el JSON de DynamoDB lleva el tipo de cada valor? ¿Es realmente *schema-free*?
+155. Compará `scan`, `get-item` y `query`. ¿Qué devuelve una proyección de un atributo ausente?
+156. Compará LSI y GSI por partition key, momento de creación y costo.
+157. ¿Cuánto representan una RCU y una WCU? ¿Cuánto cuesta una lectura fuertemente consistente frente a una eventual?
+158. ¿Qué consistencia ofrece DynamoDB según la clase y qué salvedad actual corresponde?
+159. Recorré el pipeline de sensores: tabla, LSI, Kinesis, Lambda, S3 y Athena.
+160. ¿Qué fortalezas y debilidades atribuye el libro a DynamoDB?
+161. ¿Cómo lo clasifica T13 según CAP y qué matiz aportan las lecturas fuertemente consistentes?
+
+Fuentes para corregir el bloque: [T20, pp. 2–34; T13, p. 18; P17, pp. 1–2]. Los cambios de versión del servicio están en [dudas](../dudas-y-conflictos.md#dynamodb-claves-índices-y-cambios-de-versión).

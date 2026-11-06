@@ -358,9 +358,10 @@ WHERE NOT (:User {name: 'Mary'})-[:FRIENDS_WITH]-(friend_of_friend)
 RETURN DISTINCT friend_of_friend.name
 ```
 
-*Todo este inciso es complemento del agente: el material solo nombra Neo4j como
-base de grafos y no enseña Cypher.* [T13, p. 22; C01, p. 6] No se verificó en
-un motor.
+*Actualización 2026-11-06: patrones, dirección, longitud variable y amigos de
+amigos tienen respaldo en T17; ver [grafos y Cypher](../../wiki/temas/23-neo4j-grafos-y-cypher.md).
+[T17, pp. 9–13, 25–27] Siguen siendo complemento del agente el rango con mínimo
+(`*2..3`) y la negación de un patrón en `WHERE NOT`.* No se verificó en un motor.
 
 **En lenguaje natural:** "¿Qué usuarios están a dos o tres pasos de amistad de
 Mary —amigos de sus amigos, o amigos de esos— pero todavía no son amigos

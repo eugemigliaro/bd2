@@ -43,3 +43,15 @@ El laboratorio es deliberadamente local y no representa una configuración de pr
 ## Entorno Cassandra de la guía
 
 El TP 10 propone un contenedor Cassandra y `cqlsh`; ofrece DataGrip como alternativa con el puerto 9042 publicado. El [espacio del TP 10](../../practica/tp-10/README.md) indexa esa preparación y sus límites: la imagen no fija versión. El repositorio agrega el servicio `cassandra` a `compose.yaml` (contenedor `bd2-cassandra`), fijado en 5.0.9 —hoy `latest` apunta a una 6.0 alfa—, con heap de 1 GB, sin autenticación y publicado solo en `127.0.0.1`; `make cql-shell` abre `cqlsh`. La parte II no agrega instalación: pide levantar Cassandra según lo hecho en la parte I. Para diseñar el modelo, seguir [Cassandra y CQL](20-cassandra-modelado-y-cql.md). [P12, p. 1; P13, p. 1; T16, pp. 13, 16–19]
+
+## Entornos de Neo4j, Redis y DynamoDB de las guías
+
+Los TP 11, 12 y 13 siguen el mismo esquema de contenedor: `docker pull`, `docker run --name ... -d`, `docker stop`/`start` y `docker exec -it ... bash`. Ninguna imagen fija versión, y el repositorio todavía no agrega estos servicios a `compose.yaml`. [P15, p. 1; P16, p. 1; P17, p. 1]
+
+| Guía | Imagen | Puertos | Cliente |
+|---|---|---|---|
+| TP 11 | `neo4j`, con `NEO4J_AUTH=none` | 7474 (navegador) y 7687 (Bolt) | Neo4j Browser y Cypher |
+| TP 12 | `redis` | 6379 | `redis-cli` |
+| TP 13 | `amazon/dynamodb-local` | 8000 | AWS CLI con `--endpoint-url http://localhost:8000` |
+
+Ver los espacios del [TP 11](../../practica/tp-11/README.md), [TP 12](../../practica/tp-12/README.md) y [TP 13](../../practica/tp-13/README.md), y las salvedades de entorno en [dudas](../dudas-y-conflictos.md#tp-11-12-y-13-preparación-bibliografía-y-vacíos). El libro remata el capítulo de Redis con un ejemplo de persistencia políglota: CouchDB como sistema de registro, Neo4j para relaciones y Redis como intermediario. [B01, pp. 289, 293]

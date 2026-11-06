@@ -26,6 +26,11 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 20. [Cassandra: modelado y CQL](temas/20-cassandra-modelado-y-cql.md)
 21. [Cassandra: almacenamiento y Bloom filters](temas/21-cassandra-almacenamiento-y-bloom.md)
 22. [Cassandra: replicación, consistencia y DIGEST](temas/22-cassandra-consistencia-y-digest.md)
+23. [Neo4j: grafos y Cypher](temas/23-neo4j-grafos-y-cypher.md)
+24. [Neo4j: clústeres, Raft y CAP](temas/24-neo4j-clusteres-y-cap.md)
+25. [Bases clave-valor y Redis: arquitectura](temas/25-clave-valor-y-redis.md)
+26. [Redis: comandos y estructuras de datos](temas/26-redis-comandos-y-estructuras.md)
+27. [Amazon DynamoDB](temas/27-dynamodb.md)
 
 ## Referencias rápidas
 
@@ -45,6 +50,10 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Ejercicios tipo parcial](../practica/parcial/README.md) y su [incorporación](../material/incorporaciones/2026-10-13-ejercicios-parcial.md)
 - [Claves, consistencia y Bloom filters: figuras](../material/figuras/README.md)
 - [Mecanismo DIGEST de cátedra](../material/catedra/teoria/recursos/c05-cassandra-digest.png)
+- [Grafos de vinos y personas de Neo4j](../material/figuras/T17-p25-grafo-personas-vinos.png) y [arquitectura de Causal Clustering](../material/figuras/C06-p6-arquitectura-causal-clustering.png)
+- [Películas y score del TP 12](../material/figuras/P16-p2-peliculas-score.png)
+- [Modelo de tabla](../material/figuras/T20-p6-modelo-tabla.png) y [tipos de datos de DynamoDB](../material/figuras/T20-p11-tipos-de-datos.png)
+- [Incorporación de Neo4j, Redis y DynamoDB](../material/incorporaciones/2026-11-06-neo4j-redis-dynamodb.md)
 
 ## Cobertura actual
 
@@ -73,3 +82,9 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | Cassandra: commit log, memtable, SSTable, tombstones y Bloom filters | T16, C04 | Curado; diagramas recuperados y salvedades de durabilidad/compactación |
 | Cassandra: replicación, consistencia y DIGEST | T16, C05 | Curado; background read repair histórico y diferencias de versión registradas |
 | TP 10 Cassandra, partes I y II | P12, P13 | Indexado; sin resolución ni ejecución; supuestos del modelado de la parte II registrados; versión del entorno no fijada |
+| Neo4j: grafos de propiedad, Cypher, índices, restricciones y MERGE | T17, C06, P15 | Curado; capturas de Cypher transcritas, corrección manuscrita de la restricción y sintaxis histórica registradas |
+| Neo4j: HA, Causal Clustering, Raft, bookmarks y CAP | T17, C06 | Curado; clasificaciones CAP divergentes registradas |
+| Bases clave-valor y Redis: transacciones, replicación, persistencia, Sentinel y seguridad | T18, T19 | Curado; siglas, versiones, licencia y recomendaciones de seguridad contrastadas |
+| Redis: comandos por estructura, expiración, pub/sub, pipelines y Bloom | T19, P18, P18A | Curado; comandos deprecados y erratas de la solución registrados |
+| DynamoDB: claves, tipos, CLI, LSI/GSI, capacidad y pipeline | T20 | Curado; figuras recuperadas y cambios de versión del servicio registrados |
+| TP 11–13: Neo4j, Redis y DynamoDB | P15, P16, P17 | Indexados; sin resolución ni ejecución; remiten a B01 con desfase de páginas por capítulo; versiones de imagen no fijadas |

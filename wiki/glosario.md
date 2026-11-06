@@ -106,3 +106,47 @@ Las precisiones actuales de CAP, validación, transacciones y métodos de MongoD
 | Tombstone | Marca de borrado que permite representar eliminaciones sin modificar SSTables existentes. | [T16, pp. 38–39] |
 
 Ver [modelado/CQL](temas/20-cassandra-modelado-y-cql.md), [almacenamiento/Bloom](temas/21-cassandra-almacenamiento-y-bloom.md) y [consistencia/DIGEST](temas/22-cassandra-consistencia-y-digest.md). Los complementos del manual se distinguen allí de las afirmaciones de cátedra.
+
+## Neo4j
+
+| Término | Definición breve | Fuente |
+|---|---|---|
+| Base orientada a grafos | Representa y almacena datos con nodos, relaciones y propiedades. | [T17, pp. 1, 16] |
+| Bookmark | Marca de progreso que conserva el cliente para que una lectura posterior espere una réplica suficientemente actualizada. | [C06, p. 10] |
+| Causal Clustering | Arquitectura de clúster con primarios que usan Raft y secundarios de lectura. | [C06, pp. 6, 13] |
+| Cypher | Lenguaje de consulta de Neo4j basado en patrones de nodos y relaciones. | [T17, pp. 9, 19–20] |
+| Grafo de propiedad | Grafo con peso, etiquetas y propiedades en nodos y relaciones; el modelo de Neo4j. | [T17, pp. 4–5] |
+| Label | Rol o tipo asignado a un nodo, como `Person` o `Wine`. | [T17, p. 18] |
+| `MERGE` | Busca un patrón completo y lo crea si no existe. | [C06, pp. 2–5] |
+| Quórum (Raft) | Mayoría de primarios necesaria para elegir líder y confirmar escrituras; tolerar F fallas exige N ≥ 2F + 1. | [C06, pp. 7, 9] |
+| Raft | Algoritmo de consenso con roles leader, follower y candidate que ordena las transacciones. | [C06, pp. 7–8] |
+| Relación | Arista dirigida que conecta nodos, representa una acción y puede tener propiedades. | [T17, pp. 17–18] |
+
+## Clave-valor y Redis
+
+| Término | Definición breve | Fuente |
+|---|---|---|
+| AOF | Registro de cada escritura que Redis reproduce al iniciar para reconstruir los datos. | [T18, pp. 17, 21–23] |
+| Base clave-valor | Tabla hash simple accedida siempre por clave, con operaciones PUT, GET y DEL. | [T18, p. 2] |
+| Conjunto ordenado | Colección de miembros únicos con score, que puede repetirse, ordenada por ese score. | [T19, p. 14] |
+| `DISCARD` | Vacía la cola de una transacción sin ejecutarla; no revierte cambios. | [T18, p. 14; T19, p. 7] |
+| Lista bloqueante | Extracción (`BRPOP`) que espera hasta que haya un elemento o venza el plazo. | [T19, p. 11] |
+| Pub/Sub | Publicación en un canal que reciben todos sus suscriptores. | [T19, pp. 21–22] |
+| RDB | Snapshot compacto de los datos de Redis tomado a intervalos. | [T18, pp. 17, 19–20] |
+| Sentinel | Procesos que monitorean maestro y réplicas de Redis y promueven una réplica ante una falla. | [T18, pp. 25–27] |
+| TTL | Tiempo de vida de una clave, fijado con `EXPIRE` y consultado con `TTL`. | [T19, p. 16] |
+| `WATCH` | Observa claves y aborta la transacción si alguna cambia. | [T18, p. 14] |
+
+## DynamoDB
+
+| Término | Definición breve | Fuente |
+|---|---|---|
+| GSI | Índice secundario global: otra partition key; puede modificarse después de crear la tabla. | [T20, pp. 18–20] |
+| Ítem | Equivalente de una fila; admite atributos variables y hasta 400 KB. | [T20, pp. 4–5, 11] |
+| LSI | Índice secundario local: misma partition key y otra sort key; se define al crear la tabla. | [T20, pp. 17–19] |
+| Partition key (hash key) | Atributo obligatorio de la clave que determina la distribución de los datos. | [T20, pp. 6, 10, 14] |
+| RCU / WCU | Unidades de capacidad de lectura (4 KB/s) y escritura (1 KB/s). | [T20, pp. 22–23] |
+| Scan | Lectura de toda la tabla, como `SELECT *`. | [T20, pp. 12–13] |
+| Sort key (range key) | Atributo opcional de la clave que ordena ítems con igual partition key y habilita consultas por rango. | [T20, pp. 6, 10, 14] |
+
+Ver [Neo4j](temas/23-neo4j-grafos-y-cypher.md), [Redis](temas/25-clave-valor-y-redis.md) y [DynamoDB](temas/27-dynamodb.md).

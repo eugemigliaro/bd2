@@ -21,6 +21,8 @@ La [figura de la unidad](../../material/figuras/T13-p9-escalabilidad-vertical-ho
 
 La clasificación y los ejemplos provienen de la [taxonomía visual](../../material/figuras/T13-p21-taxonomia-nosql.png). Continuar con [modelado y CQL de Cassandra](20-cassandra-modelado-y-cql.md) y [replicación y consistencia](22-cassandra-consistencia-y-digest.md): la nueva unidad desarrolla las claves y el nivel de consistencia configurable por operación. [T13, pp. 21–27; T16, pp. 16, 44–46, 63–69]
 
+Las familias de grafos y clave-valor tienen unidades propias: [Neo4j y Cypher](23-neo4j-grafos-y-cypher.md), [bases clave-valor y Redis](25-clave-valor-y-redis.md) y [DynamoDB](27-dynamodb.md), que la clase define como clave-valor “plus” y DB-Engines clasifica también como documental. [T17, pp. 1–5; T18, pp. 2–3; T20, pp. 2–3]
+
 ## CAP: lectura de cátedra
 
 La presentación introduce tres propiedades: **consistencia** de los datos observados, **disponibilidad** del servicio y **tolerancia a particiones** de red. Expone el compromiso mediante las combinaciones CP, AP y CA: CP puede resignar disponibilidad; AP puede responder con datos inconsistentes; CA se describe bajo el supuesto de no permitir particiones. [T13, pp. 12–17]
@@ -32,6 +34,8 @@ El ejercicio 3 del TP 10, parte II, pide clasificar Cassandra. Además del gráf
 **Complemento del agente (no consta en el material cargado):** el compromiso de CAP se plantea ante una partición: no se pueden garantizar simultáneamente consistencia fuerte y disponibilidad para todas las peticiones. Fuera de esa situación, la regla “elegir dos” oculta posibilidades del diseño. CAP usa consistencia de una copia única, distinta de la preservación de restricciones de la C de ACID; su disponibilidad tampoco es simplemente un porcentaje de uptime. Véanse [Brewer, CAP Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/) y [Gilbert y Lynch, Perspectives on the CAP Theorem, sección 2](https://groups.csail.mit.edu/tds/papers/Gilbert/Brewer2.pdf).
 
 Para estudiar o corregir, enunciar primero el criterio de T13 y después explicitar la configuración y las operaciones consideradas cuando se razone sobre un sistema real. No deducir garantías de toda instalación solo por el nombre del motor.
+
+Los TP 11, 12 y 13 piden clasificar Neo4j, Redis y DynamoDB. Para esos motores las fuentes discrepan: T13 ubica Redis en CP y DynamoDB en AP, T19 considera CA a Redis y Neo4j, y T17 trata a Neo4j HA como AP. Ver la [comparación en dudas](../dudas-y-conflictos.md#cap-de-neo4j-redis-y-dynamodb). [T13, p. 18; T17, p. 40; T19, p. 36; P15, p. 2; P16, p. 2; P17, p. 2]
 
 ## BASE y ACID
 
@@ -45,3 +49,6 @@ La [figura BASE](../../material/figuras/T13-p19-base.png) desarrolla **Basically
 - [Consultas y CRUD](17-mongodb-consultas-y-crud.md).
 - [Agregaciones y vistas](18-mongodb-agregaciones-y-vistas.md).
 - [Replicación y sharding](19-mongodb-replicacion-y-sharding.md).
+- [Neo4j: grafos y Cypher](23-neo4j-grafos-y-cypher.md) y [clústeres, Raft y CAP](24-neo4j-clusteres-y-cap.md).
+- [Bases clave-valor y Redis](25-clave-valor-y-redis.md) y [comandos de Redis](26-redis-comandos-y-estructuras.md).
+- [Amazon DynamoDB](27-dynamodb.md).

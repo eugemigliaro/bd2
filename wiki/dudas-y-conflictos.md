@@ -183,7 +183,7 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 ## Vacíos de cobertura del TP 9 y figuras
 
 - P10B remite a *Seven Databases in Seven Weeks*, segunda edición, capítulo 4. [P10B, pp. 1–2] El libro se incorporó el 2026-10-13 como B01, con estado `local`: la copia tiene licencia institucional para la biblioteca del ITBA, así que no se versiona en el repositorio público y su texto extraído también queda fuera de git.
-- La página impresa N del libro es la página N + 13 del PDF. Los enunciados de Do.2–Do.5 están en las pp. 109–110 y el de Do.1 en la p. 132. [B01, pp. 109–110, 132]
+- En el capítulo 4, la página impresa N del libro es la página N + 13 del PDF; en otros capítulos el desfase cambia (ver [TP 11, 12 y 13](#tp-11-12-y-13-preparación-bibliografía-y-vacíos)). Los enunciados de Do.2–Do.5 están en las pp. 109–110 y el de Do.1 en la p. 132. [B01, pp. 109–110, 132]
 - **Decisión:** usar B01 solo para lo que el TP 9 remite, sin volcar el libro a la wiki, que no es de lectura completa obligatoria. Las soluciones parafrasean los enunciados en vez de copiarlos.
 - La captura de resultado de `$lookup` se interrumpe al mostrar el documento con `_id: 3`; el recorte ya está en el original. [T14, p. 24]
 - **Decisión:** no atribuir a esa imagen un resultado completo que no se ve. La semántica adicional se documenta como complemento del manual oficial.
@@ -267,14 +267,87 @@ Referencias externas: [release notes oficiales de MySQL 9.7](https://dev.mysql.c
 
 ## Ejercicios tipo parcial (P14)
 
-- **Neo4j sin material.** P14 pide leer una consulta Cypher, pero el material cargado solo nombra Neo4j como ejemplo de base de grafos y como caso de persistencia políglota; no enseña Cypher. [P14, p. 4; T13, pp. 21–23; C01, p. 6] Cualquier explicación de la sintaxis es complemento del agente.
+- **Neo4j: cobertura parcial.** P14 pide leer una consulta Cypher. Al incorporarse P14, el material solo nombraba Neo4j como ejemplo de base de grafos y de persistencia políglota. [P14, p. 4; T13, pp. 21–23; C01, p. 6] **Actualización 2026-11-06:** T17 enseña patrones, dirección, longitud variable (`[:FRIEND*..5]`) y amigos de amigos. [T17, pp. 9–13, 25–27] Siguen sin cubrirse el rango con mínimo (`*2..3`) y la negación de un patrón en `WHERE NOT`.
 - **Mensajería: "a lo sumo 3 adjuntos".** No aclara si incluye los mensajes con **cero** adjuntos que cumplan las condiciones. Un `JOIN` con `HAVING COUNT(*) <= 3` los pierde. Además, `ADJUNTO.anio_creacion` es de tipo `date` pese a su nombre, y `tamanio` es `int` sin unidad declarada frente a "50 Mb". [P14, p. 1]
 - **Mensajería: dos caminos entre mensaje y adjunto.** `CONTIENE` registra qué adjuntos tiene cada mensaje (n:m); las columnas `tipo_mensaje`/`cod_mensaje` de `ADJUNTO` registran solo el primer mensaje en que se incluyó. "Contienen" corresponde a `CONTIENE`. [P14, p. 1]
 - **Películas: notación PostgreSQL.** La consulta califica las tablas con el esquema `unc_esq_peliculas.`; en el entorno MySQL del repositorio el esquema equivalente es la base `mydb` [SQL01]. [P14, p. 2]
-- **Decisión:** resolver con los supuestos explícitos en el [espacio de práctica](../practica/parcial/README.md) y marcar como complemento la parte de Neo4j.
+- **Decisión:** resolver con los supuestos explícitos en el [espacio de práctica](../practica/parcial/README.md) y marcar como complemento solo lo de Neo4j que T17 no cubre.
 
 ## Posición de `NULL` al ordenar
 
 - T05B afirma que, para `ORDER BY`, `NULL` es el "mayor". [T05B, p. 29]
 - Es el comportamiento de PostgreSQL. En MySQL 9.7.2 es al revés: `NULL` se ordena como el **menor** valor y sale primero en orden ascendente. Verificado: `ORDER BY x` sobre `{1, NULL, 2}` devuelve `NULL, 1, 2`. *Complemento del agente (no consta en el material cargado).*
 - **Decisión:** citar T05B para PostgreSQL y, al resolver en MySQL, no asumir la posición de los nulos: si importa, ordenar explícitamente, por ejemplo con `ORDER BY x IS NULL, x` para mandarlos al final.
+
+## CAP de Neo4j, Redis y DynamoDB
+
+Los TP 11, 12 y 13 piden clasificar cada motor según CAP, pero las fuentes no coinciden. [P15, p. 2; P16, p. 2; P17, p. 2]
+
+| Motor | Gráfico de T13 | Otras fuentes del material |
+|---|---|---|
+| Neo4j | No figura. | **AP** para Neo4j HA: los slaves pueden estar desincronizados; consistencia eventual [T17, p. 40]. **CA** “porque no distribuye datos” [T19, p. 36]. En el clúster Raft no se confirman escrituras sin mayoría [C06, p. 9]. |
+| Redis | **CP**. | **CA** por la misma razón [T19, p. 36]; **CP** en la guía visual [T20, p. 31]. |
+| DynamoDB | **AP**. | Dynamo prioriza disponibilidad sobre consistencia [T20, p. 5]; la guía visual ubica en AP a *Dynamo*, no a DynamoDB [T20, p. 31]; ofrece lecturas fuertemente consistentes a mayor costo [T20, p. 23]. |
+
+[T13, p. 18]
+
+- El argumento “CA” de T19 supone una instalación no distribuida, y la propia T19 aclara que CAP tiene poco sentido en ese caso. Sin embargo, las mismas clases muestran réplicas, Sentinel y clústeres. [T19, pp. 27–29, 36; T18, pp. 15–16, 25–27; T17, pp. 36–39]
+- **Análisis del agente:** en el clúster Raft de C06, una partición que deja a un lado sin mayoría impide escribir de ese lado. Eso privilegia la consistencia de las escrituras sobre la disponibilidad. Las lecturas en secundarios, en cambio, pueden estar atrasadas salvo que se usen bookmarks. [C06, pp. 9–10]
+- **Complemento del agente (no consta en el material cargado):** Redis replica de forma asincrónica por defecto, así que una conmutación puede perder escrituras ya confirmadas por el maestro. En DynamoDB, las lecturas son eventualmente consistentes por defecto; tablas y LSI admiten lecturas fuertemente consistentes, pero los GSI solo eventuales. Véanse [replicación de Redis](https://redis.io/docs/latest/operate/oss_and_stack/management/replication/) y [consistencia de lectura en DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html).
+- **Decisión:** al responder, citar la fuente elegida y declarar la arquitectura analizada. Para Neo4j: HA histórico (AP según T17), clúster Raft (C06) o instancia única (CA según T19). Para Redis y DynamoDB: partir del gráfico de T13, como en el TP 9 y el TP 10, y mencionar la alternativa de T19 o el matiz de las lecturas fuertes. Aplica la salvedad general de [CAP](#cap-simplificación-elegir-dos-y-clasificación-de-motores).
+
+## Neo4j: versiones, sintaxis histórica y afirmaciones generales
+
+- **Versiones mezcladas.** T17 combina la API REST y HA de Neo4j 3.4.9 [T17, pp. 32, 37], `db.schema()` de 3.5 [T17, p. 30], la instalación de Community 4.x con Java 11 [T17, pp. 19–20] y la versión estable 5.6 de marzo de 2023 [T17, p. 15]. El TP 11 usa la imagen `neo4j` sin etiqueta y advierte que algunos métodos del libro quedaron deprecados. [P15, p. 1]
+- **Corrección visual de la restricción.** El texto extraído dice `CREATE CONSTRAINT FOR (p:Publication) REQUIRE p.name IS UNIQUE`, pero la página renderizada tacha `Publication` y lo corrige a mano por `Person`, que es lo que explica el error sobre Tom. Usar `Person`. [T17, p. 28; [figura](../material/figuras/T17-p28-restriccion-unicidad.png)]
+- **Labels en relaciones.** T17 dice que los labels asignan roles o tipos a nodos y relaciones. [T17, p. 18] **Complemento del agente (no consta en el material cargado):** en Neo4j los nodos tienen labels, mientras cada relación tiene exactamente un *tipo*. Véase [conceptos de grafos](https://neo4j.com/docs/getting-started/appendix/graphdb-concepts/).
+- **Complemento del agente (no consta en el material cargado):** la sintaxis vigente de parámetros es `$value`, no `{value}` [T17, pp. 10–11]. La función actual es `point.distance()`, no `distance()` [T17, p. 29]. El navegador acepta `:schema`, pero no es Cypher. Los clústeres actuales organizan cada base en primarios (con Raft) y secundarios para escalar lecturas, como C06, en lugar del master-slave HA de T17. La API REST `/db/data` es histórica; la interfaz HTTP actual es otra. Véanse [parámetros](https://neo4j.com/docs/cypher-manual/current/syntax/parameters/), [funciones espaciales](https://neo4j.com/docs/cypher-manual/current/functions/spatial/), [clústeres](https://neo4j.com/docs/operations-manual/current/clustering/introduction/) y [API HTTP](https://neo4j.com/docs/http-api/current/).
+- **Afirmaciones generales.** “El rendimiento no desciende”, “los recorridos son de tiempo constante” y el límite de 34.000 millones de nodos aparecen sin versión ni carga de referencia. [T17, pp. 6–7, 39] **Análisis del agente:** el paso a un vecino es barato, pero una consulta que debe ubicar nodos de partida sin índice o recorrer gran parte del grafo no es de costo constante; por eso la misma clase crea índices. [T17, p. 28] No tomar el límite como vigente sin verificar la versión.
+- El libro usa `:play movie-graph`; el TP 11 indica `:play movies`. [B01, p. 189; P15, p. 1]
+- **Decisión:** estudiar los conceptos con T17 y C06 y escribir Cypher con la sintaxis vigente al practicar, marcando las adaptaciones. No reproducir el laboratorio HA ni la API REST como instalación actual.
+
+## Redis: transacciones, persistencia y replicación
+
+- **Atómica sin rollback.** T18 afirma que una transacción “es atómica (se procesan todos los comandos o ninguno)” y que no tiene rollback. [T18, pp. 12–13] T19 aclara que `DISCARD` no ejecuta, pero no revierte. [T19, p. 7] **Complemento del agente (no consta en el material cargado):** si un comando falla al encolarse (por ejemplo, por sintaxis), `EXEC` rechaza la transacción entera. Si falla al ejecutarse (por ejemplo, por tipo incorrecto), los demás se ejecutan igual y no se deshacen. Con `WATCH`, `EXEC` aborta si una clave observada cambió. Véase [transacciones](https://redis.io/docs/latest/develop/interact/transactions/).
+- **Siglas y fsync.** T18 desarrolla AOF como “Append On File” y RDB como “Redis DataBase Backup”, y enumera las políticas de fsync como “ninguna, por segundos, cantidad de consultas”. [T18, pp. 17, 21] **Complemento del agente (no consta en el material cargado):** AOF es *Append Only File*; las políticas de `appendfsync` son `no`, `everysec` (por defecto) y `always` (en cada escritura). Véase [persistencia](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/).
+- **“Redis Cluster” del libro.** T19 llama así a un reparto de claves por hashing consistente del cliente Ruby y dice que se probó “con un master y un slave”. Luego verifica la misma clave en ambas instancias. [T19, p. 31] El libro configura los dos servidores como maestros. [B01, p. 283] **Análisis del agente:** con hashing consistente, cada clave va a una sola instancia; y una réplica configurada como en T19, p. 28, solo acepta lecturas. [T19, p. 29] El particionado automático de Redis Cluster se menciona, pero no se practica. [T19, pp. 4, 17]
+- **Debilidades históricas.** T19 dice que Redis Cluster “está en desarrollo”. [T19, p. 35] **Complemento del agente (no consta en el material cargado):** Redis Cluster ya es parte del producto; véase [escalado con Redis Cluster](https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/).
+- **Erratas menores.** El texto anuncia el intervalo `(9..10000]`, pero el comando usa `(9 9999` y por eso excluye a `prag`. `MOVE` aparece devolviendo `(integer) 2`, pero devuelve 1 si mueve la clave. [T19, pp. 15, 18] Véase [MOVE](https://redis.io/docs/latest/commands/move/).
+- **Decisión:** explicar la transacción Redis como aislamiento y ejecución en bloque, sin vuelta atrás ante errores de ejecución. Usar los nombres oficiales al configurar persistencia.
+
+## Redis: versiones, licencia y seguridad
+
+- **Versiones.** T19 cita la versión estable 7.0.11, un `INFO` de la 5.0.0 y el cambio de `SLAVEOF` a `REPLICAOF` en la 5. El TP 12 usa la imagen `redis` sin etiqueta y habla de “Redis Open Source”. [T19, pp. 1, 22, 28; P16, p. 1]
+- **Licencia.** T18 indica licencia BSD. [T18, p. 9] **Complemento del agente (no consta en el material cargado):** las versiones actuales se distribuyen bajo RSALv2, SSPLv1 o AGPLv3. Véase [licencias de Redis](https://redis.io/legal/licenses/).
+- **AUTH.** T18 recomienda `AUTH` y una capa de ACL en la aplicación. [T18, pp. 29–30] T19, siguiendo al libro, considera ignorables `requirepass`/`AUTH` y prefiere firewall y SSH. [T19, p. 25] **Complemento del agente (no consta en el material cargado):** Redis tiene hoy ACL propias, con usuarios y permisos por comando. Véase [ACL](https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/).
+- **`rename-command`.** T19 lo muestra escrito en el prompt de `redis-cli`. [T19, pp. 25–26] **Complemento del agente (no consta en el material cargado):** es una directiva de `redis.conf`, no un comando de la sesión. Véase [seguridad](https://redis.io/docs/latest/operate/oss_and_stack/management/security/).
+- **Comandos deprecados.** **Complemento del agente (no consta en el material cargado):** `HMSET` está deprecado desde 4.0 (se usa `HSET` con varios pares), y `ZRANGEBYSCORE` desde 6.2 (se usa `ZRANGE ... BYSCORE`); ambos siguen funcionando. `KEYS` recorre todo el espacio de claves y no se recomienda en producción. Véanse [HMSET](https://redis.io/docs/latest/commands/hmset/), [ZRANGEBYSCORE](https://redis.io/docs/latest/commands/zrangebyscore/) y [KEYS](https://redis.io/docs/latest/commands/keys/). [T19, pp. 8–9, 15; P18A]
+- **Bloom filters.** T19 dice que el tipo no viene por defecto y se agrega como módulo desde 4.0. [T19, pp. 32–33] **Complemento del agente (no consta en el material cargado):** la documentación actual presenta el Bloom filter como tipo de Redis Open Source; véase [Bloom filter](https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/). El TP 12 pide igualmente la implementación del libro con `SETBIT`/`GETBIT`. [P16, p. 2]
+- **Decisión:** citar el material para conceptos y practicar con la sintaxis vigente, señalando el reemplazo cuando se use un comando deprecado.
+
+## Ejercicio Redis: enunciado y solución
+
+- P18 es el enunciado con huecos; P18A lo completa y comenta las respuestas. [P18; P18A]
+- El punto 2 pide la lista `L_Cantantes`, pero P18 y P18A usan la clave `cantantes`. [P18; P18A]
+- En P18A, `libro5` (*La chica del tren*) repite el ISBN `9788466332286` de `libro3`. [P18A]
+- Tras `DEL pelicula3`, el comentario de `EXISTS pelicula3` dice “Si no existe se borrará”; **análisis del agente:** debe leerse como “devuelve 0 porque se borró”. [P18A]
+- P18A comenta que `ZADD` “devuelve el número de elementos del conjunto ordenado”. **Complemento del agente (no consta en el material cargado):** devuelve cuántos miembros nuevos agregó; coincide con el total solo porque el conjunto estaba vacío. Véase [ZADD](https://redis.io/docs/latest/commands/zadd/).
+- **Decisión:** usar P18A como referencia de cátedra y aclarar estas diferencias al practicar.
+
+## DynamoDB: claves, índices y cambios de versión
+
+- **Rótulos de claves.** T20 aclara que “PK” significa partition key, no primary key. [T20, p. 10] En la [figura LSI](../material/figuras/T20-p18-ejemplo-lsi.png), una llave rotulada “Partition key” abarca `Username` (hash key) y `Date` (range key). **Análisis del agente:** la partition key es solo `Username`; ambos atributos juntos forman la clave primaria compuesta. [T20, pp. 14, 18]
+- **Operadores de la sort key.** La figura del modelo lista “contains” e “in” entre las consultas habilitadas por la sort key. [T20, p. 6] **Complemento del agente (no consta en el material cargado):** una condición de clave sobre la sort key admite `=`, `<`, `<=`, `>`, `>=`, `BETWEEN` y `begins_with`; otras condiciones se aplican como filtro después de leer. Véase [condiciones de clave](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.KeyConditionExpressions.html).
+- **Consultas sobre índices.** Las consultas LSI y GSI de T20 omiten el índice, igual que el libro, y proyectan `Date`. [T20, pp. 18–19; B01, pp. 230–231] **Complemento del agente (no consta en el material cargado):** una consulta sobre un índice requiere `--index-name`, y `Date` es palabra reservada, por lo que debe reemplazarse con `--expression-attribute-names`. Véanse [Query](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html) y [palabras reservadas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html).
+- **Cadenas vacías.** T20 advierte “No Empty Strings”. [T20, p. 11] **Complemento del agente (no consta en el material cargado):** hoy un atributo puede tener una cadena o binario vacío si no forma parte de una clave de tabla o índice. Véase [tipos de datos](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html).
+- **Atomicidad entre ítems.** T20 afirma que no hay operaciones atómicas entre ítems. [T20, p. 6] **Complemento del agente (no consta en el material cargado):** DynamoDB ofrece transacciones sobre varios ítems, y la capacidad puede ser aprovisionada o bajo demanda. Véanse [transacciones](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transactions.html) y [modos de capacidad](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html).
+- **Decisión:** estudiar el modelo con T20 y, al ejecutar comandos, agregar los parámetros que exige la CLI vigente, marcándolos como adaptación.
+
+## TP 11, 12 y 13: preparación, bibliografía y vacíos
+
+- **Entornos.** Las guías usan imágenes sin versión (`neo4j`, `redis`, `amazon/dynamodb-local`). Neo4j corre con `NEO4J_AUTH=none`, y el comando de Redis no configura contraseña. [P15, p. 1; P16, p. 1; P17, p. 1] El repositorio no agregó estos servicios a `compose.yaml` ni ejecutó las guías.
+- **DynamoDB Local.** T20 lo inicia con `-sharedDb`; el contenedor del TP 13 no lo indica, y su `aws configure` usa credenciales ficticias. [T20, p. 7; P17, p. 1] **Complemento del agente (no consta en el material cargado):** sin `-sharedDb`, DynamoDB Local guarda un archivo por clave de acceso y región; si cambia `aws configure`, las tablas creadas antes no se ven. Véanse las [notas de uso](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.UsageNotes.html).
+- **Páginas del libro.** Los TP citan páginas impresas de B01. En el PDF local, la página impresa N está en N + 11 (capítulo 6, Neo4j), N + 10 (capítulo 7, DynamoDB) y N + 9 (capítulo 8, Redis); el capítulo 4 usaba N + 13. [B01, pp. 181, 218, 261]
+- **Servicios externos.** El TP 11 usa el Sandbox de Neo4j con los Paradise Papers, y T20 recorre Kinesis, Lambda, S3 y Athena. No se verificó su disponibilidad, y DynamoDB Local no los reemplaza; el TP 13 no los pide. [P15, p. 2; T20, pp. 23–30; P17, p. 2]
+- **Vacíos.** El TP 12 pide la posición de una película según el score, pero el material no presenta un comando para obtener la posición de un miembro. [P16, p. 2; T19, pp. 14–16] El TP 13 remite a una fórmula de particiones que el material no incluye. [P17, p. 2; B01, p. 232] No se recibió una “Clase 19”: la numeración salta de la 18 a la 20.
+- **Decisión:** al resolver, fijar y registrar versiones de imagen, adaptar sintaxis histórica y marcar como complemento lo que salga de la documentación oficial.

@@ -87,3 +87,26 @@ Se extrajeron las cuatro imágenes embebidas de P14 a su resolución original co
 - [P14-p2-esquema-voluntarios.png](P14-p2-esquema-voluntarios.png): esquema de Voluntarios con tipos PostgreSQL (`character varying`, `numeric`); el mismo modelo que P08 con otra notación de tipos. [P14, p. 2]
 - [P14-p3-esquema-peliculas.png](P14-p3-esquema-peliculas.png): esquema de Películas en Vertabelo; el mismo modelo que SQL01. [P14, p. 3]
 - [P14-p4-consulta-hospitales.png](P14-p4-consulta-hospitales.png): la consulta SQL sobre `hospitales` que el ejercicio de MongoDB pide traducir. [P14, p. 4]
+
+## Neo4j, Redis y DynamoDB (incorporación 2026-11-06)
+
+Se revisaron visualmente todas las páginas de T17, C06, T18, T19 y T20 y las de P15, P16 y P17. Se recortaron diagramas, capturas de código y tablas que `pdftotext` no recupera, o que recupera de forma engañosa:
+
+- [T17-p12-red-aprender-neo4j.png](T17-p12-red-aprender-neo4j.png): red de amigos para encontrar a quien ayude a aprender Neo4j; la consulta `shortestPath` de la p. 13 está transcrita en la wiki. [T17, pp. 12–13]
+- [T17-p17-modelo-grafo-propiedades.png](T17-p17-modelo-grafo-propiedades.png): nodos, relaciones dirigidas, propiedades y labels. [T17, p. 17]
+- [T17-p18-anatomia-patron-cypher.png](T17-p18-anatomia-patron-cypher.png): label, propiedad y variable dentro de un patrón `MATCH`. [T17, p. 18]
+- [T17-p24-grafo-vinos.png](T17-p24-grafo-vinos.png): grafo esperado de tres vinos, uva, bodega y revista. [T17, p. 24]
+- [T17-p25-grafo-personas-vinos.png](T17-p25-grafo-personas-vinos.png): Patty, Tom y Alice con `friends`, `likes` y `trusts`. [T17, p. 25]
+- [T17-p28-restriccion-unicidad.png](T17-p28-restriccion-unicidad.png): página completa; muestra la corrección manuscrita de `Publication` por `Person`, que no aparece en el texto extraído. [T17, p. 28]
+- [C06-p6-arquitectura-causal-clustering.png](C06-p6-arquitectura-causal-clustering.png): tres primarios (líder y followers Raft) y dos secundarios de lectura. [C06, p. 6]
+- [T20-p6-modelo-tabla.png](T20-p6-modelo-tabla.png): tabla, ítems, atributos, partition key y sort key, con las consultas que habilita esta última. [T20, p. 6]
+- [T20-p11-tipos-de-datos.png](T20-p11-tipos-de-datos.png): tipos de datos con símbolo y ejemplo JSON. [T20, p. 11]
+- [T20-p18-ejemplo-lsi.png](T20-p18-ejemplo-lsi.png): tabla de puntajes con hash key, range key, LSI y atributo sin índice. [T20, p. 18]
+- [T20-p19-sql-vs-dynamodb.png](T20-p19-sql-vs-dynamodb.png): equivalencias entre SQL y DynamoDB. [T20, p. 19]
+- [T20-p20-ejemplo-gsi.png](T20-p20-ejemplo-gsi.png): ejemplo de GSI y su efecto en la factura. [T20, p. 20]
+- [T20-p29-pipeline-athena.png](T20-p29-pipeline-athena.png): pipeline Kinesis → Lambda → DynamoDB → Data Pipeline → S3 → Athena. [T20, p. 29]
+- [T20-p30-consultas-athena.png](T20-p30-consultas-athena.png): consultas SQL de Athena sobre los datos de sensores. [T20, p. 30]
+- [T20-p31-guia-visual-cap.png](T20-p31-guia-visual-cap.png): “Visual Guide to NoSQL Systems”; ubica a Dynamo en AP y a Redis en CP. [T20, p. 31]
+- [P16-p2-peliculas-score.png](P16-p2-peliculas-score.png): diez películas con su score de IMDB para el ejercicio 6 del TP 12. [P16, p. 2]
+
+Las páginas de logos, rankings y usuarios (T18, pp. 4–5 y 10; T19, pp. 2–3) se revisaron y se describen en texto. Las del anexo C06 distintas de la p. 6 son cuadros de texto que la extracción recupera completos.

@@ -1,0 +1,98 @@
+1. Insertar en la BD REDIS 5 títulos de películas:
+SET pelicula1 "Maléfica"
+...
+
+EXISTS pelicula1
+SETNX pelicula2 "Frozen II"
+
+
+GET pelicula2
+SETNX pelicula6 "Toy Story 4"
+
+
+GET pelicula6
+
+KEYS *
+MGET pelicula1 pelicula2 pelicula7
+-- Si no existe una clave (como pelicula7) se devolverá nil
+
+KEYS pelicula[1-3]*
+KEYS pelicula[^6]
+
+DEL pelicula3
+
+EXISTS pelicula3
+
+
+SET pelicula7 "Pan."
+
+TTL pelicula7
+
+EXPIRE pelicula7 15
+
+
+GET pelicula7
+TTL pelicula7
+
+
+
+2. Cree una lista de cantantes L_Cantantes e inserte 5 elementos. 
+
+
+
+Devolverel número de elementos que tiene la lista.
+
+
+
+RPOP cantantes
+
+LRANGE cantantes 0 -1
+
+
+3. Cree un hash para 5 Libros, incluyendo su título, su ISBN, la editorial y el año.
+
+-----
+
+HGETALL libro1
+
+
+HVALS libro1
+
+4. Cree un conjunto de productos de BD NoSQL y otro de BD Relacionales.
+
+SADD BD_NoSQL "REDIS" "MongoDB" "Neo4J" "Cassandra"
+SADD BD_Relacionales "Oracle" "MySQL" "Microsoft SQL Server" "PostgreSQL"
+SMEMBERS BD_NoSQL
+SMEMBERS BD_Relacionales
+
+SUNION BD_NoSQL BD_Relacionales
+SINTER BD_NoSQL BD_Relacionales
+
+
+SDIFF BD_NoSQL BD_Relacionales
+SDIFF BD_Relacionales BD_NoSQL
+
+
+5. Cree un conjunto ordenado de productos de BD NoSQL incluyendo una puntuación de popularidad.
+
+zadd productosNoSQL 100 mongodb 75 redis 50 cassandra 40 neo4j
+
+zcount productosNoSQL 50 100
+
+
+ZRANGE productosNoSQL 0 -1
+
+	
+ZREVRANGE productosNoSQL 0 -1  
+
+
+ZREM productosNoSQL "redis"
+
+
+ZRANGEBYSCORE productosNoSQL 1 (50
+
+
+ZRANGEBYSCORE productosNoSQL 1 50 
+
+
+ZRANGEBYSCORE productosNoSQL -inf +inf WITHSCORES

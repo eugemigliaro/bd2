@@ -38,6 +38,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Dudas y conflictos detectados](dudas-y-conflictos.md)
 - [Preguntas de repaso](repaso/preguntas.md)
 - [Guías prácticas](../practica/README.md)
+- [TPO FarmaRed](../entregas/tpo-farmared/README.md)
 - [Esquema de películas](../material/figuras/P03-p1-esquema-peliculas.png)
 - [Esquema de envíos del TP 4](../material/figuras/P04-p1-esquema-envios.png)
 - [Esquemas del TP 6](../material/figuras/README.md)
@@ -54,6 +55,7 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 - [Películas y score del TP 12](../material/figuras/P16-p2-peliculas-score.png)
 - [Modelo de tabla](../material/figuras/T20-p6-modelo-tabla.png) y [tipos de datos de DynamoDB](../material/figuras/T20-p11-tipos-de-datos.png)
 - [Incorporación de Neo4j, Redis y DynamoDB](../material/incorporaciones/2026-11-06-neo4j-redis-dynamodb.md)
+- [Incorporación del TPO FarmaRed](../material/incorporaciones/2026-11-09-tpo-farmared.md)
 
 ## Cobertura actual
 
@@ -88,3 +90,4 @@ Esta es la puerta de entrada al conocimiento curado. Cada afirmación importante
 | Redis: comandos por estructura, expiración, pub/sub, pipelines y Bloom | T19, P18, P18A | Curado; comandos deprecados y erratas de la solución registrados |
 | DynamoDB: claves, tipos, CLI, LSI/GSI, capacidad y pipeline | T20 | Curado; figuras recuperadas y cambios de versión del servicio registrados |
 | TP 11–13: Neo4j, Redis y DynamoDB | P15, P16, P17 | Indexados; sin resolución ni ejecución; remiten a B01 con desfase de páginas por capítulo; versiones de imagen no fijadas |
+| TPO FarmaRed: persistencia políglota con dos o más motores NoSQL | P19, P19A–P19I | Indexado y datos auditados; sin diseño ni código; vacíos de la consigna registrados |

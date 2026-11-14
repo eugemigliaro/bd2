@@ -59,3 +59,13 @@ P16	catedra-practica	TP 12 — Redis	material/catedra/practica/tp-12-redis.pdf	2
 P17	catedra-practica	TP 13 — DynamoDB	material/catedra/practica/tp-13-dynamodb.pdf	2	2026	vigente	ITBA TP 13 - DynamoDB.pdf
 P18	catedra-practica	Ejercicio Redis: comandos por tipo de dato	material/catedra/practica/p18-ejercicio-redis.txt	-	2026	vigente	Ejercicio REDIS.txt
 P18A	catedra-recurso	Solución de cátedra del ejercicio Redis	material/catedra/practica/recursos/p18-solucion-ejercicio-redis.txt	-	2026	vigente	Solución ejercicio REDIS.txt
+P19	catedra-practica	TPO — sistema de gestión de red de farmacias FarmaRed	material/catedra/practica/tpo-farmared.pdf	7	2026	vigente	TPO_FarmaRed.pdf
+P19A	catedra-recurso	TPO FarmaRed — clientes	material/catedra/practica/recursos/tpo-farmared-clientes.csv	-	2026	vigente	datasets_farmared/clientes.csv
+P19B	catedra-recurso	TPO FarmaRed — sucursales	material/catedra/practica/recursos/tpo-farmared-sucursales.csv	-	2026	vigente	datasets_farmared/sucursales.csv
+P19C	catedra-recurso	TPO FarmaRed — farmacéuticos	material/catedra/practica/recursos/tpo-farmared-farmaceuticos.csv	-	2026	vigente	datasets_farmared/farmaceuticos.csv
+P19D	catedra-recurso	TPO FarmaRed — proveedores	material/catedra/practica/recursos/tpo-farmared-proveedores.csv	-	2026	vigente	datasets_farmared/proveedores.csv
+P19E	catedra-recurso	TPO FarmaRed — productos	material/catedra/practica/recursos/tpo-farmared-productos.csv	-	2026	vigente	datasets_farmared/productos.csv
+P19F	catedra-recurso	TPO FarmaRed — stock por lote	material/catedra/practica/recursos/tpo-farmared-stock-lotes.csv	-	2026	vigente	datasets_farmared/stock_lotes.csv
+P19G	catedra-recurso	TPO FarmaRed — recetas	material/catedra/practica/recursos/tpo-farmared-recetas.csv	-	2026	vigente	datasets_farmared/recetas.csv
+P19H	catedra-recurso	TPO FarmaRed — ventas	material/catedra/practica/recursos/tpo-farmared-ventas.csv	-	2026	vigente	datasets_farmared/ventas.csv
+P19I	catedra-recurso	TPO FarmaRed — detalle de ventas	material/catedra/practica/recursos/tpo-farmared-detalle-ventas.csv	-	2026	vigente	datasets_farmared/detalle_ventas.csv

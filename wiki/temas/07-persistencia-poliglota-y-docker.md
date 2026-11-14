@@ -55,3 +55,11 @@ Los TP 11, 12 y 13 siguen el mismo esquema de contenedor: `docker pull`, `docker
 | TP 13 | `amazon/dynamodb-local` | 8000 | AWS CLI con `--endpoint-url http://localhost:8000` |
 
 Ver los espacios del [TP 11](../../practica/tp-11/README.md), [TP 12](../../practica/tp-12/README.md) y [TP 13](../../practica/tp-13/README.md), y las salvedades de entorno en [dudas](../dudas-y-conflictos.md#tp-11-12-y-13-preparación-bibliografía-y-vacíos). El libro remata el capítulo de Redis con un ejemplo de persistencia políglota: CouchDB como sistema de registro, Neo4j para relaciones y Redis como intermediario. [B01, pp. 289, 293]
+
+## TPO FarmaRed: persistencia políglota aplicada
+
+El TPO lleva estos criterios a un caso concreto: una red de farmacias tiene que pasar de planillas a una arquitectura con al menos dos motores NoSQL de paradigmas distintos. La elección se justifica por entidad o caso de uso según su estructura, frecuencia de escritura, necesidad de consistencia y relaciones. [P19, pp. 1, 5]
+
+La consigna da los insumos de esa justificación. Las ventas tienen ítems variables y mucho volumen de inserción. El stock por lote recibe actualizaciones concurrentes que no pueden dejarlo negativo. El catálogo se lee mucho y cambia poco, y los reportes agregan por período. [P19, p. 5] Esto se corresponde con el costo de integración que advierte C01: cada motor agregado suma despliegue, operación e integración, y como los motores NoSQL no garantizan integridad referencial, el grupo tiene que documentar cómo la resuelve. [C01, p. 6; P19, p. 6]
+
+El entorno tiene que levantarse completo en GitHub Codespaces mediante devcontainer o docker-compose, con carga reproducible e idempotente. [P19, pp. 5–6] Requisitos, consultas y estado del trabajo: [espacio del TPO](../../entregas/tpo-farmared/README.md).

@@ -16,3 +16,6 @@ tmp/
 # El catálogo la marca con estado `local`.
 material/catedra/bibliografia/
 material/extraido/B[0-9]*.txt
+
+# Repositorio del TPO: tiene su propio git y remoto
+entregas/TPO-BD2/

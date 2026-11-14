@@ -25,6 +25,6 @@ Los TP 1–13 son guías individuales de práctica y no entregables. Los origina
 - [Ejercicio MongoDB e-commerce](mongodb-ecommerce/README.md): enunciado P11 y solución oficial P11A, con diferencias de alcance registradas.
 - [Ejercicio Redis](ejercicio-redis/README.md): enunciado P18 y solución oficial P18A, con comandos por tipo de dato.
 
-El TP 10 de Cassandra está incorporado como P12 (parte I) y P13 (parte II); los TP 11, 12 y 13, como P15, P16 y P17. Los ID del catálogo identifican fuentes y no equivalen necesariamente al número de TP: P09 ya identifica el ejercicio adicional de stored procedures.
+El trabajo práctico obligatorio grupal (TPO FarmaRed, P19) es entregable y vive en [entregas](../entregas/tpo-farmared/README.md). El TP 10 de Cassandra está incorporado como P12 (parte I) y P13 (parte II); los TP 11, 12 y 13, como P15, P16 y P17. Los ID del catálogo identifican fuentes y no equivalen necesariamente al número de TP: P09 ya identifica el ejercicio adicional de stored procedures.
 
 El agente debe trabajar en modo adaptativo: pista, resolución acompañada o solución completa según lo que pidas. Los archivos de solución empiezan vacíos para que el repositorio no revele respuestas por defecto.

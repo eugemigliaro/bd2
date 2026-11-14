@@ -11,6 +11,7 @@
 | Atomicidad | Propiedad por la cual una transacción se completa íntegramente o se deshace. | [T11, p. 16] |
 | Autenticación | Proceso de identificar una cuenta antes de permitirle acceso. | [T11, p. 5] |
 | Autorización | Determinación de los recursos y operaciones permitidos para un usuario o grupo. | [T11, p. 5] |
+| Baja lógica | Marcar una entidad como inactiva en lugar de eliminarla físicamente. | [P19, p. 5] |
 | Cardinalidad máxima | Máximo de instancias que pueden asociarse por una relación. | [T02, p. 27] |
 | Cardinalidad mínima | Mínimo de instancias asociadas; 0 expresa opcionalidad y 1 obligatoriedad. | [T02, pp. 27, 33] |
 | Clave extranjera (FK) | Columnas que referencian una clave de otra tabla. | [T03, p. 4] |
@@ -25,6 +26,7 @@
 | Entidad | Objeto real o abstracto sobre el que se guarda información. | [T02, pp. 8, 10] |
 | Entidad débil | Su existencia e identificación dependen de una entidad fuerte. | [T02, p. 12] |
 | Esquema | Diseño general de una base de datos. | [T01, p. 8] |
+| FEFO | First Expired, First Out: consumir primero los lotes con vencimiento más próximo. | [P19, p. 5] |
 | Grado de relación | Cantidad de tipos de entidad que participan. | [T02, pp. 23–24] |
 | Identificador alternativo | Otro atributo o conjunto capaz de identificar unívocamente. | [T02, p. 16] |
 | Identificador principal | Atributo o conjunto elegido para identificar cada instancia. | [T02, pp. 16, 19] |

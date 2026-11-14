@@ -20,5 +20,6 @@ No copiar manualmente una fuente nueva a `extraido/`: ese contenido se regenera 
 - [2026-10-13 — Seven Databases in Seven Weeks](incorporaciones/2026-10-13-seven-databases.md): bibliografía B01, uso local y acotado al TP 9.
 - [2026-10-13 — Ejercicios tipo parcial](incorporaciones/2026-10-13-ejercicios-parcial.md): P14, siete páginas y cuatro figuras.
 - [2026-11-06 — Neo4j, Redis y DynamoDB](incorporaciones/2026-11-06-neo4j-redis-dynamodb.md): diez fuentes oficiales (T17–T20, C06, P15–P18A), 161 páginas PDF y 16 figuras.
+- [2026-11-09 — TPO FarmaRed](incorporaciones/2026-11-09-tpo-farmared.md): consigna del trabajo obligatorio grupal (P19, siete páginas) y nueve datasets CSV (P19A–P19I), con auditoría de datos.
 
 Los ID no tienen que coincidir con el número de clase o de TP. Se asignan sin reutilizar los existentes; las series con sufijos agrupan partes y recursos relacionados.
